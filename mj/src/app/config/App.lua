@@ -1,0 +1,12 @@
+local App = App or {}
+
+App.LOGIN_SOCKET_HOST = "127.0.0.1"
+App.LOGIN_SOCKET_PORT = "7981"
+
+App.LOBBY_SOCKET_HOST = ""
+App.LOBBY_SOCKET_PORT = ""
+
+App.CARD_SOCKET_HOST = ""
+App.CARD_SOCKET_PORT = ""
+
+return App
