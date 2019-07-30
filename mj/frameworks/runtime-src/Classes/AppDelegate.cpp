@@ -16,6 +16,8 @@
 USING_NS_CC;
 using namespace std;
 
+#define RESOURCE_ENCRYPTION 1
+
 static void quick_module_register(lua_State *L)
 {
     luaopen_lua_extensions_more(L);
@@ -108,20 +110,28 @@ bool AppDelegate::applicationDidFinishLaunching()
     // use Quick-Cocos2d-X
     quick_module_register(L);
     
-    // resource decode, include game.zip
-    //FileUtils::getInstance()->setFileDataDecoder(decoder);
-#if 0
-    LuaStack* stack = engine->getLuaStack();
-    // use luajit bytecode package
-#if defined(__aarch64__) || defined(__arm64__)
-    stack->loadChunksFromZIP("res/game64.zip");
-#else
-    stack->loadChunksFromZIP("res/game32.zip");
+#ifdef RESOURCE_ENCRYPTION
+    //0xb04030e1 0xfcaee09c 0xf008e930 0xd39c521e (加密的 必须是32位十六进制值)
+    
+    ZipUtils::setPvrEncryptionKeyPart(0, 0xb04030e1);
+    ZipUtils::setPvrEncryptionKeyPart(1, 0xfcaee09c);
+    ZipUtils::setPvrEncryptionKeyPart(2, 0xf008e930);
+    ZipUtils::setPvrEncryptionKeyPart(3, 0xd39c521e);
 #endif
-    stack->executeString("require 'main'");
-#else // #if 0
-    // use discrete files
+    
+#if 1
     engine->executeScriptFile("src/main.lua");
+#else
+    #ifdef CC_TARGET_OS_IPHONE
+        if (sizeof(long) == 4) {
+            engine->executeScriptFile("src_et/main.lua");
+        } else {
+            //模拟器上不能跑64位的Luajit，只能跑32位,在模拟器上注意修改
+            engine->executeScriptFile("src_et_64/main64.lua");
+        }
+    #else
+        engine->executeScriptFile("src_et/main.lua");
+    #endif
 #endif
 
     return true;

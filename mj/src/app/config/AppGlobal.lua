@@ -1,0 +1,5 @@
+AppGlobal = {}
+
+-- AppGlobal.
+
+return AppGlobal

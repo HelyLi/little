@@ -1,18 +1,12 @@
 local SocketWrapper = import(".SocketWrapper")
 local SocketMgr = class("SocketMgr")
 
--- local loginsocket = SocketWrapper.new({
---     name = "login",
---     host = "47.94.233.203",
---     port = "8000"
--- })
-
 function SocketMgr:ctor()
 
     self.m_loginsocket = SocketWrapper.new({
         name = "login",
-        host = "47.94.233.203",
-        port = "8000"
+        host = Game:getAppConfig():getLoginHost(),
+        port = Game:getAppConfig():getLoginPort()
     })
 end
 

@@ -12,9 +12,13 @@ function SocketWrapper:onSocketEvent(event, data)
     print(self.m_name, "onSocketEvent.event:", event)
 
     if self.m_listener then
-        print("onSocketEvent.listener")
-        self.m_listener(event, data)
-        
+        if event == SimpleTCP.EVENT_CONNECTED then
+            self.m_listener:onConnected()
+        elseif event == SimpleTCP.EVENT_CLOSED then
+            self.m_listener:onClosed()
+        elseif event == SimpleTCP.EVENT_DATA then
+            self.m_listener:onReveived(ByteArray.new(ByteArray.ENDIAN_BIG):writeString(data):setPos(1))
+        end
     end
 end
 

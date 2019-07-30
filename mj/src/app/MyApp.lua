@@ -42,7 +42,6 @@ function MyApp:run()
 	for k,v in pairs(searchPaths) do
 		print(k,v)
 	end
-
     display.replaceScene(require("app.scenes.update.UpdateScene").new())
 end
 
