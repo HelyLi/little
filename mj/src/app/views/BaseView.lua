@@ -29,6 +29,10 @@ function BaseView:onExit()
     self.m_eventListeners = {}
 end
 
+function BaseView:onTouchBegan(touch)
+    return self.m_isTouchSwallow
+end
+
 function BaseView:onTouchMoved(touch)
 
 end

@@ -18,7 +18,7 @@ function LoginLayer:initView()
     comui.Button({
         normal = "login_btn_yk_skin.png",
         pos = cc.p(display.cx, display.cy-135),
-        callfunc = handler(self.m_presenter, self.m_presenter.toLogin),
+        callfunc = handler(self.m_presenter, self.m_presenter.luabinding),
         parent = self
     })
 end
@@ -93,9 +93,7 @@ end
 
 -- end
 
-function LoginLayer:hex(s)
-    return string.gsub(s,"(.)",function (x) return string.format("%02X",string.byte(x)) end)
-end
+
 
 function LoginLayer:Login()
     print("LoginLayer:Login")

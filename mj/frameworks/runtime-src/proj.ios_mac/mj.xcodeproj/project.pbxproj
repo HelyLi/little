@@ -34,6 +34,9 @@
 		15427CD5198F222200DC375D /* libluacocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15427CD2198F220600DC375D /* libluacocos2d iOS.a */; };
 		15427CEC198F24A600DC375D /* libluacocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15427CC2198F220600DC375D /* libluacocos2d Mac.a */; };
 		15427CEE198F24AF00DC375D /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A8A4171834BDA200142BE0 /* libcocos2d Mac.a */; };
+		2F2DB72922F1F7CB00FE880A /* lua_system_utils_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F2DB72522F1F7CB00FE880A /* lua_system_utils_auto.cpp */; };
+		2F2DB72A22F1F7CB00FE880A /* lua_mj_logic_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F2DB72622F1F7CB00FE880A /* lua_mj_logic_auto.cpp */; };
+		2F2DB72B22F1F7CB00FE880A /* lua_porker_logic_auto.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F2DB72722F1F7CB00FE880A /* lua_porker_logic_auto.cpp */; };
 		3EEEDB61197107C0006A9FF8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EEEDB60197107C0006A9FF8 /* MediaPlayer.framework */; };
 		5023811817EBBCAC00990C9B /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5023810817EBBCAC00990C9B /* AppController.mm */; };
 		5023812417EBBCAC00990C9B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5023811417EBBCAC00990C9B /* main.m */; };
@@ -221,6 +224,12 @@
 		15A8A4871834C90E00142BE0 /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
 		15C1568D1683131500D239F2 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = "../../cocos2d-x/cocos2dx/platform/third_party/ios/libraries/libcurl.a"; sourceTree = "<group>"; };
 		1AF4C402178663F200122817 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		2F2DB72222F1F7CB00FE880A /* lua_system_utils_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua_system_utils_auto.hpp; sourceTree = "<group>"; };
+		2F2DB72322F1F7CB00FE880A /* lua_mj_logic_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua_mj_logic_auto.hpp; sourceTree = "<group>"; };
+		2F2DB72422F1F7CB00FE880A /* lua_porker_logic_auto.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua_porker_logic_auto.hpp; sourceTree = "<group>"; };
+		2F2DB72522F1F7CB00FE880A /* lua_system_utils_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_system_utils_auto.cpp; sourceTree = "<group>"; };
+		2F2DB72622F1F7CB00FE880A /* lua_mj_logic_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_mj_logic_auto.cpp; sourceTree = "<group>"; };
+		2F2DB72722F1F7CB00FE880A /* lua_porker_logic_auto.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_porker_logic_auto.cpp; sourceTree = "<group>"; };
 		3EB51526195187AF006966AA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3EEEDB60197107C0006A9FF8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
 		5023810717EBBCAC00990C9B /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -438,6 +447,52 @@
 				15A8A4251834BDA200142BE0 /* libcocos2d iOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2F2DB71E22F1F7CB00FE880A /* core */ = {
+			isa = PBXGroup;
+			children = (
+				2F2DB71F22F1F7CB00FE880A /* platform */,
+				2F2DB72022F1F7CB00FE880A /* logic */,
+				2F2DB72122F1F7CB00FE880A /* luabindings */,
+				2F2DB72822F1F7CB00FE880A /* utils */,
+			);
+			name = core;
+			path = ../Classes/core;
+			sourceTree = "<group>";
+		};
+		2F2DB71F22F1F7CB00FE880A /* platform */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
+		2F2DB72022F1F7CB00FE880A /* logic */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = logic;
+			sourceTree = "<group>";
+		};
+		2F2DB72122F1F7CB00FE880A /* luabindings */ = {
+			isa = PBXGroup;
+			children = (
+				2F2DB72222F1F7CB00FE880A /* lua_system_utils_auto.hpp */,
+				2F2DB72322F1F7CB00FE880A /* lua_mj_logic_auto.hpp */,
+				2F2DB72422F1F7CB00FE880A /* lua_porker_logic_auto.hpp */,
+				2F2DB72522F1F7CB00FE880A /* lua_system_utils_auto.cpp */,
+				2F2DB72622F1F7CB00FE880A /* lua_mj_logic_auto.cpp */,
+				2F2DB72722F1F7CB00FE880A /* lua_porker_logic_auto.cpp */,
+			);
+			path = luabindings;
+			sourceTree = "<group>";
+		};
+		2F2DB72822F1F7CB00FE880A /* utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 		5023810617EBBCAC00990C9B /* ios */ = {
@@ -788,6 +843,7 @@
 		F293BB7C15EB830F00256477 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2F2DB71E22F1F7CB00FE880A /* core */,
 				9F91057419F5614700AD5CAB /* quick-src */,
 				15427CE2198F237300DC375D /* lua_module_register.h */,
 				C033B51A191B337200D06937 /* VisibleRect.cpp */,
@@ -1037,11 +1093,13 @@
 				9F91072619F5614900AD5CAB /* CCHTTPRequest.cpp in Sources */,
 				9F91074419F5614900AD5CAB /* SBJsonParser.m in Sources */,
 				9F91074C19F5614900AD5CAB /* ReachabilityIOSMac.m in Sources */,
+				2F2DB72A22F1F7CB00FE880A /* lua_mj_logic_auto.cpp in Sources */,
 				9F91077A19F5614900AD5CAB /* lsqlite3.c in Sources */,
 				9F91077E19F5614900AD5CAB /* lua_extensions_more.c in Sources */,
 				9F91073419F5614900AD5CAB /* CCNative.mm in Sources */,
 				9F91077819F5614900AD5CAB /* lpack.c in Sources */,
 				9F91079419F56A6600AD5CAB /* ProjectConfig.cpp in Sources */,
+				2F2DB72922F1F7CB00FE880A /* lua_system_utils_auto.cpp in Sources */,
 				0A8541291E2B3139002A5473 /* unqlite.c in Sources */,
 				0A532A5E1E62FB06004E2B32 /* lpcode.c in Sources */,
 				9F91077019F5614900AD5CAB /* strbuf.c in Sources */,
@@ -1057,6 +1115,7 @@
 				9F91072819F5614900AD5CAB /* CCNetwork.cpp in Sources */,
 				9F91073C19F5614900AD5CAB /* CCStorePaymentTransactionWrapper.mm in Sources */,
 				0A532A641E62FB06004E2B32 /* lpvm.c in Sources */,
+				2F2DB72B22F1F7CB00FE880A /* lua_porker_logic_auto.cpp in Sources */,
 				9F9106B419F5614900AD5CAB /* libbase64.c in Sources */,
 				C033B51C191B337200D06937 /* VisibleRect.cpp in Sources */,
 				9F91076C19F5614900AD5CAB /* fpconv.c in Sources */,

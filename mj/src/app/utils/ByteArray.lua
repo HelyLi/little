@@ -200,7 +200,7 @@ function ByteArray:writeUShort(__ushort)
 	return self
 end
 
---[[
+---[[
 -- 2014-07-09 Remove all of methods about Long in ByteArray.
 -- @see http://zengrong.net/post/2134.htm
 function ByteArray:readLong()
@@ -225,7 +225,7 @@ function ByteArray:writeULong(__ulong)
 	self:writeBuf(__s)
 	return self
 end
-]]
+--]]
 
 function ByteArray:readUByte()
 	local __, __val = string.unpack(self:readRawByte(), "b")

@@ -6,6 +6,7 @@ local UpdateScene = class("UpdateScene", function()
 end)
 
 function UpdateScene:ctor()
+    Game:init()
     self:loadSpriteFrames()
     local layer = UpdateLayer.new()
     layer:align(display.CENTER, display.cx, display.cy)
@@ -13,7 +14,7 @@ function UpdateScene:ctor()
 end
 
 function UpdateScene:onEnter()
-    Game:init()
+    
 end
 
 function UpdateScene:onExit()

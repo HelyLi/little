@@ -37,6 +37,13 @@ function SocketMgr:getLobbySocket()
     return self.m_lobbysocket
 end
 
+function SocketMgr:setLobbyListener(listener)
+    if self.m_lobbysocket then
+        print("setLobbyListener")
+        self.m_lobbysocket:setListener(listener)
+    end
+end
+
 function SocketMgr:lobbySocketConnect()
     if self.m_lobbysocket then
         self.m_lobbysocket:connect()

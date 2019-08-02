@@ -1,3 +1,4 @@
+local ByteArray = import("app.utils.ByteArray")
 local SocketWrapper = class("SocketWrapper")
 
 function SocketWrapper:ctor(params)
@@ -17,11 +18,14 @@ function SocketWrapper:onSocketEvent(event, data)
         elseif event == SimpleTCP.EVENT_CLOSED then
             self.m_listener:onClosed()
         elseif event == SimpleTCP.EVENT_DATA then
+            print(self:hex(data))
             self.m_listener:onReveived(ByteArray.new(ByteArray.ENDIAN_BIG):writeString(data):setPos(1))
         end
     end
 end
-
+function SocketWrapper:hex(s)
+    return string.gsub(s,"(.)",function (x) return string.format("%02X",string.byte(x)) end)
+end
 function SocketWrapper:connect()
     self.m_socket = SimpleTCP.new(self.m_host, self.m_port, handler(self, self.onSocketEvent))
     self.m_socket:connect()

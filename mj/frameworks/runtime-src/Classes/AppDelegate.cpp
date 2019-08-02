@@ -8,6 +8,9 @@
 #include "cocos2dx_extra.h"
 #include "lua_extensions/lua_extensions_more.h"
 #include "luabinding/cocos2dx_extra_luabinding.h"
+
+#include "core/luabindings/lua_system_utils_auto.hpp"
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "luabinding/cocos2dx_extra_ios_iap_luabinding.h"
 #endif
@@ -31,6 +34,7 @@ static void quick_module_register(lua_State *L)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         luaopen_cocos2dx_extra_ios_iap_luabinding(L);
 #endif
+        register_all_SystemUtils_Tool(L);
     }
     lua_pop(L, 1);
 }

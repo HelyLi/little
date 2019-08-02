@@ -71,4 +71,12 @@ function AppConfig:getPlatformId()
     return self.m_config.platform
 end
 
+function AppConfig:getResVersion()
+    return self.m_config.resVersion or "1.0.0"
+end
+
+function AppConfig:getMainResPath()
+    return cc.FileUtils:getInstance():getWritablePath() .. "main_version"
+end
+
 return AppConfig
