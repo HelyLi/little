@@ -14,7 +14,7 @@ function SceneMgr:goLoginScene()
 end
 
 function SceneMgr:goLobbyScene()
-    self:gotoScene("app.scene.lobby.LobbyScene") 
+    self:gotoScene("app.scenes.lobby.LobbyScene") 
 end
 
 local CardGameScene = {

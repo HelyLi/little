@@ -1,12 +1,12 @@
 local AppConfig = class("AppConfig")
-
+local System = import("app.native.System")
 local HostInfo = {
     --release
     {
         login_host = "47.94.233.203",
         login_port = "8000",
-        lobby_host = "",
-        lobby_port = "",
+        lobby_host = "47.94.233.203",
+        lobby_port = "8000",
         update_url = ""
     },
     --beta
@@ -69,6 +69,24 @@ end
 
 function AppConfig:getPlatformId()
     return self.m_config.platform
+end
+
+function AppConfig:getAppVersion()
+    return System.getAppVersion()
+end
+
+function AppConfig:getLocalResVersion()
+    local fileResVersion = Game:getAppConfig():getResVersion()
+    local resVersion = Game:getSettingData():getResVersion()
+    print("fileResVersion:", fileResVersion, "resVersion", resVersion)
+    if resVersion == nil or string.len(resVersion) == 0 then
+        resVersion = fileResVersion
+        Game:getSettingData():setResVersion(resVersion)
+    end
+    if fileResVersion > resVersion then
+        resVersion = fileResVersion
+    end
+    return resVersion
 end
 
 function AppConfig:getResVersion()

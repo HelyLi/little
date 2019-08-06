@@ -8,8 +8,15 @@ function SocketMgr:ctor()
         host = Game:getAppConfig():getLoginHost(),
         port = Game:getAppConfig():getLoginPort()
     })
+
+    self.m_lobbysocket = SocketWrapper.new({
+        name = "lobby",
+        host = Game:getAppConfig():getLobbyHost(),
+        port = Game:getAppConfig():getLobbyPort()
+    })
 end
 
+------Login------
 function SocketMgr:getLoginSocket()
     return self.m_loginsocket
 end
@@ -27,12 +34,19 @@ function SocketMgr:setLoginListener(listener)
     end
 end
 
-function SocketMgr:loginSocketSend(data)
+function SocketMgr:loginSocketSend(data, msgId)
     if self.m_loginsocket then
-        self.m_loginsocket:send(data)
+        self.m_loginsocket:send(data, msgId)
     end
 end
 
+function SocketMgr:loginSocketClose()
+    if self.m_loginsocket then
+        self.m_loginsocket:close()
+    end
+end
+
+------Lobby------
 function SocketMgr:getLobbySocket()
     return self.m_lobbysocket
 end
@@ -50,8 +64,18 @@ function SocketMgr:lobbySocketConnect()
     end
 end
 
+function SocketMgr:lobbySocketSend(data, msgId)
+    if self.m_lobbysocket then
+        self.m_lobbysocket:send(data, msgId)
+    end
+end
 
-
+function SocketMgr:lobbySocketClose()
+    if self.m_lobbysocket then
+        self.m_lobbysocket:close()
+    end
+end
+------Game------
 function SocketMgr:getCardSocket()
     return self.m_cardsocket
 end
@@ -61,23 +85,6 @@ function SocketMgr:cardSocketConnect()
         self.m_cardsocket:connect()
     end
 end
-
--- function SocketMgr:loginReceiveCallback(event, data)
---     if event == SimpleTCP.EVENT_CONNECTING then
---     elseif event == SimpleTCP.EVENT_FAILED then
---     elseif event == SimpleTCP.EVENT_CONNECTED then
---     elseif event == SimpleTCP.EVENT_CLOSED then
---     elseif event == SimpleTCP.EVENT_DATA then
---     end
--- end
-
--- function SocketMgr:lobbyReceiveCallback(event, data)
-    
--- end
-
--- function SocketMgr:cardReceiveCallback(event, data)
-    
--- end
 
 return SocketMgr
 

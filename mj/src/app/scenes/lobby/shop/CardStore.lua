@@ -28,6 +28,8 @@ end
 
 function CardStore:initTableView()
     
+    self.m_tabelView = ccui.ListView:create()
+    
 end
 
 

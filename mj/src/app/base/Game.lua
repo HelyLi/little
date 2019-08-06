@@ -24,9 +24,12 @@ local Modules = {
     "pack",
     "app.utils.utf8",
     "app.utils.SimpleApi",
+    "app.base.UIAdapter",
     "app.utils.ByteArray",
     "app.config.AppGlobal",
     "app.views.Comui",
+    "app.native.System",
+    "app.pb.Message_ID"
 }
 
 function Game:init()

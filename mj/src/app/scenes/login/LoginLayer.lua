@@ -18,7 +18,7 @@ function LoginLayer:initView()
     comui.Button({
         normal = "login_btn_yk_skin.png",
         pos = cc.p(display.cx, display.cy-135),
-        callfunc = handler(self.m_presenter, self.m_presenter.luabinding),
+        callfunc = handler(self.m_presenter, self.m_presenter.toLogin),
         parent = self
     })
 end

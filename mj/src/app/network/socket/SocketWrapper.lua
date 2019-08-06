@@ -23,9 +23,12 @@ function SocketWrapper:onSocketEvent(event, data)
         end
     end
 end
+
 function SocketWrapper:hex(s)
-    return string.gsub(s,"(.)",function (x) return string.format("%02X",string.byte(x)) end)
+    local s = string.gsub(s,"(.)",function (x) return string.format("%02X",string.byte(x)) end)
+    return s
 end
+
 function SocketWrapper:connect()
     self.m_socket = SimpleTCP.new(self.m_host, self.m_port, handler(self, self.onSocketEvent))
     self.m_socket:connect()
@@ -40,9 +43,20 @@ function SocketWrapper:removeListener()
     self.m_listener = nil
 end
 
-function SocketWrapper:send(data)
+function SocketWrapper:send(data, msgId)
+    -- print(self:hex(data)
+    print("msgId:", msgId)
+    local byteArray = ByteArray.new(ByteArray.ENDIAN_BIG):writeUInt(string.len(data) + 12):writeUInt(msgId):writeUInt(0):writeUInt(0):writeString(data):getPack()
+    print(self:hex(byteArray))
+    print("---------")
     if self.m_socket then
-        self.m_socket:send(data)
+        self.m_socket:send(byteArray)
+    end
+end
+
+function SocketWrapper:close()
+    if self.m_socket then
+        self.m_socket:close()
     end
 end
 

@@ -1,5 +1,5 @@
 local BaseView = import("app.views.BaseView")
-local LoginPresenter = import(".LoginPresenter")
+local LobbyPresenter = import(".LobbyPresenter")
 
 
 local LobbyLayer = class("LobbyLayer",function()
@@ -8,7 +8,7 @@ end)
 
 function LobbyLayer:ctor()
     BaseView.initBase(self)
-    self.m_presenter = LoginPresenter.new(self)
+    self.m_presenter = LobbyPresenter.new(self)
     self:initView()
 end
 
@@ -18,7 +18,7 @@ function LobbyLayer:initView()
     comui.Button({
         normal = "login_btn_yk_skin.png",
         pos = cc.p(display.cx, display.cy-135),
-        callfunc = handler(self.m_presenter, self.m_presenter.audio),
+        callfunc = handler(self.m_presenter, self.m_presenter.MSG_L2D_PLAYER_LOGIN_SYN),
         parent = self
     })
 end

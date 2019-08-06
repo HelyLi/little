@@ -131,7 +131,7 @@ function UpdateEngine:initUpdateConfig(config)
         end
         return false
     end)
-    local resVersion = self:getLocalResVersion()
+    local resVersion = Game:getAppConfig():getLocalResVersion()--self:getLocalResVersion()
     print(resVersion)
     if #packages > 0 then
         for j,v2 in ipairs(packages) do
@@ -146,16 +146,16 @@ function UpdateEngine:initUpdateConfig(config)
     print("m_dltotal:", self.m_dltotal)
 end
 
-function UpdateEngine:getLocalResVersion()
-    local fileResVersion = Game:getAppConfig():getResVersion()
-    local resVersion = Game:getSettingData():getResVersion()
-    print("fileResVersion:", fileResVersion, "resVersion", resVersion)
-    if resVersion == nil or string.len(resVersion) == 0 then
-        resVersion = fileResVersion
-        Game:getSettingData():setResVersion(resVersion)
-    end
-    return resVersion
-end
+-- function UpdateEngine:getLocalResVersion()
+--     local fileResVersion = Game:getAppConfig():getResVersion()
+--     local resVersion = Game:getSettingData():getResVersion()
+--     print("fileResVersion:", fileResVersion, "resVersion", resVersion)
+--     if resVersion == nil or string.len(resVersion) == 0 then
+--         resVersion = fileResVersion
+--         Game:getSettingData():setResVersion(resVersion)
+--     end
+--     return resVersion
+-- end
 
 function UpdateEngine:getProgress()
     if self.m_dltotal <= 0 then
@@ -234,10 +234,8 @@ function UpdateEngine:downloadPatch(filename, package, callback)
                 end
                 if game.system.unZip(filename) then
                     
-                    cc.UserDefault:getInstance():setStringForKey("res_version",self.m_curDownVersion)
-                    cc.UserDefault:getInstance():flush()
                     self.m_resVersion = self.m_curDownVersion
-
+                    Game:getSettingData():setResVersion(self.m_resVersion)
                     callback({
                         code = UpdateEventCode.SUB_UPDATE_GAME_FINISHED
                     })

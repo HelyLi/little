@@ -13,32 +13,38 @@ function UpdateLayer:ctor()
 end
 
 function UpdateLayer:initView()
-    self.m_bg = display.newSprite("BigBg/login_bg_skin.png"):align(display.CENTER, display.cx, display.cy):addTo(self)
+    self.v_bg = display.newSprite("BigBg/login_bg_skin.png"):align(display.CENTER, display.cx, display.cy):addTo(self)
+    self:displayVersion()
+    
+    self.v_loadingBarBg = display.newSprite("#login_update_bg.png"):align(display.CENTER_BOTTOM,display.cx,160):addTo(self)
 
-    self.m_loadingBarBg = display.newSprite("#login_update_bg.png"):align(display.CENTER_BOTTOM,display.cx,160):addTo(self)
+    self.v_loadingBar = ccui.LoadingBar:create()
+    self.v_loadingBar:loadTexture("login_update_progress.png", ccui.TextureResType.plistType)
+    self.v_loadingBar:setDirection(ccui.LoadingBarDirection.LEFT)
+    self.v_loadingBar:setPercent(0)
+    self.v_loadingBar:align(display.BOTTOM_LEFT, 0, 0):addTo(self.v_loadingBarBg)
 
-    self.m_loadingBar = ccui.LoadingBar:create()
-    self.m_loadingBar:loadTexture("login_update_progress.png", ccui.TextureResType.plistType)
-    self.m_loadingBar:setDirection(ccui.LoadingBarDirection.LEFT)
-    self.m_loadingBar:align(display.BOTTOM_LEFT, 0, 0):addTo(self.m_loadingBarBg)
+    self.v_loadingTip = display.newTTFLabel({
+        text = "正在检查资源更新...",
+        size = 40,
+        color = display.COLOR_WHITE
+    }):align(display.CENTER_BOTTOM,display.cx,200):addTo(self)
 
-    -- self.m_loadingBar = cc.ui.UILoadingBar.new({
-    --     scale9 = false,
-    --     image =  "#login_update_progress.png",
-    --     viewRect = cc.rect(0,0,706,25),
-    --     percent = 0,
-    --     direction = 1 
-    -- }):align(display.BOTTOM_LEFT,0,0):addTo(self.m_loadingBarBg)
+    self:runAction(cc.Sequence:create(cc.DelayTime:create(1), cc.CallFunc:create(function ()
+        Game:getSceneMgr():goLoginScene()
+    end)))
+end
 
-    -- self:runAction(cc.Sequence:create(cc.DelayTime:create(1), cc.CallFunc:create(function ()
-    --     Game:getSceneMgr():goLoginScene()
-    -- end)))
-    comui.Button({
-        normal = "login_btn_yk_skin.png",
-        pos = cc.p(display.cx, display.cy-135),
-        callfunc = handler(self.m_presenter, self.m_presenter.startUpdate),
-        parent = self
-    })
+function UpdateLayer:displayVersion()
+    if self.v_version == nil then
+        self.v_version = display.newTTFLabel({
+            text = string.format("App V%s Res V%s", Game:getAppConfig():getAppVersion(), Game:getAppConfig():getLocalResVersion()),
+            size = 27,
+        })
+        self.v_version:align(display.TOP_LEFT, 16 + UIAdapter.padding,display.top-10):addTo(self)
+    else
+        self.v_version:setString(string.format("App V%s Res V%s", Game:getAppConfig():getAppVersion(), Game:getAppConfig():getLocalResVersion()))
+    end
 end
 
 return UpdateLayer

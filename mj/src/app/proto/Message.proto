@@ -1,0 +1,834 @@
+package Message;
+
+enum MESSAGEID
+{
+	MIN_SERVER_MSG_ID = 0;
+	G2M_CONN_CLOSE = 1;
+	M2G_PLAYER_KICK = 2;
+	G2C_PLAYER_KICK = 3;
+	REGISTER_SERVER = 4;
+	//max server to server ctrl msg id
+	MAX_SERVER_MSG_ID = 10000;
+	
+	// client to server logic msg	
+	C2L_PLAYER_LOGIN_SYN = 10005;     					//客户端登入请求
+	L2C_PLAYER_LOGIN_ACK = 10006;   					//登入回执
+	L2C_PLAYER_BASEINFO_ACK = 10007;				//玩家基本信息
+	L2D_PLAYER_LOGIN_SYN = 10008;     		 			//大厅请求登入玩家信息
+	D2L_PLAYER_PLAYER_TOTALINFO_ACK = 10009;  //DB给大厅的登入回执信息
+	L2D_PLAYERINFO_UPDATE_SYN = 10012;             //玩家基本信息更新
+	
+	//client to lobby
+	C2M_PLAYER_CREATE_ROOM_SYN = 10013;
+	M2C_PLAYER_CREATE_ROOM_ACK = 10014;
+	L2M_PLAYER_CREATE_ROOM_SYN = 10015;
+	M2L_PLAYER_CREATE_ROOM_ACK = 10016;
+	
+	//client to game
+	C2M_PLAYER_ENTER_ROOM_SYN = 10017;
+	M2C_PLAYER_ENTER_ROOM_ACK = 10018;
+	
+	M2L_GET_PLAYER_INFO_SYN = 10019;
+	L2M_GET_PLAYER_INFO_ACK = 10020;
+	
+	M2L_PLAYER_ENTER_ROOM_NOTIFY = 10021;
+	
+	//client to lobby 
+	C2M_PLAYER_REQ_ENTER_ROOM_SYN = 10022;
+	M2C_PLAYER_REQ_ENTER_ROOM_ACK = 10023;
+	
+	//lobby to client
+	L2C_PLAYER_ROOM_LIST_ACK = 10024;
+	L2C_GAME_SERVER_INFO_NOTIFY = 10025;
+	
+	//game to lobby
+	M2L_UPDATE_PLAYER_STATE_NOTIFY = 10026;
+	
+	//lobby notify game token expire
+	L2M_PLAYER_TOKEN_EXPIRE_NOTIFY = 10027;
+	
+	//client reconnect lobby server
+	C2L_PLAYER_RECONNECT_LOBBY_SYN = 10028;
+	L2C_PLAYER_RECONNECT_LOBBY_ACK = 10029;
+	
+	//client reconnect game server
+	C2M_PLAYER_RECONNECT_GAME_SYN = 10030;
+	M2C_PLAYER_RECONNECT_GAME_ACK = 10031;
+	
+	//game server to client
+	M2C_GAME_ROOM_INFO_NOTIFY = 10032;
+	
+	//table player baseinfo
+	M2C_TABLE_PLAYER_INFO_NOTIFY = 10033;
+	
+	//client sit down
+	C2M_PLAYER_SIT_DOWN_SYN = 10034;
+	M2C_PLAYER_SIT_DOWN_ACK = 10035;
+	
+	//client operation leave room or dismiss room
+	C2M_PLAYER_OP_SYN = 10036;
+	M2C_PLAYER_OP_ACK = 10037;
+	
+	//notify player leave
+	M2C_PLAYER_LEAVE_FROM_ROOM = 10038;
+	
+	//notify player dismiss room
+	M2C_DISMISS_ROOM_NOTIFY = 10039;
+	
+	//game to lobby notify player leave or dismiss room
+	M2L_PLAYER_OP_SYN = 10040;
+	L2M_PLAYER_OP_ACK = 10041;
+	
+	//game to lobby notify player sit down
+	M2L_PLAYER_SIT_DOWN_NOTIFY = 10042;
+	
+	//game logic message
+	
+	//game start 
+	C2M_GAME_START_SYN = 10043;
+	M2C_GAME_START_ACK = 10044;
+	M2C_GAME_START_NOTIFY = 10045;
+		
+	//player hand card info
+	M2C_PLAYER_HAND_CARD_NOTIFY = 10046;
+	
+	//player call banker
+	C2M_PLAYER_CALL_BANKER_SYN = 10047;
+	M2C_PLAYER_CALL_BANKER_ACK = 10048;
+	M2C_PLAYER_CALL_BANKER_NOTIFY = 10049;
+	
+	//player add score
+	C2M_PLAYER_ADD_SCORE_SYN = 10050;
+	M2C_PLAYER_ADD_SCORE_ACK = 10051;
+	M2C_PLAYER_ADD_SCORE_NOTIFY = 10052;
+	
+	//player open card
+	C2M_PLAYER_OPEN_CARD_SYN = 10053;
+	M2C_PLAYER_OPEN_CARD_ACK = 10054;
+	M2C_PLAYER_OPEN_CARD_NOTIFY = 10055;
+	
+	//game end
+	M2C_GAME_END_NOTIFY = 10056;
+	
+	//player state update
+	M2C_UPDATE_PLAYER_STATE_NOTIFY = 10057;
+	
+	//room state update
+	M2C_UPDATE_ROOM_STATE_NOTIFY = 10058;
+	
+	//room state msg
+	M2C_ROOM_STATE_FREE_NOTIFY = 10059;
+	M2C_ROOM_STATE_CALL_BANKER_NOTIFY = 10060;
+	M2C_ROOM_STATE_ADD_SCORE_NOTIFY = 10061;
+	M2C_ROOM_STATE_PLAYING_NOTIFY = 10062;
+	
+	//game all end
+	M2C_GAME_ALL_END_NOTIFY = 10063;
+	
+	//request destroy game room
+	M2L_DESTROY_GAME_ROOM_SYN = 10064;
+	L2M_DESTROY_GAME_ROOM_ACK = 10065;
+	
+	//player vote for dismiss room
+	C2M_PLAYER_VOTE_BEGIN_SYN = 10066;
+	M2C_PLAYER_VOTE_BEGIN_ACK = 10067;
+	M2C_PLAYER_VOTE_BEGIN_NOTIFY = 10068;
+	C2M_PLAYER_VOTE_SYN = 10069;
+	M2C_PLAYER_VOTE_ACK = 10070;
+	M2C_PLAYER_VOTE_NOTIFY = 10071;
+	M2C_PLAYER_VOTE_END_NOTIFY = 10072;
+	
+	//game to lobby for game record info
+	M2L_GAME_ROOM_RECORD_NOTIFY = 10073;
+	
+	//game to client player battle info
+	C2M_PLAYER_BATTLE_INFO_SYN = 10074;
+	M2D_PLAYER_BATTLE_INFO_SYN = 10075;
+	M2C_PLAYER_BATTLE_INFO_ACK = 10076;
+}
+
+message MSG_G2M_CONN_CLOSE
+{
+	required int32 messageID = 1;
+	required uint64 clientid = 2;
+}
+
+message MSG_M2G_PLAYER_KICK
+{
+	required int32 messageID = 1;
+	required uint64 clientid = 2;
+	required int32 kickreason = 3;
+}
+
+message MSG_G2C_PLAYER_KICK
+{
+	required int32 messageID = 1;
+	required int32 kickreason = 2;
+}
+
+message MSG_REGISTER_SERVER
+{
+	required int32 messageID = 1;
+	required int32 servertype = 2;
+	required int32 serverid = 3;
+}
+
+
+message PlayerBaseInfo 
+{
+	required uint64  player_id = 1;
+	required string name = 2;
+	required uint32  level = 3;
+	required uint32  exp = 4;
+	required string accountId = 5;
+	required uint32	goldCoin = 6;
+	required uint32	diamond = 7;
+	required uint32	vip = 8;
+	required int64	registerDate = 9;
+	required string password = 10;
+	required uint32 sex = 11;
+}
+
+
+message PlayerTotalInfo 
+{
+	required PlayerBaseInfo PlayerInfo =1; 
+}
+
+message MSG_C2L_PLAYER_LOGIN_SYN
+{
+	required int32 messageID = 1;
+	required string openid = 2;
+	required string accesstoken = 3;
+	required string nickname = 4;
+	required int32 sex = 5;
+}
+
+message MSG_L2C_PLAYER_LOGIN_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+	required uint64 clienttoken = 3;
+}
+
+message MSG_L2C_PLAYER_BASEINFO_ACK
+{
+	required int32 messageID = 1;
+	required PlayerBaseInfo playerInfo = 2;
+	required uint32 userstate = 3;
+}
+
+message MSG_L2D_PLAYER_LOGIN_SYN
+{
+	required int32 messageID = 1;
+	required uint64 clientid = 2;
+	required string openid = 3;
+	required string accesstoken = 4;
+	required string nickname = 5;
+	required int32 sex = 6;
+}
+
+message MSG_D2L_PLAYER_PLAYER_TOTALINFO_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+	required PlayerTotalInfo playerInfo = 3;
+	required uint64 clientid = 4;
+}
+
+message MSG_L2D_PLAYERINFO_UPDATE_SYN
+{
+	required int32 messageID = 1;
+	required PlayerTotalInfo PlayerBaseInfo = 2;
+}
+
+message ROOM_CONFIG_INFO
+{
+	required int32 gametype = 1;
+	required int32 basescore = 2;
+	required int32 gamecount = 3;
+	required int32 paymode = 4;
+	required int32 doublerule = 5;
+	required int32 specialcardtype = 6;
+	required int32 idleplayerbet = 7;
+	required int32 bankerscore = 8;
+	required int32 maxcatchbanker = 9;
+	required int32 advancedoption = 10;
+}
+
+message MSG_C2M_PLAYER_CREATE_ROOM_SYN
+{
+	required int32 messageID = 1;
+	required ROOM_CONFIG_INFO roomconfiginfo = 2;
+}
+
+message MSG_M2C_PLAYER_CREATE_ROOM_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+	required string gameip = 3;
+	required int32 gameport = 4;
+	required uint32 roomid = 5;
+	required uint64 ownerid = 6;
+}
+
+message MSG_L2M_PLAYER_CREATE_ROOM_SYN
+{
+	required int32 messageID = 1;
+	required ROOM_CONFIG_INFO roomconfiginfo = 2;
+	required uint32 roomid = 3;
+	required uint64 ownerid =4;
+}
+
+message MSG_M2L_PLAYER_CREATE_ROOM_ACK
+{
+	required int32 messageID = 1;
+	required uint32 roomid = 2;
+	required uint64 ownerid =3;
+	required int32 errorcode = 4;
+}
+
+message MSG_C2M_PLAYER_ENTER_ROOM_SYN
+{
+	required int32 messageID = 1;
+	required uint32 roomid = 2;
+	required uint64 playerid =3;
+}
+
+message MSG_M2L_GET_PLAYER_INFO_SYN
+{
+	required int32 messageID = 1;
+	required uint64 playerid =2;
+	required uint64 clienttoken = 3;
+	required uint64 clientid = 4;
+	required uint32 roomid = 5;
+}
+
+message MSG_L2M_GET_PLAYER_INFO_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+	required uint64 clienttoken = 3;
+	required uint64 clientid = 4;
+	required uint32 roomid = 5;
+	required PlayerBaseInfo PlayerInfo =6;
+}
+
+message MSG_M2C_PLAYER_ENTER_ROOM_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+}
+
+message MSG_M2L_PLAYER_ENTER_ROOM_NOTIFY
+{
+	required int32 messageID = 1;
+	required uint32 roomid = 2;
+	required uint64 playerid =3;
+	required uint64 clienttoken = 4;
+	required int32 errorcode = 5;
+	required int32 userstate = 6;
+}
+
+message MSG_L2M_PLAYER_TOKEN_EXPIRE_NOTIFY
+{
+	required int32 messageID = 1;
+	required uint64 playerid =2;
+	required uint64 clienttoken = 3;
+}
+
+message MSG_C2M_PLAYER_REQ_ENTER_ROOM_SYN
+{
+	required int32 messageID = 1;
+	required uint32 roomid = 2;
+}
+
+message MSG_M2C_PLAYER_REQ_ENTER_ROOM_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+	required string gameip = 3;
+	required int32 gameport = 4;
+	required uint32 roomid = 5;
+	required uint64 ownerid = 6;
+}
+
+message GAME_ROOM_LIST
+{
+	required uint32 roomid = 1;
+	required int32 gametype = 2;
+	required int32 basescore = 3;
+	required int32 gamecount = 4;
+	required int32 paymode = 5;
+	required int32 playernum = 6;
+}
+
+message MSG_L2C_PLAYER_ROOM_LIST_ACK
+{
+	required int32 messageID = 1;
+	repeated GAME_ROOM_LIST gameroomlist = 2;
+}
+
+message MSG_L2C_GAME_SERVER_INFO_NOTIFY
+{
+	required int32 messageID = 1;
+	required string gameip = 2;
+	required int32 gameport = 3;
+	required uint32 roomid = 4;
+	required uint64 ownerid = 5;
+}
+
+message MSG_M2L_UPDATE_PLAYER_STATE_NOTIFY
+{
+	required int32 messageID = 1;
+	required uint32 userstate = 2;
+	required uint64 playerid = 3;
+	required uint64 clienttoken = 4;
+}
+
+message MSG_C2L_PLAYER_RECONNECT_LOBBY_SYN
+{
+	required int32 messageID = 1;
+	required uint64 playerid = 2;
+	required uint64 clienttoken = 3;
+}
+
+message MSG_L2C_PLAYER_RECONNECT_LOBBY_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+}
+
+message MSG_C2M_PLAYER_RECONNECT_GAME_SYN
+{
+	required int32 messageID = 1;
+	required uint64 playerid = 2;
+	required uint64 clienttoken = 3;
+}
+
+message MSG_M2C_PLAYER_RECONNECT_GAME_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+}
+
+message MSG_M2C_GAME_ROOM_INFO_NOTIFY
+{
+	required int32 messageID = 1;
+	required uint32 roomid = 2;
+	required int32 gametype = 3;
+	required int32 basescore = 4;
+	required int32 gametotalcount = 5;
+	required int32 gamecurcount = 6;
+	required uint64 ownerid = 7;
+	required int32 roomstate = 8;
+}
+
+message MSG_M2C_TABLE_PLAYER_INFO_NOTIFY
+{
+	required int32 messageID = 1;
+	required uint64  player_id = 2;
+	required string name = 3;
+	required int64	registerDate = 4;
+	required uint32 sex = 5;
+	required int32 userstate = 6;
+	required int32 tableposid = 7;
+	required int32 isonline = 8;
+}
+
+message MSG_C2M_PLAYER_SIT_DOWN_SYN
+{
+	required int32 messageID = 1;
+}
+
+message MSG_M2C_PLAYER_SIT_DOWN_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+	required int32 tableposid = 3;
+}
+
+message MSG_C2M_PLAYER_OP_SYN
+{
+	required int32 messageID = 1;
+	required int32 opcode = 2;
+}
+
+message MSG_M2C_PLAYER_OP_ACK
+{
+	required int32 messageID = 1;
+	required int32 opcode = 2;
+	required int32 errorcode = 3;
+}
+
+message MSG_M2C_PLAYER_LEAVE_FROM_ROOM
+{
+	required int32 messageID = 1;
+	required uint64 player_id = 2;
+}
+
+message MSG_M2C_DISMISS_ROOM_NOTIFY
+{
+	required int32 messageID = 1;
+}
+
+message MSG_M2L_PLAYER_OP_SYN
+{
+	required int32 messageID = 1;
+	required int32 opcode = 2;
+	required uint64 player_id = 3;
+	required uint32 roomid = 4;
+}
+
+message MSG_L2M_PLAYER_OP_ACK
+{
+	required int32 messageID = 1;
+	required int32 opcode = 2;
+	required uint64 player_id = 3;
+	required uint32 roomid = 4;
+}
+
+message MSG_M2L_PLAYER_SIT_DOWN_NOTIFY
+{
+	required int32 messageID = 1;
+	required uint64 player_id = 2;
+	required int32 tableposid = 3;
+	required uint32 roomid = 4;
+}
+
+message MSG_C2M_GAME_START_SYN
+{
+	required int32 messageID = 1;
+}
+
+message MSG_M2C_GAME_START_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+}
+
+message MSG_M2C_GAME_START_NOTIFY
+{
+	required int32 messageID = 1;
+	required int32 bankeruser = 2;
+	required int32 currplaynumber = 3;
+	required int32 totalplaynumber = 4;
+	repeated int64 betmultiple = 5;
+}
+
+message PLAYER_HAND_CARD
+{
+	required int32 playerpos = 1;
+	repeated int32 handcard = 2;
+}
+
+message MSG_M2C_PLAYER_HAND_CARD_NOTIFY
+{
+	required int32 messageID = 1;
+	repeated PLAYER_HAND_CARD playerhandcard = 2;
+}
+
+message MSG_C2M_PLAYER_CALL_BANKER_SYN
+{
+	required int32 messageID = 1;
+	required int32 callbankertimes = 2;
+}
+
+message MSG_M2C_PLAYER_CALL_BANKER_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+}
+
+message MSG_M2C_PLAYER_CALL_BANKER_NOTIFY
+{
+	required int32 messageID = 1;
+	required int32 callbankerpos = 2;
+	required int32 bcallbanker = 3;
+	required int32 callbankertimes = 4;
+	required int32 firstcallbanker = 5;
+}
+
+message MSG_C2M_PLAYER_ADD_SCORE_SYN
+{
+	required int32 messageID = 1;
+	required int64 addscorecount = 2;
+}
+
+message MSG_M2C_PLAYER_ADD_SCORE_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+}
+
+message MSG_M2C_PLAYER_ADD_SCORE_NOTIFY
+{
+	required int32 messageID = 1;
+	required int32 playerpos = 2;
+	required int64 addscorecount = 3;
+}
+
+message MSG_C2M_PLAYER_OPEN_CARD_SYN
+{
+	required int32 messageID = 1;
+}
+
+message MSG_M2C_PLAYER_OPEN_CARD_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+}
+
+message MSG_M2C_PLAYER_OPEN_CARD_NOTIFY
+{
+	required int32 messageID = 1;
+	required int32 cardtype = 2;
+	required PLAYER_HAND_CARD playerhandcard = 3;
+}
+
+message GAME_SCORE_INFO
+{
+	required int32 playerpos = 1;
+	required int64 playerscore = 2;
+}
+
+message MSG_M2C_GAME_END_NOTIFY
+{
+	required int32 messageID = 1;
+	repeated GAME_SCORE_INFO scoreinfo = 2;
+}
+
+message MSG_M2C_UPDATE_PLAYER_STATE_NOTIFY
+{
+	required int32 messageID = 1;
+	required int32 playerpos = 2;
+	required uint64 player_id = 3;
+	required int32 playerstate = 4;
+}
+
+message MSG_M2C_UPDATE_ROOM_STATE_NOTIFY
+{
+	required int32 messageID = 1;
+	required uint32 roomid = 2;
+	required int32 roomstate = 3;
+}
+
+message ROOM_STATE_PLAYER_FREE_DATA
+{
+	required int32 playerpos = 1;
+	required int64 playertotalscore = 2;
+}
+
+message MSG_M2C_ROOM_STATE_FREE_NOTIFY
+{
+	required int32 messageID = 1;
+	repeated ROOM_STATE_PLAYER_FREE_DATA playerfree = 2;
+	required int32 currplaynumber = 3;
+	required int32 totalplaynumber = 4;
+}
+
+message ROOM_STATE_PLAYER_CALL_BANKER_DATA
+{
+	required int32 playerpos = 1;
+	required int64 playertotalscore = 2;
+	repeated int32 handcard = 3;
+	required int32 callaction = 4;
+	required int32 callscore = 5;
+}
+
+message MSG_M2C_ROOM_STATE_CALL_BANKER_NOTIFY
+{
+	required int32 messageID = 1;
+	repeated ROOM_STATE_PLAYER_CALL_BANKER_DATA playercallbanker = 2;
+	required int32 currplaynumber = 3;
+	required int32 totalplaynumber = 4;
+}
+
+message ROOM_STATE_PLAYER_ADD_SCORE_DATA
+{
+	required int32 playerpos = 1;
+	required int64 playertotalscore = 2;
+	repeated int32 handcard = 3;
+	required int32 callscore = 4;
+	required int32 betaction = 5;
+	required int32 betscore = 6;
+}
+
+message	MSG_M2C_ROOM_STATE_ADD_SCORE_NOTIFY
+{
+	required int32 messageID = 1;
+	repeated ROOM_STATE_PLAYER_ADD_SCORE_DATA playeraddscore = 2;
+	required int32 currplaynumber = 3;
+	required int32 totalplaynumber = 4;
+	required int32 bankerpos = 5;
+	repeated int32 betmultiple = 6;
+}
+
+message ROOM_STATE_PLAYER_PLAYING_DATA
+{
+	required int32 playerpos = 1;
+	required int64 playertotalscore = 2;
+	repeated int32 handcard = 3;
+	required int32 callscore = 4;
+	required int32 betscore = 5;
+	required int32 opencardaction = 6;
+	required int32 cardtype = 7;
+}
+
+message	MSG_M2C_ROOM_STATE_PLAYING_NOTIFY
+{
+	required int32 messageID = 1;
+	repeated ROOM_STATE_PLAYER_PLAYING_DATA playerplaying = 2;
+	required int32 currplaynumber = 3;
+	required int32 totalplaynumber = 4;
+	required int32 bankerpos = 5;
+}
+
+message PLAYER_GAME_RESULT
+{
+	required uint64 player_id = 1;
+	required int32 playerpos = 2;
+	required string nickname = 3;
+	required int64 totalscore = 4;
+}
+
+message MSG_M2C_GAME_ALL_END_NOTIFY
+{
+	required int32 messageID = 1;
+	repeated PLAYER_GAME_RESULT playergameresult = 2;
+	required int64 maxscore = 4;
+	required int64 minscore = 5;
+	required int32 gamenumber = 6;
+}
+
+message MSG_M2L_DESTROY_GAME_ROOM_SYN
+{
+	required int32 messageID = 1;
+	required int32 roomid = 2;
+}
+
+message MSG_L2M_DESTROY_GAME_ROOM_ACK
+{
+	required int32 messageID = 1;
+	required int32 roomid = 2;
+	required int32 errorcode = 3;
+}
+
+message MSG_C2M_PLAYER_VOTE_BEGIN_SYN
+{
+	required int32 messageID = 1;
+}
+
+message MSG_M2C_PLAYER_VOTE_BEGIN_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+}
+
+message PLAYER_VOTE_INFO
+{
+	required int32 playerpos = 1;
+	required int32 playervoteval = 2;
+}
+
+message MSG_M2C_PLAYER_VOTE_BEGIN_NOTIFY
+{
+	required int32 messageID = 1;
+	repeated PLAYER_VOTE_INFO voteinfo = 2;
+	required int32 sponsorpos = 3;
+}
+
+message MSG_C2M_PLAYER_VOTE_SYN
+{
+	required int32 messageID = 1;
+	required int32 voteval = 2;
+}
+
+message MSG_M2C_PLAYER_VOTE_ACK
+{
+	required int32 messageID = 1;
+	required int32 errorcode = 2;
+}
+
+message MSG_M2C_PLAYER_VOTE_NOTIFY
+{
+	required int32 messageID = 1;
+	required int32 playerpos = 2;
+	required int32 playervoteval = 3;
+}
+
+message MSG_M2C_PLAYER_VOTE_END_NOTIFY
+{
+	required int32 messageID = 1;
+	required int32 voteresult = 2;
+}
+
+message PLAYER_GAME_RECORD_ROUND
+{
+	required uint64 playerid = 1;
+	required int64 playerscore = 2;
+	required string playercardlist = 3;
+	required int32 playercallbankertimes = 4;
+	required int64 playeraddscore = 5;
+}
+
+message GAME_ROOM_RECORD_ROUND
+{
+	required int32 roundid = 1;
+	required uint64 bankerid = 2;
+	repeated PLAYER_GAME_RECORD_ROUND playergamerecord = 3;
+}
+
+message MSG_M2L_GAME_ROOM_RECORD_NOTIFY
+{
+	required int32 messageID = 1;
+	required int32 roomid = 2;
+	required int32 playcount = 3;
+	required int32 totalcount = 4;
+	required uint64 recorddate = 5;
+	repeated GAME_ROOM_RECORD_ROUND gameroomrecord = 6;
+}
+
+message MSG_C2M_PLAYER_BATTLE_INFO_SYN
+{
+	required int32 messageID = 1;
+}
+
+message MSG_M2D_PLAYER_BATTLE_INFO_SYN
+{
+	required int32 messageID = 1;
+	required uint64 playerid = 2;
+}
+
+message CLIENT_GAME_RECORD_ROUND
+{
+	required uint64 playerid = 1;
+	required string nickname = 2;
+	required int64 playerscore = 3;
+	required string playercardlist = 4;
+	required int32 playercallbankertimes = 5;
+	required int64 playeraddscore = 6;
+}
+
+message CLIENT_GAME_ROOM_RECORD_ROUND
+{
+	required int32 roundid = 1;
+	required uint64 bankerid = 2;
+	repeated CLIENT_GAME_RECORD_ROUND playergamerecord = 3;
+}
+
+message CLIENT_BATTLE_INFO
+{
+	required int32 roomid = 1;
+	required int32 playcount = 2;
+	required int32 totalcount = 3;
+	required string recorddate = 4;
+	repeated CLIENT_GAME_ROOM_RECORD_ROUND gameroomrecord = 5;
+}
+
+message MSG_M2C_PLAYER_BATTLE_INFO_ACK
+{
+	required int32 messageID = 1;
+	required uint64 playerid = 2;
+	repeated CLIENT_BATTLE_INFO clientbattleinfo = 3;
+}

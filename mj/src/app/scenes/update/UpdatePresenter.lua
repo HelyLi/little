@@ -8,7 +8,7 @@ end)
 
 function UpdatePresenter:ctor(view)
     Presenter.init(self, view)
-    HttpCtrl.http({url = "http://lyweb.wwg01.com/vinit/vinit?plat=2&proj=7&version=1.3.0&pkg=10001&clientid=0" , callback = handler(self, self.checkUpdateResponse)})
+    -- HttpCtrl.http({url = "http://lyweb.wwg01.com/vinit/vinit?plat=2&proj=7&version=1.3.0&pkg=10001&clientid=0" , callback = handler(self, self.checkUpdateResponse)})
 end
 
 function UpdatePresenter:checkUpdateResponse(response)
@@ -19,6 +19,7 @@ function UpdatePresenter:checkUpdateResponse(response)
             updateConfig = response.data.lua_config,
             callback = handler(self, self.notityCallback)
         })
+        self.m_engine:startUpdate()
     end
 end
 
@@ -27,9 +28,7 @@ function UpdatePresenter:notifyCallBack(event)
 end
 
 function UpdatePresenter:startUpdate()
-    if self.m_engine then
-        self.m_engine:startUpdate()
-    end
+    
 end
 
 function UpdatePresenter:download()
