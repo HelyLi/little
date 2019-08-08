@@ -66,7 +66,7 @@ function GamePlayingData:clearBase()
     --各种状态
     self.m_playerCardDisplayMode = {0,0,0,0}                --玩家手牌显示模式
     self.m_playerHaveMoCard = {false, false, false, false}  --玩家是否有摸牌
-    self.m_isCurOutCardStatus = 0                           --当签玩家可出牌状态
+    self.m_isCurOutCardStatus = false                           --当签玩家可出牌状态
     self.m_isPlayerOpStart = false                          --是否有玩家操作过
     self.m_curOpStandData = {}                              --当前剩余操作时间
 
@@ -84,8 +84,10 @@ function GamePlayingData:clearBase()
     self.m_byMaxCardCount = 118                             --所有麻将牌数量
     self.m_byLeftCardCount = 0                              --牌堆剩余麻将数
     self.m_byHandCardData = {{}, {}, {}, {}}                --玩家手牌数据
+    self.m_byCanOutCardData = {}                            --只能出的牌
     self.m_byProvideCardData = 0                            --供应牌
     self.m_byGoldCardData = 0                               --金牌
+    self.m_isCanOutGoldCard = false                         --
     self.m_byGoldActionCardData = {}                        --
     self.m_byUnKnowCardData = clone(AllCardDatas)           --剩余未知麻将牌数据
     self.m_byDeskOutCardData = {{}, {}, {}, {}}             --玩家出牌记录
@@ -373,8 +375,148 @@ end
 
 function GamePlayingData:replayDeleteUnKnowCardInStandItem(standItemData)
     local deleteCardData = {}
-    if standItemData then
-        --todo
+    if standItemData.opType >= GameConstants.OP_TYPE.CHI_LEFT and standItemData.opType <= GameConstants.OP_TYPE.PENG then
+        deleteCardData[1] = standItemData.byCardDatas[1]
+        deleteCardData[2] = standItemData.byCardDatas[2]
+        deleteCardData[3] = standItemData.byCardDatas[3]
+    elseif standItemData.opType >= GameConstants.OP_TYPE.GANG_MING and standItemData.opType <= GameConstants.OP_TYPE.GANG_JIA then
+        deleteCardData[1] = standItemData.byCardDatas[1]
+        deleteCardData[2] = standItemData.byCardDatas[2]
+        deleteCardData[3] = standItemData.byCardDatas[3]
+        deleteCardData[4] = standItemData.byCardDatas[4]
+    end
+
+    if #deleteCardData > 0 then
+        for i,v in ipairs(deleteCardData) do
+            self:deleteUnknowCardData(v)
+        end
+    end
+end
+
+--设置摸牌状态
+function GamePlayingData:setPlayerHaveMoCard(viewId, isMoCard)
+    self.m_playerCardDisplayMode = {false, false, false, false}
+    if isMoCard then
+        self.m_playerCardDisplayMode[viewId] = true
+    end
+end
+
+--是否为金牌
+function GamePlayingData:isGoldCard(cardData)
+    if cardData > 0 and (cardData == self.m_byGoldCardData) then
+        return true
+    else
+
+        return false
+    end
+end
+
+--还有几张牌在未出现的牌中
+function GamePlayingData:getRemainNumInUnknowCard(cardData)
+    local remainNum = 0
+    if cardData > 0 then
+        for i,v in ipairs(self.m_byUnKnowCardData) do
+            if v == cardData then
+                remainNum = remainNum + 1
+            end
+        end
+    end
+
+    return remainNum
+end
+
+--玩家是否可以出牌
+function GamePlayingData:isViewIdCanOutCard(viewId)
+    if self.m_curViewId == viewId and self.m_isCurOutCardStatus then
+        return true
+    end
+    return false
+end
+
+function GamePlayingData:getHandCardData(viewId, cardIndx)
+    return self.m_byHandCardData[viewId][cardIndx] or 0
+end
+
+--自己的手牌是否可以出
+function GamePlayingData:isMyCardCanOut(cardData)
+    --金牌不能出
+     if self:isCanOutGoldCard() then
+        if self.m_byGoldCardData == cardData then
+            return false
+        end
+     end
+
+    if #self.m_byCanOutCardData > 0 then
+        --有出牌限制
+        for i,v in ipairs(self.m_byCanOutCardData) do
+            if v == cardData then
+                return true
+            end
+        end
+        return false
+    else
+        return true
+    end
+end
+
+--是否可以出牌
+function GamePlayingData:isCanOutGoldCard()
+    local isCanOutGoldCard = self.m_isCanOutGoldCard or false
+    if self.m_byGoldCardData ~= 0 and isCanOutGoldCard == false then
+        return false
+    end
+    return true
+end
+
+--[[
+检测是否只有一个可以吃碰杠的操作
+如果只有一个操作，则返回可以参与吃碰杠的牌
+]]
+function GamePlayingData:checkOnly_C_P_G_Card()
+    local cpgOpTypeNums = 0
+    local oneOpType = 0
+    local canCPGCards = {}
+    for i,v in ipairs(self.m_myCanOpInfoTable) do
+        if v.opType >= GameConstants.OP_TYPE.CHI_LEFT and v.opType <= GameConstants.OP_TYPE.GANG_JIA then
+            cpgOpTypeNums = cpgOpTypeNums + 1
+            oneOpType = v.opType
+        end
+    end
+
+    --吃和杠的数据单独判断
+    if cpgOpTypeNums == 1 then
+        if oneOpType >= GameConstants.OP_TYPE.CHI_LEFT and oneOpType <= GameConstants.OP_TYPE.CHI_RIGHT then
+            --吃
+            if 1 == #self.m_myChiCardData then
+                if oneOpType == GameConstants.OP_TYPE.CHI_LEFT then
+                    canCPGCards = {
+                        self.m_myChiCardData[1].byCardDatas[2],
+                        self.m_myChiCardData[1].byCardDatas[3],
+                    }
+                elseif oneOpType == GameConstants.OP_TYPE.CHI_CENTER then
+                    canCPGCards = {
+                        self.m_myChiCardData[1].byCardDatas[1],
+                        self.m_myChiCardData[1].byCardDatas[3],
+                    }
+                elseif oneOpType == GameConstants.OP_TYPE.CHI_RIGHT then
+                    canCPGCards = {
+                        self.m_myChiCardData[1].byCardDatas[1],
+                        self.m_myChiCardData[1].byCardDatas[2],
+                    }
+                end
+            end
+        elseif oneOpType == GameConstants.OP_TYPE.PENG then
+            --碰
+            table.insert(canCPGCards, self.m_byProvideCardData)
+            table.insert(canCPGCards, self.m_byProvideCardData)
+        elseif oneOpType >= GameConstants.OP_TYPE.GANG_MING and oneOpType <= GameConstants.OP_TYPE.GANG_JIA then
+            --杠
+            if 1 == #self.m_myGangCardData then 
+                for i=1,4 do
+                    canCPGCards[i] = self.m_byProvideCardData
+                end
+            end
+        end
     end
 end
 

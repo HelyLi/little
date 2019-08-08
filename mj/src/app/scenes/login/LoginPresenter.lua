@@ -29,6 +29,24 @@ function LoginPresenter:onClosed()
     print("socket:onClosed")
     self:preloadRes()
 end
+-- message MSG_L2D_PLAYER_LOGIN_SYN
+-- {
+--  required int32 messageID = 1;
+--  required uint64 clientid = 2;
+--  required string openid = 3;
+--  required string accesstoken = 4;
+--  required string nickname = 5;
+--  required int32 sex = 6;
+-- }
+
+-- message MSG_C2L_PLAYER_LOGIN_SYN
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional string openid = 2;
+-- 	optional string accesstoken = 3;
+-- 	optional string nickname = 4;
+-- 	optional int32 sex = 5;
+-- }
 
 function LoginPresenter:toLogin()
     print("LoginPresenter:toLogin:", C2L_PLAYER_LOGIN_SYN)
