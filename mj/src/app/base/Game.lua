@@ -23,6 +23,7 @@ local Modules = {
     -- "app.utils.rx",
     "pack",
     "app.utils.utf8",
+    "app.utils.DataStruct",
     "app.utils.SimpleApi",
     "app.base.UIAdapter",
     "app.utils.ByteArray",

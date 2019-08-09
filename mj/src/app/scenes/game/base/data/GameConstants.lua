@@ -12,20 +12,31 @@ GameConstants.Z_ORDER = {
 
 }
 
-GameConstants.TAG = {
-
+GameConstants.CARD_TAG = {
+    TXT_B       = 10,
+    TXT_M       = 11,
+    ZZ_ORANGE   = 12
 }
 
 GameConstants.PROCESS = {
-    
+    NONE                = 0,
+    GAME_START          = 1,    --开局
+    SHOW_BANKER         = 2,    --定庄家
+    ROCK_DICE           = 3,    --摇骰子
+    START_SEND_CARD     = 4,    --开局
+    OPEN_GOLD_CARD      = 5,    --翻金牌
+    SORT_HANDCARD       = 6,    --刷新手牌
+    GAME_END_LIUJU      = 7,    --流局
+    GAME_END_HU         = 8,    --胡牌
+    GAME_END_RESULT     = 9,    --结算
 }
 
 GameConstants.CARD_TYPE = {
-    WAN = 1,            --万
-    TIAO = 2,           --条
-    TONG = 3,           --筒
-    FENG = 4,           --风
-    HUA = 5,            --花
+    WAN     = 1,            --万
+    TIAO    = 2,            --条
+    TONG    = 3,            --筒
+    FENG    = 4,            --风
+    HUA     = 5,            --花
 }
 
 GameConstants.STAND_CARD_TYPE = {

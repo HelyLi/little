@@ -27,12 +27,30 @@ THE SOFTWARE.
 package org.cocos2dx.lua;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 
 public class AppActivity extends Cocos2dxActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (Build.VERSION.SDK_INT == 18) {
+			View v = this.getWindow().getDecorView();
+			v.setSystemUiVisibility(View.GONE);
+		} else if (Build.VERSION.SDK_INT >= 19) {
+			//for new api versions.
+			View decorView = getWindow().getDecorView();
+			int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+					| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+					| View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+					| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+					| View.SYSTEM_UI_FLAG_IMMERSIVE
+					| View.SYSTEM_UI_FLAG_FULLSCREEN;
+			decorView.setSystemUiVisibility(uiOptions);
+		}
 	}
 }

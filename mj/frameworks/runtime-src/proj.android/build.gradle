@@ -3,11 +3,16 @@
 buildscript {
     repositories {
 		google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
 		maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.1'
-
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -16,10 +21,41 @@ buildscript {
 allprojects {
     repositories {
 		google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
 		maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext{
+    buildToolsVer = '28.0.3'
+    compileSdkVer = 28
+    targetSdkVer = 28
+    minSdkVer = 16
+    supportLibVer = '28.0.0'
+    junitVer = '4.12'
+
+    rxbindingVer='2.0.0'
+    retrofitVer = '2.5.0'
+    gsonVer = '2.8.5'
+    okHttpVer = '3.14.2'
+    rxJavaVer = '2.2.9'
+    rxAndroidVer = '2.1.1'
+    rxlifecycleVer='2.2.0'
+    rxlifecycleComponentsVer='2.2.0'
+    rxPermissionsVer='0.10.2'
+    glideVer = '4.9.0'
+    loggerVer = '2.2.0'
+    greendaoVer='3.2.2'
+    butterKnifeVer = '8.5.1'
+    baseRecyclerViewHelperVer = '2.9.46'
+    MPAndroidChartVer = 'v3.1.0'
+    flowLayoutVer='1.0.3'
+    zxingCoreVer='3.3.0'
+    NestFullListViewVer='V1.0.0'
 }

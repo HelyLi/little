@@ -21,10 +21,11 @@ function BaseView:initBaseData()
 end
 
 function BaseView:onEnter()
-    
+    print("BaseView:onEnter")
 end
 
 function BaseView:onExit()
+    print("BaseView:onExit")
     Game:getEventDispatcher():removeListenersByTag(self)
     self.m_eventListeners = {}
 end
