@@ -52,9 +52,9 @@ function LoginPresenter:toLogin()
     print("LoginPresenter:toLogin:", C2L_PLAYER_LOGIN_SYN)
     local msg = Message_pb.MSG_C2L_PLAYER_LOGIN_SYN()
     msg.messageID = C2L_PLAYER_LOGIN_SYN
-    msg.openid = "1111111111111111111"
-    msg.accesstoken = "22222222222222222222"
-    msg.nickname= "test"
+    msg.openid = "1"
+    msg.accesstoken = ""
+    msg.nickname= "test1"
     msg.sex = 0
     
     local data = msg:SerializeToString()
@@ -92,6 +92,7 @@ function LoginPresenter:initHandlerMsg()
     self.m_handlerTable = {}
 
     self.m_handlerTable[L2C_PLAYER_LOGIN_ACK] = handler(self, self.l2c_player_login_ack)
+    self.m_handlerTable[L2C_PLAYER_BASEINFO_ACK] = handler(self, self.l2c_player_baseinfo_ack)
 end
 
 function LoginPresenter:l2c_player_login_ack(msgData)
@@ -100,11 +101,49 @@ function LoginPresenter:l2c_player_login_ack(msgData)
 
 	print("msg.messageID", msg.messageID)
 	print("msg.errorcode", msg.errorcode)
-	print("msg.clienttoken", msg.clienttoken)
+	print(string.format("msg.clienttoken=%d", msg.clienttoken))
 
     if msg.errorcode == -2 then
         -- Game:getSocketMgr():loginSocketClose()
     end
+end
+
+-- message MSG_L2C_PLAYER_BASEINFO_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional PlayerBaseInfo playerInfo = 2;
+-- 	optional uint32 userstate = 3;
+-- }
+
+-- message PlayerBaseInfo 
+-- {
+-- 	optional uint64  player_id = 1;
+-- 	optional string name = 2;
+-- 	optional uint32  level = 3;
+-- 	optional uint32  exp = 4;
+-- 	optional string accountId = 5;
+-- 	optional uint32	goldCoin = 6;
+-- 	optional uint32	diamond = 7;
+-- 	optional uint32	vip = 8;
+-- 	optional int64	registerDate = 9;
+-- 	optional string password = 10;
+-- 	optional uint32 sex = 11;
+-- }
+
+
+function LoginPresenter:l2c_player_baseinfo_ack(msgData)
+    local msg = Message_pb.MSG_L2C_PLAYER_BASEINFO_ACK()
+    msg:ParseFromString(msgData)
+
+    print("msg.messageID", msg.messageID)
+
+    local v = msg.playerInfo
+
+    print(v.player_id, v.name, v.level, v.exp, v.accountId, v.goldCoin, v.diamond, v.vip, v.registerDate, v.password, v.sex )
+    
+    
+    -- Message_pb.PlayerBaseInfo() baseInfo = 
+    print(string.format("msg.userstate=%d", msg.userstate))
 end
 
 function LoginPresenter:startLoadResTimeout()
