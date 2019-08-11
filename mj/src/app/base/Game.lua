@@ -30,7 +30,8 @@ local Modules = {
     "app.config.AppGlobal",
     "app.views.Comui",
     "app.native.System",
-    "app.pb.Message_ID"
+    "app.pb.Message_ID",
+    "app.utils.bitOp"
 }
 
 function Game:init()

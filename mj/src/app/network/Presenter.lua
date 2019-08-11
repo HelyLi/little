@@ -18,13 +18,15 @@ function Presenter:onClosed()
 end
 
 function Presenter:onReveived(byteArray)
-    local bufferSize = byteArray:readUInt()
-    local msgId = byteArray:readUInt()
-    local token = byteArray:readLong()
+    -- local bufferSize = byteArray:readUInt()--4
+    local msgId = byteArray:readUInt()--4
+    local token = byteArray:readLong()--8
 
-    print(msgId, bufferSize, token)
+    print(msgId, token)
 
-    local msg = byteArray:readStringBytes(bufferSize - 12)
+    print("len:", byteArray:getLen())
+
+    local msg = byteArray:readStringBytes(byteArray:getLen() - 12)
 
     local handlerFun = self.m_handlerTable[msgId]
     if type(handlerFun) == "function" then

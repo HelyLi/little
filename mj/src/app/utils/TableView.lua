@@ -193,7 +193,10 @@ local function jumpTo(self, index)
 
 		if 1 == direction then -- VERTICAL
 			local destY = size.height - item:getPositionY() - item:getContentSize().height
+			print("destY:", destY, size.height, item:getPositionY(), item:getContentSize().height)
+			-- item:getPositionY() 左下角坐标
 			destY = math.min(0, destY)
+			
 			self:getInnerContainer():setPositionY(destY)
 			self._innerP = destY
 		else
@@ -232,15 +235,17 @@ local function jumpTo(self, index)
 	end, 0)
 end
 
-local function createDefaultWidget()
+local function createDefaultWidget(self, index)
 	local layer = ccui.Layout:create()
 	-- layer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)
 	-- layer:setBackGroundColor(cc.c3b(0, 0, 255))
+	self:_loadSource(index):addTo(layer)
 	return layer
 end
 
 -- init default items, _sizeSource() will be use in this stage
 local function initDefaultItems(self, total)
+	print("initDefaultItems")
 	local items = ListView.getItems(self)
 	local oldTotal = #items
 	-- remove old items and reset cursor
@@ -253,16 +258,17 @@ local function initDefaultItems(self, total)
 	self._innerP = nil
 	-- clean defaut widgets
 	ListView.removeAllItems(self)
+	dump(self._sizeSource, "self:_sizeSource")
 	-- size may change, so need to add defaut widgets again
 	for i = 1, total do
-		local widget = createDefaultWidget()
+		local widget = createDefaultWidget(self, i)
 		widget:setContentSize(self:_sizeSource(i))
 		ListView.pushBackCustomItem(self, widget)
 	end
 end
 
 local function insertRow(self, index)
-	local widget = createDefaultWidget()
+	local widget = createDefaultWidget(self, index)
 	widget:setContentSize(self:_sizeSource(index))
 	ListView.insertCustomItem(self, widget, index - 1)
 

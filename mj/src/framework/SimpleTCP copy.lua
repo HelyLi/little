@@ -127,25 +127,18 @@ end
 
 function SimpleTCP:_update(dt)
 	if self.stat == SimpleTCP.STAT_CONNECTED then
-		local body, status, partial = self.tcp:receive(4)	-- receive mode: get all data
+		local body, status, partial = self.tcp:receive("*a")	-- receive mode: get all data
 		-- 1. If receive successful
 		if body and string.len(body) > 0 then
-			local length = 0
-            for i=1,string.len(body) do
-				local byte = string.byte(body,i,i)
-				length = length + math.floor(byte * (2 ^ ((4 -i)*8)));--bitOp:_lshift(byte, )
-			end
-			body, status, partial = self.tcp:receive(length)
-			if body and string.len(body) > 0 then
-				self.callback(SimpleTCP.EVENT_DATA, body)
-			end
+			self.callback(SimpleTCP.EVENT_DATA, body)
+			return
 		end
 
 		-- 2. If got an error. Firstly, transfer partial data.
-		-- if partial and string.len(partial) > 0 then
-		-- 	self.callback(SimpleTCP.EVENT_DATA, partial)
-		-- 	-- Not return here, continue to check the error type
-		-- end
+		if partial and string.len(partial) > 0 then
+			self.callback(SimpleTCP.EVENT_DATA, partial)
+			-- Not return here, continue to check the error type
+		end
 
 		-- 3. Error type "timeout" will be ignored; but "closed" need handling.
 		if status == "closed" or status == "Socket is not connected" then
