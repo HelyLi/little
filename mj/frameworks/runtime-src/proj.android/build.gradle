@@ -2,17 +2,13 @@
 
 buildscript {
     repositories {
-		google()
+        google()
         jcenter()
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-		maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -20,11 +16,9 @@ buildscript {
 
 allprojects {
     repositories {
-		google()
+        google()
         jcenter()
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-		maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        
     }
 }
 
@@ -51,7 +45,7 @@ ext{
     rxPermissionsVer='0.10.2'
     glideVer = '4.9.0'
     loggerVer = '2.2.0'
-    greendaoVer='3.2.2'
+//    greendaoVer='3.2.2'
     butterKnifeVer = '8.5.1'
     baseRecyclerViewHelperVer = '2.9.46'
     MPAndroidChartVer = 'v3.1.0'

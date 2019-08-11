@@ -1,7 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 
 #--- libBugly.so ---
-
+#--- end ---
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := cocos2dlua_shared

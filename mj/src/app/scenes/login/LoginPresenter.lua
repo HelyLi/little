@@ -49,6 +49,8 @@ end
 -- }
 
 function LoginPresenter:toLogin()
+    -- pushEvent
+    Game:getEventDispatcher().pushEvent(AppGlobal.EventMsg.SPEAKER_POP_UP, { data = "data" })
     print("LoginPresenter:toLogin:", C2L_PLAYER_LOGIN_SYN)
     local msg = Message_pb.MSG_C2L_PLAYER_LOGIN_SYN()
     msg.messageID = C2L_PLAYER_LOGIN_SYN

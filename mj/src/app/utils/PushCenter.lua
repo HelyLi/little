@@ -3,6 +3,7 @@ center._listeners = {}
 
 -- eventName:string, func:function, tag:anything
 function center.addListener(eventName, func, tag)
+	print("eventName:", eventName)
 	assert(tag, "Tag must not be nil")
 	local listeners = center._listeners
 	if not listeners[eventName] then
@@ -17,6 +18,10 @@ function center.addListener(eventName, func, tag)
 		end
 	end
 	table.insert(eventListeners, {func, tag})
+
+	dump(eventListeners, "eventListeners", 8)
+
+	dump(center._listeners, "center._listeners", 8)
 end
 
 function center.removeListener(func)
@@ -73,13 +78,14 @@ function center.pushEvent(eventName, ...)
 	if not eventListeners then
 		return
 	end
-
+	dump(eventListeners, "tmp", 8)
 	-- keep register order to send message
 	local tmp = {}
 	for index, listeners in ipairs(eventListeners) do
 		-- copy table to avoid listener remove in deal func
 		tmp[index] = listeners
 	end
+	dump(tmp, "tmp", 8)
 	for _, listeners in ipairs(tmp) do
 		listeners[1](...)
 	end

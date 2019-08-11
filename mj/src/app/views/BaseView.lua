@@ -26,7 +26,7 @@ end
 
 function BaseView:onExit()
     print("BaseView:onExit")
-    Game:getEventDispatcher():removeListenersByTag(self)
+    Game:getEventDispatcher().removeListenersByTag(self)
     self.m_eventListeners = {}
 end
 
@@ -90,12 +90,12 @@ end
 
 --事件处理
 function BaseView:addMsgListener(eventname, callback)
-    Game:getEventDispatcher():addListener(eventname, callback, self)
+    Game:getEventDispatcher().addListener(eventname, callback, self)
     self.m_eventListeners[eventname] = callback
 end
 
 function BaseView:removeMsgListener(eventname)
-    Game:getEventDispatcher():removeListenerByNameAndTag(eventname, self)
+    Game:getEventDispatcher().removeListenerByNameAndTag(eventname, self)
     self.m_eventListeners[eventname] = nil
 end
 

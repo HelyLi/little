@@ -1,6 +1,6 @@
 local BaseView = import("app.views.BaseView")
 local LoginPresenter = import(".LoginPresenter")
-
+local Speaker = import("app.scenes.lobby.subLayer.Speaker")
 
 local LoginLayer = class("LobbyLayer",function()
     return BaseView.new()
@@ -21,6 +21,9 @@ function LoginLayer:initView()
         callfunc = handler(self.m_presenter, self.m_presenter.toLogin),
         parent = self
     })
+
+    local speaker = Speaker.new(self, 0, 0, "card")
+
 end
 
 -- function LoginLayer:initLoginSocket()

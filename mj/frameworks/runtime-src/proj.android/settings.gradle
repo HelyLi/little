@@ -1,2 +1,1 @@
-include ':app', ':libcocos2dx', ':bannerlibrary'
-include ':handlers', ':library'
+include ':app', ':libcocos2dx'
