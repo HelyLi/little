@@ -77,7 +77,7 @@ NS_CC_BEGIN
 // singleton stuff
 static DisplayLinkDirector *s_SharedDirector = nullptr;
 
-#define kDefaultFPS        30  // 60 frames per second
+#define kDefaultFPS        60  // 60 frames per second
 extern const char* cocos2dVersion(void);
 
 const char *Director::EVENT_PROJECTION_CHANGED = "director_projection_changed";

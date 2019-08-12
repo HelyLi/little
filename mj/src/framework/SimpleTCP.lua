@@ -133,7 +133,7 @@ function SimpleTCP:_update(dt)
 			local length = 0
             for i=1,string.len(body) do
 				local byte = string.byte(body,i,i)
-				length = length + math.floor(byte * (2 ^ ((4 -i)*8)));--bitOp:_lshift(byte, )
+				length = length + math.floor(byte * (2 ^ ((4 -i)*8)))
 			end
 			body, status, partial = self.tcp:receive(length)
 			if body and string.len(body) > 0 then
