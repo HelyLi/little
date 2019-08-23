@@ -1,0 +1,309 @@
+syntax = "proto3";
+
+/*******************************************************************************
+*C:表示客户端
+*L:表示大厅服务器
+*M:表示游戏服务器
+*c2L:客户端发送大厅的消息
+*L2C:大厅发送给客户端的消息
+**********************************************************************************/
+
+enum MESSAGEID 
+{
+
+//-----------------------------------------------------------------------------------
+//该消息不允许任何人更改！！！！！！！！！	
+	MIN_SERVER_MSG_ID = 0;
+	G2M_CONN_CLOSE = 1;
+	M2G_PLAYER_KICK = 2;
+	G2C_PLAYER_KICK = 3;
+	REGISTER_SERVER = 4;
+	MAX_SERVER_MSG_ID = 10000;
+//------------------------------------------------------------------------------------
+
+
+	
+//-----------------------------------------------------------------------------------------------------------------------------------
+//客户端请求消息
+	C2L_PLAYER_LOGIN_SYN			 					= 10001;     					//登入
+	C2L_PLAYER_CREATE_ROOM_SYN 							= 10002;						//创建房间
+	C2L_PLAYER_ENTER_ROOM_SYN							= 10003;						//加入房间
+	C2L_PLAYER_MONEY_UPDATA_SYN							= 10004;						//玩家货币更新
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+//大厅发送给客户端消息
+	L2C_PLAYER_LOGIN_ACK 								= 11001;   						//登入成功
+	L2C_PLAYER_BASEINFO_ACK 							= 11002;						//玩家基本信息
+	L2C_PLAYER_GAME_ROOM_CONFIG_ACK						= 11003;						//游戏房间基本配置
+	L2C_PLAYER_CREATE_ROOM_ACK 							= 11004;						//房间创建成功
+	L2C_PLAYER_ENTER_ROOM_ACK							= 11005;						//加入房间成功
+	L2C_PLAYER_MONEY_UPDATA_ACK							= 11006;						//货币更新成功
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+//大厅与游戏服务器之间的消息
+	L2M_PLAYER_CREATE_ROOM_SYN 							= 12001;						//房间创建
+	M2L_PLAYER_CREATE_ROOM_ACK 							= 12002;						//房间创建成功
+	M2L_PLAYER_MONEY_UPDATA_NOTIFY						= 12003;						//玩家货币更新通知
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+//大厅与数据库之间的消息
+	L2D_PLAYER_LOGIN_SYN 								= 13001;     		 			//大厅请求登入玩家信息
+	D2L_PLAYER_PLAYER_TOTALINFO_ACK 					= 13002;  						//DB给大厅的登入回执信息
+	L2D_PLAYERINFO_UPDATE_SYN 							= 13003;             			//玩家基本信息更新
+	L2D_PLAYER_GAME_ROOM_CONFIG_SYN						= 13004;						//游戏房间基本配置
+	D2L_PLAYER_GAME_ROOM_CONFIG_ACK						= 13005;						//游戏房间基本配置请求成功
+	L2D_PLAYER_CREATE_ROOM_SYN 							= 13006;						//创建房间
+	D2L_PLAYER_CREATE_ROOM_ACK							= 13007;						//房间创建成功
+	L2D_PLAYER_MONEY_UPDATA_SYN							= 13008;						//货币更新
+	D2L_PLAYER_MONEY_UPDATA_ACK							= 13009;						//货币更新成功
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+	
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+message MSG_G2M_CONN_CLOSE
+{
+	int32 messageID = 1;
+	uint64 clientid = 2;
+}
+
+message MSG_M2G_PLAYER_KICK
+{
+	int32 messageID = 1;
+	uint64 clientid = 2;
+	int32 kickreason = 3;
+}
+
+message MSG_G2C_PLAYER_KICK
+{
+	int32 messageID = 1;
+	int32 kickreason = 2;
+}
+
+message MSG_REGISTER_SERVER
+{
+	int32 messageID = 1;
+	int32 servertype = 2;
+	int32 serverid = 3;
+}
+
+message MSG_C2L_PLAYER_LOGIN_SYN
+{
+	int32 messageID = 1;
+	string openid = 2;
+	string accesstoken = 3;
+	string nickname = 4;
+	int32 sex = 5;
+}
+
+message MSG_L2C_PLAYER_LOGIN_ACK
+{
+	int32 messageID = 1;
+	int32 errorcode = 2;
+	uint64 clienttoken = 3;
+}
+
+message MSG_L2C_PLAYER_BASEINFO_ACK
+{
+	int32 messageID = 1;
+	PlayerBaseInfo playerInfo = 2;
+	uint32 userstate = 3;
+}
+
+message MSG_L2D_PLAYER_LOGIN_SYN
+{
+	int32 messageID = 1;
+	uint64 clientid = 2;
+	string openid = 3;
+	string accesstoken = 4;
+	string nickname = 5;
+	int32 sex = 6;
+}
+
+message PlayerBaseInfo 
+{
+	uint64  player_id = 1;
+	string name = 2;
+	uint32  level = 3;
+	uint32  exp = 4;
+	string accountId = 5;
+	uint32	goldCoin = 6;
+	uint32	diamond = 7;
+	uint32	vip = 8;
+	int64	registerDate = 9;
+	string password = 10;
+	uint32 sex = 11;
+}
+
+message PlayerTotalInfo 
+{
+	PlayerBaseInfo PlayerInfo =1; 
+}
+
+message MSG_D2L_PLAYER_PLAYER_TOTALINFO_ACK
+{
+	int32 messageID = 1;
+	int32 errorcode = 2;
+	PlayerTotalInfo playerInfo = 3;
+	uint64 clientid = 4;
+}
+
+message MSG_L2D_PLAYERINFO_UPDATE_SYN
+{
+	int32 messageID = 1;
+	PlayerTotalInfo PlayerBaseInfo = 2;
+}
+
+message ROOM_CONFIG
+{
+	int32 kindid = 1;
+	string name = 2;
+	int32 ownerpay_junum = 3;
+	int32 ownerpay_diamond = 4;
+	int32 aapay_junum = 5;
+	int32 aapay_diamond = 6;
+}
+
+
+message MSG_L2C_PLAYER_GAME_ROOM_CONFIG_ACK
+{
+	int32 messageID = 1;
+	repeated ROOM_CONFIG room_config = 2;
+}
+
+message MSG_L2D_PLAYER_GAME_ROOM_CONFIG_SYN
+{
+	int32 messageID = 1;
+}
+
+message MSG_D2L_PLAYER_GAME_ROOM_CONFIG_ACK
+{
+	int32 messageid = 1;
+	repeated ROOM_CONFIG room_config = 2;
+}
+
+message ROOM_RUlES
+{
+	int32 kindid = 1;
+	int32 paytype = 2;   //1:房主支付  2：AA支付
+	int32 playernum = 3; //玩家人数
+	int32 ju_num =4;	//局数
+	int32 difen = 5;      //底分
+	int32 fengding = 6;  //封顶
+	message XTHH_RULES
+	{
+		int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
+		int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
+	}
+	XTHH_RULES xthh_rules = 7;
+}
+
+message MSG_C2L_PLAYER_CREATE_ROOM_SYN
+{
+	int32 messageID = 1;
+	ROOM_RUlES room_rules = 2;
+}
+
+message MSG_L2C_PLAYER_CREATE_ROOM_ACK
+{
+	int32 messageID = 1;
+	int32 errorcode = 2;
+	string gameip = 3;
+	int32 gameport = 4;
+	uint32 roomid = 5;
+	uint64 ownerid = 6;
+	int32 kindid = 7;
+}
+
+message MSG_L2D_PLAYER_CREATE_ROOM_SYN
+{
+	int32 messageID = 1;
+	int32 roomid = 2;
+	int32 roomtype = 3; //1:自建房 2:金币房
+	int32 needdiamond = 4;
+	ROOM_RUlES room_rules  = 5;
+}
+
+message MSG_D2L_PLAYER_CREATE_ROOM_ACK
+{
+	int32 messageID = 1;
+	int32 roomid = 2;
+	int32 roomtype = 3; //1:自建房 2:金币房s
+}
+
+message MSG_L2M_PLAYER_CREATE_ROOM_SYN
+{
+	int32 messageID = 1;
+	MSG_L2C_PLAYER_CREATE_ROOM_ACK  data = 2;
+}
+
+message MSG_M2L_PLAYER_CREATE_ROOM_ACK
+{
+	int32 messageID = 1;
+	MSG_L2C_PLAYER_CREATE_ROOM_ACK  data = 2;
+}
+
+message MSG_C2L_PLAYER_MONEY_UPDATA_SYN
+{
+	int32 messageID = 1;
+}
+
+message MONEY_INFO
+{
+	int32 money_type = 1 ; //1:金币 2:钻石
+	int64 amount = 2;		//数量
+}
+message MSG_L2C_PLAYER_MONEY_UPDATA_ACK
+{
+	int32 messageID = 1;
+	int64 gold_amuont = 2;
+	int64 diamond_amunt = 3;
+}
+
+message MSG_M2L_PLAYER_MONEY_UPDATA_NOTIFY
+{
+	int32 messageID = 1;
+	MONEY_INFO money_info= 2;
+}
+
+message MSG_L2D_PLAYER_MONEY_UPDATA_SYN
+{
+	int32 messageID = 1;
+	MONEY_INFO money_info= 2;
+}
+
+message MSG_D2L_PLAYER_MONEY_UPDATA_ACK
+{
+	int32 messageID = 1;
+	int64 gold_amuont = 2;
+	int64 diamond_amunt = 3;
+}
+
+message MSG_C2L_PLAYER_ENTER_ROOM_SYN
+{
+	int32 messageID = 1;
+	int32 kindid = 2;
+	int32 roomid = 3; 
+}
+
+message MSG_L2C_PLAYER_ENTER_ROOM_ACK
+{
+	int32 messageID = 1;
+	int32 errorcode = 2;
+	string gameip = 3;
+	int32 gameport = 4;
+	uint32 roomid = 5;
+	uint64 ownerid = 6;
+}
+
+

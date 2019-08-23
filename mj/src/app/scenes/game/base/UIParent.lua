@@ -26,4 +26,12 @@ function UIParent:onExit()
     BaseNode.onExit(self)
 end
 
+function UIParent:clear()
+    
+end
+
+function UIParent:updateAll()
+    
+end
+
 return UIParent
