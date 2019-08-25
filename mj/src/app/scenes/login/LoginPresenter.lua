@@ -93,6 +93,8 @@ end
 function LoginPresenter:initHandlerMsg()
     self.m_handlerTable = {}
 
+    print("L2C_PLAYER_LOGIN_ACK:", L2C_PLAYER_LOGIN_ACK)
+
     self.m_handlerTable[L2C_PLAYER_LOGIN_ACK] = handler(self, self.l2c_player_login_ack)
     self.m_handlerTable[L2C_PLAYER_BASEINFO_ACK] = handler(self, self.l2c_player_baseinfo_ack)
 end

@@ -27,7 +27,7 @@ function comui.Button(params)
     end
 	button:addTouchEventListener(function(sender, eventType)
         if ccui.TouchEventType.ended == eventType then
-            callfunc()
+            callfunc(params.tag)
         end
     end)
     button:align(params.anchor or display.CENTER, params.pos.x, params.pos.y):addTo(params.parent)

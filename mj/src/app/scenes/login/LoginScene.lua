@@ -1,3 +1,4 @@
+require "app.base.Game"
 local LoginLayer = import(".LoginLayer")
 
 local LoginScene = class("LoginScene", function()
