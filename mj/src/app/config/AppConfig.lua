@@ -97,4 +97,8 @@ function AppConfig:getMainResPath()
     return cc.FileUtils:getInstance():getWritablePath() .. "main_version"
 end
 
+function AppConfig:getUserImgPicDownUrl(id)
+    return ""
+end
+
 return AppConfig

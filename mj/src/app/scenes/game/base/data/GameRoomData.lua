@@ -30,7 +30,7 @@ end
 
 function GameRoomData:setMyBaseInfo(data)
     self.m_myBaseInfo = {}
-    self.m_myBaseInfo.userid = data.UserId
+    self.m_myBaseInfo.userId = data.UserId
     self.m_myBaseInfo.nickname = data.NickName
     self.m_myBaseInfo.gender = data.Gender
     self.m_myBaseInfo.card = data.Card
@@ -96,9 +96,9 @@ function GameRoomData:addRoomPlayer(playerInfo)
     if self.m_roomPlayerTable == nil then
         self.m_roomPlayerTable = {}
     end
-    self:removeRoomPlayer(playerInfo.userid)
+    self:removeRoomPlayer(playerInfo.userId)
 
-    if playerInfo.userid == self:getMyBaseInfo().userid then
+    if playerInfo.userId == self:getMyBaseInfo().userId then
         playerInfo.viewid = self:getMyViewId()
         self:setMyChairId(playerInfo.chairid)
     else
@@ -109,7 +109,7 @@ end
 
 function GameRoomData:removeRoomPlayer(userId)
     for i, playerInfo in ipairs(self.m_roomPlayerTable) do
-        if playerInfo.userid == userId then
+        if playerInfo.userId == userId then
             table.remove(self.m_roomPlayerTable, i)
             return
         end
@@ -132,9 +132,9 @@ function GamePlayingData:getPlayerInfoByViewId(viewid)
     return nil
 end
 
-function GameRoomData:getPlayerInfoByUserId(userid)
+function GameRoomData:getPlayerInfoByUserId(userId)
     for i, v in ipairs(self.m_roomPlayerTable) do
-        if v.userid == userid then
+        if v.userId == userId then
             return v
         end
     end
@@ -150,9 +150,9 @@ function GameRoomData:getPlayerInfoByChairId(chairid)
     return nil
 end
 
-function GameRoomData:getViewIdByUserId(userid)
+function GameRoomData:getViewIdByUserId(userId)
     for i, v in ipairs(self.m_roomPlayerTable) do
-        if v.userid == userid then
+        if v.userId == userId then
             return v.viewid
         end
     end

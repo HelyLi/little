@@ -4,6 +4,20 @@ local UserInfoLayer = class("UserInfoLayer", function()
 end)
 
 function UserInfoLayer:ctor()
+    self:init()
+end
+
+function UserInfoLayer:init()
+    BaseView.initBase(self)
+    self:regMsgHandler()
+    self:initView()
+end
+
+function UserInfoLayer:regMsgHandler()
+    
+end
+
+function UserInfoLayer:initView()
     
 end
 

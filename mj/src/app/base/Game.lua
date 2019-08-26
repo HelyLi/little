@@ -9,6 +9,8 @@ Game = {
     m_settingData = nil,
     --用户信息
     m_userData = nil,
+    --游戏玩法信息
+    m_gameData = nil,
     --事件处理
     m_eventDispatch = nil,
     --场景管理
@@ -40,6 +42,7 @@ function Game:init()
     self.m_eventDispatch = require("app.utils.PushCenter")
     self.m_settingData = require("app.data.SettingData").new()
     self.m_userData = require("app.data.UserData").new()
+    self.m_gameData = require("app.data.GameData").new()
     self.m_sceneMgr = require("app.base.SceneMgr").new()
     self.m_socketMgr = require("app.network.socket.SocketMgr").new()
     self.m_audioMgr = require("app.base.AudioMgr").new()
@@ -59,6 +62,10 @@ end
 
 function Game:getUserData()
     return self.m_userData
+end
+
+function Game:getGameData()
+    return self.m_gameData
 end
 
 function Game:getSceneMgr()
