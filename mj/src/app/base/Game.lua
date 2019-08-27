@@ -86,4 +86,12 @@ function Game:loadModules()
     end
 end
 
+function Game:reloadModules()
+    for _,module in ipairs(Modules) do
+        package.loaded[module] = nil
+        package.preload[module] = nil
+        require(module)
+    end
+end
+
 return Game

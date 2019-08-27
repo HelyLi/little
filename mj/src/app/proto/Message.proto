@@ -1,3 +1,4 @@
+
 /*******************************************************************************
 *C:表示客户端
 *L:表示大厅服务器
@@ -142,6 +143,7 @@ enum LOBBYMESSAGEID
 	L2M_PLAYER_CREATE_ROOM_SYN 							= 12001;						//房间创建
 	M2L_PLAYER_CREATE_ROOM_ACK 							= 12002;						//房间创建成功
 	M2L_PLAYER_MONEY_UPDATA_NOTIFY						= 12003;						//玩家货币更新通知
+	M2L_PLAYER_ENTER_ROOM_SYN 							= 12004;						//进入房间
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 
@@ -168,7 +170,7 @@ enum LOBBYMESSAGEID
 message MSG_G2M_CONN_CLOSE
 {
 	required int32 messageID = 1;
- 	required uint64 clientid = 2;
+	required uint64 clientid = 2;
 }
 
 message MSG_M2G_PLAYER_KICK
@@ -262,12 +264,8 @@ message ROOM_CONFIG
 {
 	required int32 kindid = 1;
 	required string name = 2;
-	required int32 ownerpay_junum = 3;
-	required int32 ownerpay_diamond = 4;
-	required int32 aapay_junum = 5;
-	required int32 aapay_diamond = 6;
+	required string config = 3;
 }
-
 
 message MSG_L2C_PLAYER_GAME_ROOM_CONFIG_ACK
 {
@@ -335,24 +333,6 @@ message MSG_D2L_PLAYER_CREATE_ROOM_ACK
 	required int32 roomtype = 3; //1:自建房 2:金币房s
 }
 
-message MSG_L2M_PLAYER_CREATE_ROOM_SYN
-{
-	required int32 messageID = 1;
-	required int32 ownerid = 2;
-	required int32 needdiamond = 3;
-	required int32 roomid = 4;
-	required ROOM_RUlES room_rules = 5;
-}
-
-message MSG_M2L_PLAYER_CREATE_ROOM_ACK
-{
-	required int32 messageID = 1;
-	required int32 ownerid = 2;
-	required int32 needdiamond = 3;
-	required int32 roomid = 4;
-	required ROOM_RUlES room_rules = 5;
-}
-
 message MSG_C2L_PLAYER_MONEY_UPDATA_SYN
 {
 	required int32 messageID = 1;
@@ -368,12 +348,6 @@ message MSG_L2C_PLAYER_MONEY_UPDATA_ACK
 	required int32 messageID = 1;
 	required int64 gold_amuont = 2;
 	required int64 diamond_amunt = 3;
-}
-
-message MSG_M2L_PLAYER_MONEY_UPDATA_NOTIFY
-{
-	required int32 messageID = 1;
-	required MONEY_INFO money_info= 2;
 }
 
 message MSG_L2D_PLAYER_MONEY_UPDATA_SYN
@@ -404,6 +378,39 @@ message MSG_L2C_PLAYER_ENTER_ROOM_ACK
 	required int32 gameport = 4;
 	required uint32 roomid = 5;
 	required uint64 ownerid = 6;
+}
+//------------------------------------------------------------------------------------------------------------------
+//游戏服务器与大厅消息
+message MSG_L2M_PLAYER_CREATE_ROOM_SYN
+{
+	required int32 messageID = 1;
+	required int32 ownerid = 2;
+	required int32 needdiamond = 3;
+	required int32 roomid = 4;
+	required ROOM_RUlES room_rules = 5;
+}
+
+message MSG_M2L_PLAYER_CREATE_ROOM_ACK
+{
+	required int32 messageID = 1;
+	required int32 ownerid = 2;
+	required int32 needdiamond = 3;
+	required int32 roomid = 4;
+	required ROOM_RUlES room_rules = 5;
+}
+
+message MSG_M2L_PLAYER_MONEY_UPDATA_NOTIFY
+{
+	required int32 messageID = 1;
+	required MONEY_INFO money_info= 2;
+}
+
+message MSG_M2L_PLAYER_ENTER_ROOM_SYN
+{
+	required int32 messageID = 1;
+	required int32 tokenid = 2;
+	required int32 playerid = 3;
+	required int32 roomid = 4;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -748,7 +755,6 @@ message MSG_M2C_SUB_GAME_END_ACK
 	
 	}
 	repeated 	HU_INFO hu_info = 	9;			
-
 }
 
 message MSG_M2C_SUB_GAME_END_ALL_ACK
@@ -766,4 +772,3 @@ message MSG_M2C_SUB_GAME_END_ALL_ACK
 	}
 	repeated END_ALL end_all = 2;
 }
-

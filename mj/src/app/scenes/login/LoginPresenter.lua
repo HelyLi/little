@@ -168,6 +168,13 @@ end
 -- 	required int32 aapay_diamond = 6;
 -- }
 
+-- message ROOM_CONFIG
+-- {
+-- 	required int32 kindid = 1;
+-- 	required string name = 2;
+-- 	required string config = 3;
+-- }
+
 function LoginPresenter:l2c_player_game_room_config_ack(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_GAME_ROOM_CONFIG_ACK()
     msg:ParseFromString(msgData)
@@ -175,14 +182,11 @@ function LoginPresenter:l2c_player_game_room_config_ack(msgData)
 
     print(type(msg.room_config))
     dump(msg.room_config, "sss", 8)
-    local v = msg.room_config
+    -- local v = msg.room_config
     for _, v in ipairs(msg.room_config) do
 		print(v.kindid)
 		print(v.name)
-		print(v.ownerpay_junum)
-        print(v.ownerpay_diamond) 
-        print(v.aapay_junum)
-        print(v.aapay_diamond)
+		print(v.config)
 	end
 
 end

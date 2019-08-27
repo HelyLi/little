@@ -4,4 +4,4 @@ function GameData:ctor()
     
 end
 
-return UserData
+return GameData
