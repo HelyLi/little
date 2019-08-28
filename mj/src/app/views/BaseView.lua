@@ -3,7 +3,7 @@ BaseView = class("BaseView",function()
 end)
 
 function BaseView:ctor(parent)
-
+    self.m_eventListeners = {}
 end
 
 function BaseView:initBase()
@@ -97,6 +97,18 @@ end
 function BaseView:removeMsgListener(eventname)
     Game:getEventDispatcher().removeListenerByNameAndTag(eventname, self)
     self.m_eventListeners[eventname] = nil
+end
+
+function BaseView:dismiss()
+    self:dismissCallBack()
+    if self ~= nil and self:getParent() ~= nil then
+        self:stopAllActions()
+        self:removeFromParent()
+    end
+end
+
+function BaseView:dismissCallBack()
+    
 end
 
 return BaseView

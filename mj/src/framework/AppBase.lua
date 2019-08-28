@@ -1,14 +1,19 @@
 
 local AppBase = class("AppBase")
 
+local PushCenter = import("app.utils.PushCenter")
+
+AppBase.APP_ENTER_BACKGROUND_EVENT = "APP_ENTER_BACKGROUND_EVENT"
+AppBase.APP_ENTER_FOREGROUND_EVENT = "APP_ENTER_FOREGROUND_EVENT"
+
 function AppBase:ctor()
     local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
-    local customListenerBg = cc.EventListenerCustom:create("APP_ENTER_BACKGROUND_EVENT", function()
+    local customListenerBg = cc.EventListenerCustom:create(AppBase.APP_ENTER_BACKGROUND_EVENT, function()
 		audio.pauseAll()
 		self:onEnterBackground()
 	end)
     eventDispatcher:addEventListenerWithFixedPriority(customListenerBg, 1)
-    local customListenerFg = cc.EventListenerCustom:create("APP_ENTER_FOREGROUND_EVENT", function()
+    local customListenerFg = cc.EventListenerCustom:create(AppBase.APP_ENTER_FOREGROUND_EVENT, function()
 		audio.resumeAll()
 		self:onEnterForeground()
 	end)
@@ -43,10 +48,12 @@ end
 
 -- override me
 function AppBase:onEnterBackground()
+    PushCenter.pushEvent(AppBase.APP_ENTER_BACKGROUND_EVENT)
 end
 
 -- override me
 function AppBase:onEnterForeground()
+    PushCenter.pushEvent(AppBase.APP_ENTER_FOREGROUND_EVENT)
 end
 
 return AppBase

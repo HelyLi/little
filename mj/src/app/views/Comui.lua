@@ -1,5 +1,10 @@
 local RemoteSprite = import(".RemoteSprite")
+local WaitingLayer = import(".WaitingLayer")
 comui = {}
+
+local TAG = {
+    COM_VIEW_WAITTING = 100
+}
 
 -- {
 --     normal = "",
@@ -28,6 +33,9 @@ function comui.Button(params)
     if params.fontSize then
         button:setTitleFontSize(params.fontSize)
     end 
+    if params.fontColor then
+        button:setTitleColor(params.fontColor)
+    end
     local callfunc = params.callfunc
     if type(callfunc) ~= "function" then
         callfunc = function() end
@@ -37,7 +45,9 @@ function comui.Button(params)
             callfunc(params.tag)
         end
     end)
-    button:align(params.anchor or display.CENTER, params.pos.x, params.pos.y):addTo(params.parent)
+    if params.parent then
+        button:align(params.anchor or display.CENTER, params.pos.x, params.pos.y):addTo(params.parent)
+    end
     return button
 end
 
@@ -204,5 +214,70 @@ end
     size = cc.size()
     userId,
 }]]
+
+--[[
+        options.stringValue,
+        options.charMapFile,
+        options.itemWidth,
+        options.itemHeight,
+        options.startCharMap
+]]
+function comui.createLabelAtlas(options)
+    local labelAtlas = cc.LabelAtlas:_create(
+        options.stringValue,
+        options.charMapFile,
+        options.itemWidth,
+        options.itemHeight,
+        string.byte(options.startCharMap))
+    return labelAtlas
+end
+
+--[[
+    time = 0,               显示时间(秒)，为0则一直显示
+    touchProhibit = false,  是否禁止触摸，true则不能点击
+]]
+function comui.addWaitingLayer(options)
+    local parent = display.getRunningScene()
+
+    local waitingLayer = parent:getChildByTag(TAG.COM_VIEW_WAITTING)
+
+    if waitingLayer then
+        waitingLayer:removeFromParent()
+    end
+
+    waitingLayer = WaitingLayer.new()
+
+    if options ~= nil then
+        if options.time ~= nil and options.time > 0  then
+            waitingLayer:setDisplayTime(options.time)
+        end
+
+        if options.touchProhibit ~= nil then
+            waitingLayer:setTouchProhibit(options.touchProhibit)
+        end
+    end
+
+    waitingLayer:addTo(parent,ZODER_LEVEL_MAX,TAG.COM_VIEW_WAITTING)
+end
+
+function comui.isWaiting()
+    local parent = display.getRunningScene()
+
+    local waitingLayer = parent:getChildByTag(TAG.COM_VIEW_WAITTING)
+    if waitingLayer then
+        return true
+    else
+        return false
+    end
+end
+
+function comui.removeWaitingLayer()
+    local parent = display.getRunningScene()
+    local waitingLayer = parent:getChildByTag(TAG.COM_VIEW_WAITTING)
+
+    if waitingLayer ~= nil then
+        waitingLayer:dismiss()
+    end
+end
 
 return comui

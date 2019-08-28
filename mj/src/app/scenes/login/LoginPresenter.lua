@@ -4,7 +4,9 @@ local Message_Def = import("app.pb.Message_Def")
 local AsyncRes = {
     "LoginRes",
     "ComRes",
-    "LobMainRoomRes"
+    "LobMainRoomRes",
+    "LobAddRoomRes",
+    "ComUIRes"
 }
 
 local LoginPresenter = class("LoginPresenter",function()
@@ -35,6 +37,8 @@ function LoginPresenter:toLogin()
     -- pushEvent
     -- Game:getEventDispatcher().pushEvent(AppGlobal.EventMsg.SPEAKER_POP_UP, { data = "data" })
     
+    comui.addWaitingLayer()
+
     local msg = {}
     msg.openid = "1"
     msg.accesstoken = ""
@@ -59,6 +63,9 @@ function LoginPresenter:preloadRes()
         if curNum == resNum and self then
             print("异步图片加载完成")
             -- self:beginLoginGame()
+            if comui.isWaiting() then
+                comui.removeWaitingLayer()
+            end
             Game:getSceneMgr():goLobbyScene()
         end
     end
@@ -92,6 +99,19 @@ function LoginPresenter:l2c_player_baseinfo_ack(msgData)
     local data = Message_Def:L2C_PLAYER_BASEINFO_ACK(msgData)
     dump(data, "L2C_PLAYER_BASEINFO_ACK")
     
+    -- "playerInfo" = {
+    --     [LUA-print] -         "accountId"    = "1"
+    --     [LUA-print] -         "diamond"      = 100
+    --     [LUA-print] -         "goldCoin"     = 1000
+    --     [LUA-print] -         "level"        = 1
+    --     [LUA-print] -         "name"         = "test1"
+    --     [LUA-print] -         "password"     = "123456"
+    --     [LUA-print] -         "player_id"    = 10001
+    --     [LUA-print] -         "registerDate" = 1565272816
+    --     [LUA-print] -     }
+
+    Game:getUserData():setPlayerInfo(data.playerInfo)
+
 end
 
 function LoginPresenter:l2c_player_game_room_config_ack(msgData)

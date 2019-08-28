@@ -3,10 +3,14 @@ local UserInfoLayer = class("UserInfoLayer", function()
     return BaseView.new()
 end)
 
-TAG = {
+local TAG = {
     HEAD = 0x01,
     CARD = 0x02,
-    GOLD = 0x03
+    GOLD = 0x03,
+    CARD_L = 0x04,
+    GOLD_L = 0x05,
+    NICK_LABEL = 0x06,
+    ID_LABEL = 0x07
 }
 
 function UserInfoLayer:ctor()
@@ -68,6 +72,45 @@ function UserInfoLayer:initView()
     })
     display.newSprite("#lob_room_gold_icon_skin.png"):align(display.CENTER, 26, H2(goldBg) - 2):addTo(goldBg)
     goldL:align(display.CENTER_LEFT, 70 , H2(goldBg)):addTo(goldBg)
+
+    self:initUserInfo()
+end
+
+function UserInfoLayer:initUserInfo()
+    local nick = Game:getUserData():getNickname()
+
+    --昵称
+    local nickLabel = self:getChildByTag(TAG.NICK_LABEL)
+    if nickLabel == nil then
+        nickLabel = display.newTTFLabel({
+            text = nick,
+            size = 28,
+            color = cc.c3b(254, 248, 201),
+            align = cc.TEXT_ALIGNMENT_LEFT,
+        }):align(display.CENTER_LEFT,self.m_baseX + 112,display.top - 30):addTo(self,0,TAG.NICK_LABEL)
+
+        if nickLabel:getContentSize().width > 148 then
+            nickLabel:setDimensions(148, nickLabel:getContentSize().height)
+        end
+    else
+        nickLabel:setPositionX(self.m_baseX + 112)
+        nickLabel:setString(nick)
+    end
+
+    --ID
+    local idString = string.format("ID:%d",Game:getUserData():getUserId())
+    local idLabel = self:getChildByTag(TAG.ID_LABEL)
+    if idLabel == nil then
+        display.newTTFLabel({
+            text = idString,
+            size = 28,
+            color = cc.c3b(254, 248, 201),
+            align = cc.TEXT_ALIGNMENT_LEFT,
+        }):align(display.CENTER_LEFT, X(nickLabel) + 5 + W(nickLabel),display.top - 30):addTo(self,0,TAG.ID_LABEL)
+    else
+        idLabel:setString(idString)
+        idLabel:setPositionX(X(nickLabel) + 5 + W(nickLabel))
+    end
 
 end
 

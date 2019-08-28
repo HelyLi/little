@@ -1,4 +1,7 @@
 local BaseView = import("app.views.BaseView")
+local CreateRoomMenuList = import(".CreateRoomMenuList")
+local CreateRoomFactory = import(".CreateRoomFactory")
+
 local CreateRoomLayer = class("CreateRoomLayer", function()
     return BaseView.new()
 end)
