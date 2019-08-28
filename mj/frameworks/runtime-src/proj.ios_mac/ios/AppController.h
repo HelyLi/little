@@ -30,6 +30,8 @@
     UIWindow *window;
     RootViewController    *viewController;
 }
+@property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, assign) BOOL isShouleAutoratote;
 
 @end
 

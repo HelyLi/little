@@ -33,6 +33,7 @@ function LobbyMainMenu:initRoomMenu()
         normal = "lob_room_b_skin.png",
         pos = cc.p(UIAdapter.adUIRatioX(1131 - UIAdapter.paddingRight), UIAdapter.adUIRatioY(293 - 265)),
         tag = TAG.ROOM_ADD_BTN,
+        anchor = display.CENTER_TOP,
         callfunc = handler(self, self.menuCallback),
         parent = self
     })
@@ -42,6 +43,7 @@ function LobbyMainMenu:initRoomMenu()
         normal = "lob_room_a_skin.png",
         pos = cc.p(UIAdapter.adUIRatioX(891 - UIAdapter.paddingRight), UIAdapter.adUIRatioY(272 - 285)),
         tag = TAG.ROOM_CREATE_BTN,
+        anchor = display.CENTER_TOP,
         callfunc = handler(self, self.menuCallback),
         parent = self
     })
@@ -50,9 +52,9 @@ end
 
 function LobbyMainMenu:menuCallback(tag)
     if tag == TAG.ROOM_ADD_BTN then
-        
+        Game:getEventDispatcher().pushEvent(AppGlobal.EventMsg.GAME_ROOM_ADD)
     elseif tag == TAG.ROOM_CREATE_BTN then
-
+        Game:getEventDispatcher().pushEvent(AppGlobal.EventMsg.GAME_ROOM_CREATE)
     end
 end
 

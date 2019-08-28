@@ -101,4 +101,8 @@ function AppConfig:getUserImgPicDownUrl(id)
     return ""
 end
 
+function AppConfig:getLocalUserImage(userId)
+    return ""
+end
+
 return AppConfig

@@ -21,7 +21,8 @@ function UpdateScene:onExit()
 end
 
 local AsyncRes = {
-    "LoginRes"
+    "LoginRes",
+    "ComRes"
 }
 
 function UpdateScene:loadSpriteFrames()

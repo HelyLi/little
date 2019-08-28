@@ -1,8 +1,9 @@
+require("app.pb.Message_ID")
 require("app.pb.Message_pb")
 --消息在此处解析和组合
 Message_Def = Message_Def or {}
 
---踢玩家
+-- //踢玩家
 KICK_CLIENT_REASON = {
     CLIENT_REPEAT_LOGIN = 0,
     CLIENT_TOKEN_EXPIRE = 1,
@@ -13,7 +14,7 @@ KICK_CLIENT_REASON = {
     CLIENT_LEAVE_ROOM = 6
 }
 
---玩家状态
+-- //玩家状态
 USER_STATE = {
     USER_STATE_INIT = 0,
     USER_STATE_IN_LOBBY = 1,
@@ -25,7 +26,7 @@ USER_STATE = {
     USER_STATE_WAIT_LEAVE_GAME = 7
 }
 
---桌子状态
+-- //桌子状态
 ROOM_STATE = {
     ROOM_STATE_INIT = 0,
     ROOM_STATE_WAIT_CREATE = 1,
@@ -38,7 +39,7 @@ ROOM_STATE = {
     ROOM_STATE_GAME_ALL_END = 8
 }
 
---操作码
+-- //操作码
 OPERATE_CODE = {
     SUB_OPER_INIT = 0,
     SUB_OPER_CHI = 1,
@@ -49,7 +50,7 @@ OPERATE_CODE = {
     SUB_OPER_HU = 6
 }
 
---错误码
+-- //错误码
 ERRORCODE = {
     ERROR_INIT = 0, --初始值
     ERROR_GAME_SERVER_UNUSUAL = -601, --服务器异常
@@ -78,10 +79,10 @@ function Message_Def:C2L_PLAYER_LOGIN_SYN(data)
     msg.messageID = C2L_PLAYER_LOGIN_SYN
     msg.openid = data.openid
     msg.accesstoken = data.accesstoken
-    msg.nickname= data.nickname
+    msg.nickname = data.nickname
     msg.sex = data.sex
-    
-    return msg:SerializeToString()
+
+    return msg:SerializeToString(), C2L_PLAYER_LOGIN_SYN
 end
 
 -- message MSG_C2L_PLAYER_CREATE_ROOM_SYN
@@ -93,21 +94,17 @@ end
 function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
     local msg = Message_pb.MSG_C2L_PLAYER_CREATE_ROOM_SYN()
     msg.messageID = C2L_PLAYER_CREATE_ROOM_SYN
-    
-    
+
     return msg:SerializeToString()
 end
 
-
 function Message_Def:C2L_PLAYER_ENTER_ROOM_SYN(data)
-    
 end
 
 function Message_Def:C2L_PLAYER_MONEY_UPDATA_SYN()
     local msg = Message_pb.MSG_C2L_PLAYER_MONEY_UPDATA_SYN()
     msg.messageID = C2L_PLAYER_MONEY_UPDATA_SYN
-    
-    
+
     return msg:SerializeToString()
 end
 
@@ -120,12 +117,32 @@ end
 -- 	L2C_PLAYER_ENTER_ROOM_ACK							= 11005;						//加入房间成功
 -- 	L2C_PLAYER_MONEY_UPDATA_ACK							= 11006;						//货币更新成功
 -- //-----------------------------------------------------------------------------------------------------------------------------------
+function Message_Def:parseMsg(msg, data)
+    local fields = msg._fields
+    for k1,v1 in pairs(fields) do
+        if type(msg[k1.name]) == "table" then
+            data[k1.name] = {}
+            if #msg[k1.name] > 0 then
+                for i2,v2 in ipairs(msg[k1.name]) do
+                    local t = {}
+                    self:parseMsg(msg[k1.name][i2], t)
+                    data[k1.name][i2] = t
+                end
+            else
+                self:parseMsg(msg[k1.name], data[k1.name])
+            end
+        else
+            data[k1.name] = msg[k1.name]
+        end
+    end
+end
 
 function Message_Def:L2C_PLAYER_LOGIN_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_LOGIN_ACK()
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -133,7 +150,10 @@ function Message_Def:L2C_PLAYER_BASEINFO_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_BASEINFO_ACK()
     msg:ParseFromString(msgData)
 
+    print("playerInfo:"..#msg.playerInfo)
+
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -141,7 +161,12 @@ function Message_Def:L2C_PLAYER_GAME_ROOM_CONFIG_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_GAME_ROOM_CONFIG_ACK()
     msg:ParseFromString(msgData)
 
+    dump(msg, "L2C_PLAYER_GAME_ROOM_CONFIG_ACK", 8)
+
+    print(#msg.room_config)
+
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -150,6 +175,7 @@ function Message_Def:L2C_PLAYER_CREATE_ROOM_ACK()
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -158,6 +184,7 @@ function Message_Def:L2C_PLAYER_ENTER_ROOM_ACK()
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -166,6 +193,7 @@ function Message_Def:L2C_PLAYER_MONEY_UPDATA_ACK()
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -185,61 +213,61 @@ end
 
 function Message_Def:C2M_PLAYER_ENTER_GAME_ROOM_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_ENTER_GAME_ROOM_SYN()
-    
+
     return msg:SerializeToString()
 end
 
 function Message_Def:C2M_PLAYER_RECONNECT_GAME_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_RECONNECT_GAME_SYN()
-    
+
     return msg:SerializeToString()
 end
 
 function Message_Def:C2M_PLAYER_SIT_DOWN_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_SIT_DOWN_SYN()
-    
+
     return msg:SerializeToString()
 end
 
 function Message_Def:C2M_PLAYER_READY_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_READY_SYN()
-    
+
     return msg:SerializeToString()
 end
 
 function Message_Def:C2M_PLAYER_LEAVE_ROOM_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_LEAVE_ROOM_SYN()
-    
+
     return msg:SerializeToString()
 end
 
 function Message_Def:C2M_PLAYER_DISMISS_ROOM_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_DISMISS_ROOM_SYN()
-    
+
     return msg:SerializeToString()
 end
 
 function Message_Def:C2M_PLAYER_VOTE_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_VOTE_SYN()
-    
+
     return msg:SerializeToString()
 end
 
 function Message_Def:C2M_PLAYER_OUT_CARD_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_OUT_CARD_SYN()
-    
+
     return msg:SerializeToString()
 end
 
 function Message_Def:C2M_PLAYER_OPERATE_RESULT_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_OPERATE_RESULT_SYN()
-    
+
     return msg:SerializeToString()
 end
 
 function Message_Def:C2M_PLAYER_TRUSTEE_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_TRUSTEE_SYN()
-    
+
     return msg:SerializeToString()
 end
 
@@ -416,7 +444,5 @@ function Message_Def:M2C_SUB_GAME_END_ALL_ACK()
     local T = {}
     return T
 end
-
-
 
 return Message_Def

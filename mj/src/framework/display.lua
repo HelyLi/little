@@ -158,6 +158,18 @@ display.bottom             = 0
 display.widthInPixels      = display.sizeInPixels.width
 display.heightInPixels     = display.sizeInPixels.height
 
+display.padding = 0
+display.fitScale = 1.0
+display.paddingBottom = 0
+local ratioScale = display.widthInPixels/display.heightInPixels
+if ratioScale >= 1.8 then
+    if ratioScale >= 2.15 and device.platform == 'ios' then
+        display.padding = 44 * 1.5
+        display.fitScale = 1.1
+        display.paddingBottom = 20
+    end
+end
+
 printInfo(string.format("# CONFIG_SCREEN_AUTOSCALE      = %s", CONFIG_SCREEN_AUTOSCALE))
 printInfo(string.format("# CONFIG_SCREEN_WIDTH          = %0.2f", CONFIG_SCREEN_WIDTH))
 printInfo(string.format("# CONFIG_SCREEN_HEIGHT         = %0.2f", CONFIG_SCREEN_HEIGHT))

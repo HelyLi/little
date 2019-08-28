@@ -1,4 +1,4 @@
-require("app.pb.Message_pb")
+-- require("app.pb.Message_pb")
 local Rx = require 'app.utils.rx'
 local ByteArray = import("app.utils.ByteArray")
 local Presenter = import("app.network.Presenter")

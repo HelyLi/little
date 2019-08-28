@@ -31,7 +31,12 @@ function LobbyLayer:initView()
 end
 
 function LobbyLayer:regMsgHandler()
-    
+    self:addMsgListener(AppGlobal.EventMsg.GAME_ROOM_CREATE, function ()
+        
+    end)
+    self:addMsgListener(AppGlobal.EventMsg.GAME_ROOM_ADD, function ()
+        
+    end)
 end
 
 return LobbyLayer

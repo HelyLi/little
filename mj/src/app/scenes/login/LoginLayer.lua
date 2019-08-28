@@ -16,7 +16,7 @@ function LoginLayer:ctor()
 end
 
 function LoginLayer:initView()
-    self.m_bg = display.newSprite("BigBg/login_bg_skin.png"):align(display.CENTER, display.cx, display.cy):addTo(self)
+    self.v_bg = display.newSprite("BigBg/login_bg_skin.png"):align(display.CENTER, display.cx, display.cy):addTo(self)
 
     comui.Button({
         normal = "login_btn_yk_skin.png",
@@ -24,6 +24,22 @@ function LoginLayer:initView()
         callfunc = handler(self.m_presenter, self.m_presenter.toLogin),
         parent = self
     })
+
+    -- local clipSize = cc.size(100, 100)
+    -- local node = display.newRoundedRect(clipSize, 8, {
+    --     fillColor = cc.c4f(0,0,0,1),
+    --     borderColor = cc.c4f(0,0,0,1),
+    --     borderWidth = 1
+    -- })
+    -- node:align(display.CENTER, display.cx, display.cy + 200):addTo(self.v_bg)
+
+    -- comui.displayHead({
+    --     size = cc.size(120, 120),
+    --     gender = comui.MALE,
+    --     showSex = true,
+    --     callfunc = handler(self.m_presenter, self.m_presenter.toLogin),
+    -- }):align(display.CENTER, display.cx, display.cy + 200):addTo(self.v_bg)
+
 
     -- local speaker = Speaker.new(self, 0, 0, "card")
 

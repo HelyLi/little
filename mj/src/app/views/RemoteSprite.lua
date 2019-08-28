@@ -3,7 +3,7 @@ require("lfs")
 UserMD5Data = {}
 
 local RemoteSprite = class("RemoteSprite", function ()
-    return display.newNode()
+    return display.newSprite()--display.newNode()
 end)
 
 --[[ {
@@ -25,7 +25,8 @@ function RemoteSprite:ctor(params)
     if bExist then
         self:updateTexture(imageName)
     else
-        self:updateTexture("#".. params.defaultImg)
+        self:updateTexture(params.defaultImg)
+        -- self:updateTexture(params.defaultImg)
     end
     self.m_userId = params.userId
     self:createSprite()
@@ -109,16 +110,35 @@ function RemoteSprite:onRequestFinished(event,fileName)
 end
 
 function RemoteSprite:updateTexture(filename)
-    local sprite = display.newSprite(filename)
-    if not sprite then
-        return
-    end
-    --
-    local newsize = sprite:getContentSize()
+    -- local sprite = display.newSprite(filename)
+    -- if not sprite then
+    --     return
+    -- end
+    -- --
+    -- local newsize = sprite:getContentSize()
+    -- local oldsize = self.m_size
+    -- sprite:setScale(oldsize.width/newsize.width, oldsize.height/newsize.height)
+    -- self:removeAllChildren()
+    -- sprite:align(display.BOTTOM_LEFT, 0, 0):addTo(self)
+    self:setSpriteFrame(filename)
+    local newsize = self:getContentSize()
     local oldsize = self.m_size
-    sprite:setScale(oldsize.width/newsize.width, oldsize.height/newsize.height)
-    self:removeAllChildren()
-    sprite:align(display.CENTER_LEFT, 0, 0):addTo(self)
+    self:setScale(oldsize.width/newsize.width,oldsize.height/newsize.height)
 end
+
+-- function RemoteSprite:updateTexture(fileName)
+
+-- 	local sprite = display.newSprite(fileName) --创建下载成功的sprite
+-- 	if not sprite then return end
+-- 	local texture = sprite:getTexture()--获取纹理
+-- 	local size = texture:getContentSize()
+-- 	local oldSize = cc.size(self:getBoundingBox().width,self:getBoundingBox().height)
+-- 	self:setTexture(texture)--更新自身纹理
+-- 	self:setContentSize(size)
+-- 	self:setTextureRect(cc.rect(0,0,size.width,size.height))
+	
+-- 	self:setScale(oldSize.width/size.width,oldSize.height/size.height)
+
+-- end
 
 return RemoteSprite
