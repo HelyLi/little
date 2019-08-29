@@ -22,7 +22,8 @@ end
 
 local AsyncRes = {
     "LoginRes",
-    "ComRes"
+    "ComRes",
+    "ComUIRes",
 }
 
 function UpdateScene:loadSpriteFrames()

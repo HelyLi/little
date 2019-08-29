@@ -59,34 +59,34 @@ function CardStore:initTableView()
     self.m_tabelView:addTo(self)
     -- self.m_tabelView:align(display.LEFT_BOTTOM, 0, 0):addTo(self)
 
-    local function sizeSource(self, index)
+    -- local function sizeSource(self, index)
 
-        return cc.size(322, 110*index)
-    end
-    local function loadSource(self, index)
-        dump(self, "self", 8)
-        -- local container = ccui.Layout:create()
-        -- container:setTouchEnabled(true)
-        -- container:setContentSize(display.cx, 100)
-        print("index", index, index/2)
-        if index/2 == 0 then
-            return display.newSprite("#login_btn_yk_skin.png")
-        else
-            return display.newSprite("#login_btn_skin.png")
-        end 
+    --     return cc.size(322, 110*index)
+    -- end
+    -- local function loadSource(self, index)
+    --     dump(self, "self", 8)
+    --     -- local container = ccui.Layout:create()
+    --     -- container:setTouchEnabled(true)
+    --     -- container:setContentSize(display.cx, 100)
+    --     print("index", index, index/2)
+    --     if index/2 == 0 then
+    --         return display.newSprite("#login_btn_yk_skin.png")
+    --     else
+    --         return display.newSprite("#login_btn_skin.png")
+    --     end 
 
-        -- return display.newSprite("#login_btn_yk_skin.png")--:addTo(container)
+    --     -- return display.newSprite("#login_btn_yk_skin.png")--:addTo(container)
 
-        -- return container
-        -- return display.newSprite("#login_btn_yk_skin.png")--display.newNode() -- which size is equal to sizeSource(index)
-    end
-    local function unloadSource(self, index)
-        print("You can unload texture of index here")
-    end
+    --     -- return container
+    --     -- return display.newSprite("#login_btn_yk_skin.png")--display.newNode() -- which size is equal to sizeSource(index)
+    -- end
+    -- local function unloadSource(self, index)
+    --     print("You can unload texture of index here")
+    -- end
 
     dump(sizeSource, "sizeSource")
 
-    TableView.attachTo(self.m_tabelView, sizeSource, loadSource, unloadSource)
+    TableView.attachTo(self.m_tabelView, self.sizeSource, self.loadSource, self.unloadSource)
     self.m_tabelView:initDefaultItems(10)
 
     self:runAction(cc.Sequence:create(cc.DelayTime:create(2), cc.CallFunc:create(function()
@@ -123,20 +123,34 @@ function CardStore:initTableView()
 end
 
 function CardStore:sizeSource(index)
-    return cc.size(display.cx, 100)
+    -- return cc.size(display.cx, 100)
+    print("sizeSource.index:", index)
+    return cc.size(322, 110)
 end
 
 function CardStore:loadSource(index)
-    local container = ccui.Layout:create()
-	container:setTouchEnabled(true)
-    container:setContentSize(display.cx, 100)
-    if index == 2 then
-        display.newSprite("#login_btn_yk_skin.png"):addTo(container)
+    print("loadSource.index:", index)
+    if index/2 == 0 then
+        return display.newSprite("#login_btn_yk_skin.png")
     else
-        display.newSprite("#login_btn_skin.png"):addTo(container)
+        return display.newSprite("#login_btn_skin.png")
     end 
 
-    return container
+    -- local container = ccui.Layout:create()
+	-- container:setTouchEnabled(true)
+    -- container:setContentSize(display.cx, 100)
+    -- if index == 2 then
+    --     display.newSprite("#login_btn_yk_skin.png"):addTo(container)
+    -- else
+    --     display.newSprite("#login_btn_skin.png"):addTo(container)
+    -- end 
+
+    -- return container
+end
+
+function CardStore:unloadSource(index)
+    print("unloadSource.index:", index)
+    print("You can unload texture of index here")
 end
 
 return CardStore

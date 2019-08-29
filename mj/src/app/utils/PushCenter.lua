@@ -3,7 +3,6 @@ center._listeners = {}
 
 -- eventName:string, func:function, tag:anything
 function center.addListener(eventName, func, tag)
-	print("eventName:", eventName)
 	assert(tag, "Tag must not be nil")
 	local listeners = center._listeners
 	if not listeners[eventName] then
@@ -18,10 +17,6 @@ function center.addListener(eventName, func, tag)
 		end
 	end
 	table.insert(eventListeners, {func, tag})
-
-	dump(eventListeners, "eventListeners", 8)
-
-	dump(center._listeners, "center._listeners", 8)
 end
 
 function center.removeListener(func)

@@ -91,7 +91,7 @@ local function scrolling(self)
 					break
 				end
 				item:removeAllChildren()
-				self:_unloadSource(self._headIndex)
+				self._unloadSource(self._headIndex)
 				self._headIndex = self._headIndex + 1
 			until false
 		else -- tail out of view, jump scrolling
@@ -99,7 +99,7 @@ local function scrolling(self)
 			for i = self._headIndex, self._tailIndex do
 				item = ListView.getItem(self, i - 1)
 				item:removeAllChildren()
-				self:_unloadSource(i)
+				self._unloadSource(i)
 				self._headIndex = nil
 			end
 			-- find new head and tail
@@ -139,7 +139,7 @@ local function scrolling(self)
 					break
 				end
 				item:removeAllChildren()
-				self:_unloadSource(self._tailIndex)
+				self._unloadSource(self._tailIndex)
 				self._tailIndex = self._tailIndex - 1
 			until false
 		else -- head out of view, jump scrolling
@@ -147,7 +147,7 @@ local function scrolling(self)
 			for i = self._headIndex, self._tailIndex do
 				item = ListView.getItem(self, i - 1)
 				item:removeAllChildren()
-				self:_unloadSource(i)
+				self._unloadSource(i)
 				self._tailIndex = nil
 			end
 			-- find new head and tail
@@ -229,7 +229,7 @@ local function jumpTo(self, index)
 		for i, k in pairs(checkTab) do
 			if false == k then
 				items[i]:removeAllChildren()
-				self:_unloadSource(i)
+				self._unloadSource(i)
 			end
 		end
 	end, 0)
@@ -251,7 +251,7 @@ local function initDefaultItems(self, total)
 	-- remove old items and reset cursor
 	for i = self._headIndex, self._tailIndex do
 		items[i]:removeAllChildren()
-		self:_unloadSource(i)
+		self._unloadSource(i)
 	end
 	self._headIndex = 0
 	self._tailIndex = -1
@@ -262,14 +262,14 @@ local function initDefaultItems(self, total)
 	-- size may change, so need to add defaut widgets again
 	for i = 1, total do
 		local widget = createDefaultWidget(self, i)
-		widget:setContentSize(self:_sizeSource(i))
+		widget:setContentSize(self._sizeSource(i))
 		ListView.pushBackCustomItem(self, widget)
 	end
 end
 
 local function insertRow(self, index)
 	local widget = createDefaultWidget(self, index)
-	widget:setContentSize(self:_sizeSource(index))
+	widget:setContentSize(self._sizeSource(index))
 	ListView.insertCustomItem(self, widget, index - 1)
 
 	if index > self._tailIndex then
@@ -295,7 +295,7 @@ local function deleteRow(self, index)
 	if index < self._headIndex then
 		self._headIndex = self._headIndex - 1
 	else
-		self:_unloadSource(index)
+		self._unloadSource(index)
 	end
 
 	local item = ListView.getItem(self, self._tailIndex - 1)
@@ -324,7 +324,7 @@ function TableView.attachTo(listview, sizeSource, loadSource, unloadSource)
 	-- new internal data
 	listview._sizeSource = sizeSource
 	listview._loadSource = function(self, index)
-		local node = loadSource(self, index)
+		local node = loadSource(index)
 		node:ignoreAnchorPointForPosition(false)
 		node:setAnchorPoint(cc.p(0, 0))
 		node:pos(0, 0)
