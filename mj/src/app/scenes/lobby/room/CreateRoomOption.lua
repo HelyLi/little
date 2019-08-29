@@ -5,24 +5,13 @@ local TAG = {
     OPTION_UNSELECT_ITEM = 11
 }
 
-local STYLE = {
-    SMALL = 1,
-    NORMAL = 2,
-    BIG = 3
-}
-
 local CreateRoomOption = class("CreateRoomOption",function()
     return BaseNode.new()
 end)
 
-function CreateRoomOption:ctor()
-    self.m_callback = function () end
-    self:addTouchListener(true)
-end
-
-function CreateRoomOption:onTouchEnded(touch)
-    print("CreateRoomOption.onTouchEnded")
-    self.m_callback()
+function CreateRoomOption:ctor(callback)
+    self:addOnClick(callback)
+    self:setTouchEnabled(true)
 end
 
 -- difen = {},
@@ -42,7 +31,6 @@ end
 ]]
 --局数/1课
 function CreateRoomOption:initWithJuShu(params)
-    self.m_callback = params.callback
 
     local sprJuShu = self:getOptionJuShu(params.js, params.card, false, params.style)
     local sprJuShuSelect = self:getOptionJuShu(params.js, params.card, true, params.style)
@@ -58,7 +46,6 @@ end
 ]]
 --纯文字选项
 function CreateRoomOption:initWithString(params)
-    self.m_callback = params.callback
 
     local sprStrItem = self:getOptionString(params.str, false, params.style)
     local sprStrItemSelect = self:getOptionString(params.str, true, params.style)
@@ -73,9 +60,9 @@ end
     }
 ]]
 --☑️文字选项勾选
-function CreateRoomOption:initWithTickString(str, callback,baseW)
-    local sprItemOff = self:getTickString(str, false,baseW)
-    local sprItemOn = self:getTickString(str, true,baseW)
+function CreateRoomOption:initWithTickString(params)
+    local sprItemOff = self:getTickString(params.str, false, params.style)
+    local sprItemOn = self:getTickString(params.str, true, params.style)
     
     self:initSelectItem(sprItemOff, sprItemOn)
 end

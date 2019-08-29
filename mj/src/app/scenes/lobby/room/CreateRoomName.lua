@@ -19,13 +19,12 @@ callback = function() end
 ]]
 function CreateRoomName:ctor(options)
     print("CreateRoomName:ctor")
-    self:addTouchListener(true)
-    -- self:setSwallowTouches(true)
     self.m_newFlag = options.newFlag or 0
     local sprNameUnSelect = self:getNameSprite(options.gameName, false, options.isFree, options.gameId)
     local sprNameSelect = self:getNameSprite(options.gameName, true, options.isFree, options.gameId)
     self:initSelectItem(sprNameUnSelect, sprNameSelect)
-    self.m_callback = options.callback or function () end
+    self:addOnClick(options.callback)
+    self:setTouchEnabled(true)
 end
 
 function CreateRoomName:getNameSprite(strGameName, isSelect, isFree, gameId)
@@ -71,15 +70,10 @@ function CreateRoomName:getNameSprite(strGameName, isSelect, isFree, gameId)
     return sprNameBase
 end
 
-function CreateRoomName:initSelectItem(unSelectSprite,selectSprite,callback)
+function CreateRoomName:initSelectItem(unSelectSprite,selectSprite)
     unSelectSprite:align(display.TOP_LEFT,0,H(unSelectSprite)):addTo(self, ORDER_BASE, Tag.UNSELECT_ITEM)
     selectSprite:align(display.TOP_LEFT,0,H(selectSprite)):addTo(self, ORDER_BASE, Tag.SELECT_ITEM):setVisible(false)
     self:setContentSize(SIZE(unSelectSprite))
-end
-
-function CreateRoomName:onTouchEnded(touch)
-    print("CreateRoomName.onTouchEnded")
-    self.m_callback()
 end
 
 --选中

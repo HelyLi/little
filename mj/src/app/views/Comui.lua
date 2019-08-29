@@ -1,5 +1,8 @@
 local RemoteSprite = import(".RemoteSprite")
 local WaitingLayer = import(".WaitingLayer")
+local RadioButton = import(".RadioButton")
+local RadioGroup = import(".RadioGroup")
+
 comui = {}
 
 local TAG = {
@@ -278,6 +281,29 @@ function comui.removeWaitingLayer()
     if waitingLayer ~= nil then
         waitingLayer:dismiss()
     end
+end
+
+--[[
+        options.rbs,
+        options.padding,
+]]
+function comui.createRadioGroup( options )
+    local rbParams = options.rbs
+    if rbParams then
+        local rbOptions = {}
+        for i, v in ipairs(rbParams) do
+            table.insert(rbOptions, RadioButton.new(v))
+        end
+        local rg = RadioGroup.new({
+            padding = options.padding, 
+            callback = options.callback, 
+            tagBase = options.tagBase, 
+            posType = options.posType
+        })
+        rg:addOptions(rbOptions)
+        return rg
+    end
+    return nil
 end
 
 return comui

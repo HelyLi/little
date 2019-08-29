@@ -94,25 +94,25 @@ function CreateRoomInfo:decodeCardRoomInfo(data)
         local difen = string.split(config.difen, ",")
         for i,v in ipairs(difen) do
             if v ~= "-1" then
-                table.insert(roomInfo.difen, v)
+                table.insert(roomInfo.difen, tonumber(v))
             end
         end
         local fengding = string.split(config.fengding, ",")
         for i,v in ipairs(fengding) do
             if v ~= "-1" then
-                table.insert(roomInfo.fengding, v)
+                table.insert(roomInfo.fengding, tonumber(v))
             end
         end
         local hu_laizi_num = string.split(config.hu_laizi_num, ",")
         for i,v in ipairs(hu_laizi_num) do
             if v ~= "-1" then
-                table.insert(roomInfo.hu_laizi_num, v)
+                table.insert(roomInfo.hu_laizi_num, tonumber(v))
             end
         end
         local piao_laizi_prize = string.split(config.piao_laizi_prize, ",")
         for i,v in ipairs(piao_laizi_prize) do
             if v ~= "-1" then
-                table.insert(roomInfo.piao_laizi_prize, v)
+                table.insert(roomInfo.piao_laizi_prize, tonumber(v))
             end
         end
 

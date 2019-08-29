@@ -66,4 +66,10 @@ AppGlobal.EventMsg = {
     --data
 }
 
+AppGlobal.RoomOptonStyle = {
+    SMALL = 1,
+    NORMAL = 2,
+    BIG = 3
+}
+
 return AppGlobal
