@@ -19,7 +19,6 @@ function UserInfoLayer:ctor()
 end
 
 function UserInfoLayer:init()
-    BaseView.initBase(self)
     self:regMsgHandler()
     self:initView()
 end

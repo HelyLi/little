@@ -10,7 +10,6 @@ local LoginLayer = class("LobbyLayer",function()
 end)
 
 function LoginLayer:ctor()
-    BaseView.initBase(self)
     self.m_presenter = LoginPresenter.new(self)
     self:initView()
 end

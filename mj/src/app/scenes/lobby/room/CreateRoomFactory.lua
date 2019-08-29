@@ -9,7 +9,6 @@ function CreateRoomFactory:ctor()
 end
 
 function CreateRoomFactory:init()
-    BaseView.initBase(self)
     self:initView()
 end
 

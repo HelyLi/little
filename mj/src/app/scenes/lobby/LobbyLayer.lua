@@ -13,7 +13,6 @@ local LobbyLayer = class("LobbyLayer",function()
 end)
 
 function LobbyLayer:ctor()
-    BaseView.initBase(self)
     self.m_presenter = LobbyPresenter.new(self)
     self.m_keyPadLayerList = {}
     self:initView()

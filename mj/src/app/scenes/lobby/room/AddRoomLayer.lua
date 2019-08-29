@@ -26,7 +26,6 @@ function AddRoomLayer:ctor()
 end
 
 function AddRoomLayer:init()
-    BaseView.initBase(self)
     self:initView()
 end
 

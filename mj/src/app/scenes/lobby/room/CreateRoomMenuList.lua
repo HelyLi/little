@@ -22,7 +22,6 @@ function CreateRoomMenuList:setSelectedEvent(callback)
 end
 
 function CreateRoomMenuList:init()
-    BaseView.initBase(self)
     self:setContentSize(cc.size(TABLE_WIDTH, TABLE_HIGHT))
     self:initTableView()
 end

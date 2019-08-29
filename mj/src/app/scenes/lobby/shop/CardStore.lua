@@ -25,7 +25,6 @@ function CardStore:onExit()
 end
 
 function CardStore:init()
-    BaseView.initBase(self)
     self:initView()
 end
 

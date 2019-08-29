@@ -7,7 +7,6 @@ local UpdateLayer = class("LobbyLayer",function()
 end)
 
 function UpdateLayer:ctor()
-    BaseView.initBase(self)
     self.m_presenter = UpdatePresenter.new(self)
     self:initView()
 end

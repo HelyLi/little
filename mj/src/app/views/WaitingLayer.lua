@@ -10,7 +10,6 @@ local WaitingLayer = class("WaitingLayer",function ()
 end)
 
 function WaitingLayer:ctor()
-    BaseView.initBase(self)
     self:setSwallowTouches(false)
     self:initView()
 end

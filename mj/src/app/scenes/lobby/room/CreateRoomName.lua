@@ -19,7 +19,8 @@ callback = function() end
 ]]
 function CreateRoomName:ctor(options)
     print("CreateRoomName:ctor")
-    self:setSwallowTouches(true)
+    self:addTouchListener(true)
+    -- self:setSwallowTouches(true)
     self.m_newFlag = options.newFlag or 0
     local sprNameUnSelect = self:getNameSprite(options.gameName, false, options.isFree, options.gameId)
     local sprNameSelect = self:getNameSprite(options.gameName, true, options.isFree, options.gameId)

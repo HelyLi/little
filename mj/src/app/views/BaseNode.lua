@@ -6,7 +6,6 @@ function BaseNode:ctor()
     print("BaseNode:ctor")
     self.m_touchSwallow = false
     self:setNodeEventEnabled(true)
-    self:addTouchListener()
 end
 
 function BaseNode:onEnter()
@@ -36,7 +35,8 @@ function BaseNode:onTouchCancelled(touch)
 
 end
 
-function BaseNode:addTouchListener()
+function BaseNode:addTouchListener(swallow)
+    self.m_touchSwallow = swallow
     local function onTouchBegan(touch, event)
         return self.onTouchBegan(self,touch:getLocation())
     end
@@ -62,11 +62,6 @@ function BaseNode:addTouchListener()
         self._touchListener:registerScriptHandler(onTouchCancelled,cc.Handler.EVENT_TOUCH_CANCELLED)
         self:getEventDispatcher():addEventListenerWithSceneGraphPriority(self._touchListener, self)
     end
-end
-
-function BaseNode:setSwallowTouches(swallow)
-    self.m_touchSwallow = swallow
-    self._touchListener:setSwallowTouches(swallow)
 end
 
 function BaseNode:removeTouchListener()

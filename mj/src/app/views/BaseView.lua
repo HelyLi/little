@@ -2,8 +2,9 @@ BaseView = class("BaseView",function()
     return display.newLayer()
 end)
 
-function BaseView:ctor(parent)
-    self.m_eventListeners = {}
+function BaseView:ctor()
+    print("BaseView:ctor")
+    self:initBase()
 end
 
 function BaseView:initBase()
@@ -17,7 +18,6 @@ function BaseView:initBaseData()
     self.m_keyCanClose = true
     self.m_touchListener = nil
     self.m_isTouchSwallow = true
-    self.m_eventListenerId = {}
 end
 
 function BaseView:onEnter()
@@ -27,7 +27,6 @@ end
 function BaseView:onExit()
     print("BaseView:onExit")
     Game:getEventDispatcher().removeListenersByTag(self)
-    self.m_eventListeners = {}
 end
 
 function BaseView:onTouchBegan(touch)
@@ -91,12 +90,10 @@ end
 --事件处理
 function BaseView:addMsgListener(eventname, callback)
     Game:getEventDispatcher().addListener(eventname, callback, self)
-    self.m_eventListeners[eventname] = callback
 end
 
 function BaseView:removeMsgListener(eventname)
     Game:getEventDispatcher().removeListenerByNameAndTag(eventname, self)
-    self.m_eventListeners[eventname] = nil
 end
 
 function BaseView:dismiss()

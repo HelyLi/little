@@ -13,7 +13,6 @@ function LobbyMainMenu:ctor()
 end
 
 function LobbyMainMenu:init()
-    BaseView.initBase(self)
     self:regMsgHandler()
     self:initRoomMenu()
 end

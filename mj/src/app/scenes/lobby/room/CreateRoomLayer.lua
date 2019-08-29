@@ -22,8 +22,6 @@ function CreateRoomLayer:ctor()
 end
 
 function CreateRoomLayer:init()
-    BaseView.initBase(self)
-
     self.m_roomInfoListData = {}
     local roomConfigs = Game:getGameData():getCreateRoomInfo():getAllCardRoomInfo()
     for _,config in pairs(roomConfigs) do
