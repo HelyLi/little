@@ -42,8 +42,10 @@ function CreateRoomGameXT:init()
 end
 
 function CreateRoomGameXT:initView()
-    
-    
+
 end
+
+
+
 
 return CreateRoomGameXT
