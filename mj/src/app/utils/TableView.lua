@@ -236,11 +236,9 @@ local function jumpTo(self, index)
 end
 
 local function createDefaultWidget(self, index)
-	local layer = ccui.Layout:create()
-	-- layer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)
-	-- layer:setBackGroundColor(cc.c3b(0, 0, 255))
-	self:_loadSource(index):addTo(layer)
-	return layer
+	local container = ccui.Layout:create()
+	self:_loadSource(index):addTo(container)
+	return container
 end
 
 -- init default items, _sizeSource() will be use in this stage
@@ -346,19 +344,19 @@ function TableView.attachTo(listview, sizeSource, loadSource, unloadSource)
 	listview._headIndex = 0 -- init to defaut cursor
 	listview._tailIndex = -1 -- init to defaut cursor
 	-- hide ccui.ListView 's item methods
-	local function protectInfo ()
-		assert(nil, "The ListView method is protected by TableView")
-	end
-	listview.pushBackDefaultItem = protectInfo
-	listview.insertDefaultItem = protectInfo
-	listview.pushBackCustomItem = protectInfo
-	listview.insertCustomItem = protectInfo
-	listview.removeLastItem = protectInfo
-	listview.removeItem = protectInfo
-	listview.removeAllItems = protectInfo
-	listview.getItem = protectInfo
-	listview.getItems = protectInfo
-	listview.getIndex = protectInfo
+	-- local function protectInfo ()
+	-- 	assert(nil, "The ListView method is protected by TableView")
+	-- end
+	-- listview.pushBackDefaultItem = protectInfo
+	-- listview.insertDefaultItem = protectInfo
+	-- listview.pushBackCustomItem = protectInfo
+	-- listview.insertCustomItem = protectInfo
+	-- listview.removeLastItem = protectInfo
+	-- listview.removeItem = protectInfo
+	-- listview.removeAllItems = protectInfo
+	-- listview.getItem = protectInfo
+	-- listview.getItems = protectInfo
+	-- listview.getIndex = protectInfo
 	-- new external mothods
 	listview.jumpTo = jumpTo
 	listview.initDefaultItems = initDefaultItems

@@ -78,7 +78,7 @@ function CreateRoomInfo:decodeCardRoomInfo(data)
     for i,room in ipairs(data.room_config) do
         local gameId = room.kindid
         local roomInfo = self:getCardRoomInfo(gameId)
-        -- roomInfo.name = room.name
+        roomInfo.name = room.name
 
         local config = json.decode(room.config)
         roomInfo.isEnable = true
@@ -99,9 +99,9 @@ function CreateRoomInfo:decodeCardRoomInfo(data)
         end
         local fengding = string.split(config.fengding, ",")
         for i,v in ipairs(fengding) do
-            if v ~= "-1" then
+            -- if v ~= "-1" then
                 table.insert(roomInfo.fengding, tonumber(v))
-            end
+            -- end
         end
         local hu_laizi_num = string.split(config.hu_laizi_num, ",")
         for i,v in ipairs(hu_laizi_num) do

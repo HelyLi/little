@@ -30,6 +30,7 @@ function BaseView:onExit()
 end
 
 function BaseView:onTouchBegan(touch)
+    print("onTouchBegan:", self.m_isTouchSwallow)
     return self.m_isTouchSwallow
 end
 
@@ -64,7 +65,7 @@ function BaseView:addTouchListener()
 
     if self._touchListener == nil and self ~= nil then
         self._touchListener = cc.EventListenerTouchOneByOne:create()
-        self._touchListener:setSwallowTouches(self._isTouchSwallow)
+        self._touchListener:setSwallowTouches(self.m_isTouchSwallow)
         self._touchListener:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN)
         self._touchListener:registerScriptHandler(onTouchMoved,cc.Handler.EVENT_TOUCH_MOVED)
         self._touchListener:registerScriptHandler(onTouchEnded,cc.Handler.EVENT_TOUCH_ENDED)
@@ -74,7 +75,7 @@ function BaseView:addTouchListener()
 end
 
 function BaseView:setSwallowTouches(isSwallow)
-    self._isTouchSwallow = isSwallow
+    self.m_isTouchSwallow = isSwallow
     if self._touchListener ~= nil then
         self._touchListener:setSwallowTouches(isSwallow)
     end

@@ -1,6 +1,6 @@
-
+local BaseNode = import(".BaseNode")
 local RadioButton = class("RadioButton", function (  )
-    return display.newNode()
+    return BaseNode.new()
 end)
 
 local Tags = {
@@ -63,11 +63,12 @@ function RadioButton:init( params )
 end
 
 function RadioButton:setClickCallback(callback)
+    print("setClickCallback")
     self:addOnClick(function ()
         print("self:getTag():", self:getTag())
         callback(self:getTag())
     end)
-    self:setNodeEventEnabled(true)
+    self:setTouchEnabled(true)
 end
 
 function RadioButton:setSelect( state )

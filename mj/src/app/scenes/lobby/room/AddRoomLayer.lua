@@ -22,6 +22,7 @@ local TAG = {
 local InputBtnTxt = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '重输', '0', '删除'}
 
 function AddRoomLayer:ctor()
+    self:setSwallowTouches(true)
     self:init()
 end
 

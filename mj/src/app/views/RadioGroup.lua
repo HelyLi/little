@@ -1,6 +1,7 @@
 
+local BaseNode = import(".BaseNode")
 local RadioGroup = class("RadioGroup", function (  )
-    return display.newNode()
+    return BaseNode.new()
 end)
 
 RadioGroup.Horizontal = 1

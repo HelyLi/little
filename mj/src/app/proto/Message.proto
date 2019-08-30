@@ -263,14 +263,18 @@ message MSG_L2D_PLAYERINFO_UPDATE_SYN
 message ROOM_CONFIG
 {
 	required int32 kindid = 1;
-	required string name = 2;
-	required string config = 3;
+	required int32 isEnable = 2;//玩法开放
+	required int32 order = 3;//排序
+	required int32 cardAA = 4;//付费
+	required string name = 5;
+	required string config = 6;
 }
 
 message MSG_L2C_PLAYER_GAME_ROOM_CONFIG_ACK
 {
 	required int32 messageID = 1;
-	repeated ROOM_CONFIG room_config = 2;
+	required int32 defaultKindid = 2;//默认显示哪个玩法
+	repeated ROOM_CONFIG room_config = 3;
 }
 
 message MSG_L2D_PLAYER_GAME_ROOM_CONFIG_SYN

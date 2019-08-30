@@ -27,7 +27,7 @@ function CreateRoomGameXT:ctor()
 end
 
 function CreateRoomGameXT:init()
-    self.m_roomInfo = Game:getGameData():getCreateRoomInfo():getCardRoomInfo(XTMJ_CARD_GAME_ID)
+    self.m_roomInfo = Game:getGameData():getCreateRoomInfo():getCardRoomInfo(QJMJ_CARD_GAME_ID)
     self:initView()
 end
 

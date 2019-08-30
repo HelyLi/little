@@ -1,13 +1,14 @@
 local BaseView = import("app.views.BaseView")
 
-local CreateRoomGameW = 1028
-local CreateRoomGameH = 642
+local CreateRoomGameW = 960
+local CreateRoomGameH = 510
 
 local CreateRoomGameBase = class("CreateRoomGameBase", function ()
     return BaseView.new()
 end)
 
 function CreateRoomGameBase:ctor()
+    -- display.newColorLayer(cc.c4b(255, 0, 0, 255)):setContentSize(cc.size(CreateRoomGameW, CreateRoomGameH)):align(display.BOTTOM_LEFT, 0, 0):addTo(self)
     self:setContentSize(cc.size(CreateRoomGameW, CreateRoomGameH))
 end
 

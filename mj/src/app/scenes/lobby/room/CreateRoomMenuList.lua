@@ -3,9 +3,13 @@ local TableView = import("app.utils.TableView")
 local CreateRoomName = import(".CreateRoomName")
 
 local TABLE_WIDTH       = 260
-local TABLE_HIGHT       = 540
+local TABLE_HIGHT       = 560
 local TABLE_CELL_WIDTH  = 252
 local TABLE_CELL_HIGHT  = 102
+
+local TAG = {
+    CREATE_ROOM_NODE = 0x01
+}
 
 local CreateRoomMenuList = class("CreateRoomMenuList", function()
     return BaseView.new()
@@ -51,6 +55,22 @@ end
 function CreateRoomMenuList:loadSource(index)
     local itemInfo = self.m_listdata[index]
     local function callback()
+
+        if self.m_tabelView then
+            print("index:", index)
+            local items = self.m_tabelView:getItems()
+            for i,item in ipairs(items) do
+                local indx = self.m_tabelView:getIndex(item)
+                print("indx:", indx)
+                local roomNode = item:getChildByTag(TAG.CREATE_ROOM_NODE)
+                if indx + 1 == index then
+                    roomNode:setSelect(true)
+                else
+                    roomNode:setSelect(false)
+                end
+            end
+        end
+
         self.m_callback(index)
     end
     local itemParams = {
@@ -59,7 +79,7 @@ function CreateRoomMenuList:loadSource(index)
         callback = callback,
         newFlag = itemInfo.new_flag or 0
     }
-    return CreateRoomName.new(itemParams)
+    return CreateRoomName.new(itemParams):setTag(TAG.CREATE_ROOM_NODE)
 end
 
 function CreateRoomMenuList:unloadSource(index)

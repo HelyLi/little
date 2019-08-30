@@ -7,7 +7,9 @@ local AsyncRes = {
     "LobMainRoomRes",
     "LobAddRoomRes",
     "ComUIRes",
-    "LobCreateRoomRes"
+    "LobCreateRoomRes",
+    "QzRoomRes",
+    "HotRes"
 }
 
 local LoginPresenter = class("LoginPresenter",function()
