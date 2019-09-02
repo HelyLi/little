@@ -100,7 +100,7 @@ end
 
 function LoginPresenter:l2c_player_baseinfo_ack(msgData)
     local data = Message_Def:L2C_PLAYER_BASEINFO_ACK(msgData)
-    dump(data, "L2C_PLAYER_BASEINFO_ACK")
+    dump(data, "L2C_PLAYER_BASEINFO_ACK", 8)
     
   
 

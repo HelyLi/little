@@ -33,12 +33,12 @@ function CreateRoomLayer:init()
     for _,config in pairs(roomConfigs) do
         --isEnable 开放
         if config.isEnable then
-            table.insert(self.m_roomInfoListData, config.dwOrder, config)
+            table.insert(self.m_roomInfoListData, config.order, config)
         end
     end
     --排序
     table.sort(self.m_roomInfoListData, function (a, b)
-        return a.dwOrder > b.dwOrder
+        return a.order > b.order
     end)
     
 
@@ -76,7 +76,7 @@ function CreateRoomLayer:initGameRoomView()
     self.v_gameRoomView:setVisible(true)
     self.v_gameRoomView:align(display.BOTTOM_LEFT, 300, 150):addTo(Bg, 0, Tag.GameRoom)
     self.v_gameRoomView:setContentSize(cc.size(RIGHT_CONTENT_WIDTH, RIGHT_CONTENT_HIGHT))
-    -- self:displayGameRoom(1)
+    self:displayGameRoom(XTMJ_CARD_GAME_ID)
 end
 
 --背景

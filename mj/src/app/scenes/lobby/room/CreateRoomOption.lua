@@ -177,17 +177,24 @@ function CreateRoomOption:getOptionString(str,isSelect, scale)
     return sprOptionBase
 end
 
+
 --勾选文字选项
-function CreateRoomOption:getTickString(str, isSelect, baseW)
+function CreateRoomOption:getTickString(str, isSelect , style)
     local strTickFile = ""
     local txtColor = nil
 
     if isSelect == false then
-        strTickFile = "#create_room_option_m_off_skin.png"
-        txtColor = cc.c3b(113, 63, 50)
+        strTickFile = "#create_room_option_m_off.png"
+        if style == AppGlobal.RoomOptonStyle.SMALL then
+            strTickFile = "#create_room_option_m_off_s.png"
+        end
+        txtColor = cc.c3b(147, 44, 17)
     else
-        strTickFile = "#create_room_option_m_on_skin.png"
-        txtColor = cc.c3b(16, 69, 141)
+        strTickFile = "#create_room_option_m_on.png"
+        if style == AppGlobal.RoomOptonStyle.SMALL then
+            strTickFile = "#create_room_option_m_on_s.png"
+        end
+        txtColor = cc.c3b(0, 136, 0)
     end
 
     local sprOptionBase = display.newNode()
@@ -198,24 +205,130 @@ function CreateRoomOption:getTickString(str, isSelect, baseW)
     --文字
     local txt = display.newTTFLabel({
         text = str,
-        size = 42,
+        size = 38,
         color = txtColor,
         align = cc.TEXT_ALIGNMENT_CENTER,
     })
-    local baseWidth = (W(sp) + 10 + W(txt)) 
-    dump(baseWidth,"11111baseWbaseWbaseWbaseWbaseW")
-    if baseWidth < 302 then
-        baseWidth = 302
-    end
-    baseWidth = baseW or baseWidth
-    dump(baseWidth,"22222baseWbaseWbaseWbaseWbaseW")
-    sprOptionBase:setContentSize(cc.size(baseWidth, math.max(H(txt), H(sp))))
+    sprOptionBase:setContentSize(cc.size(W(sp) + 10 + W(txt), math.max(H(txt), H(sp))))
 
     sp:align(display.CENTER_LEFT, 0, H2(sprOptionBase)):addTo(sprOptionBase)
-    txt:align(display.CENTER_LEFT, W(sp) + 10, H2(sprOptionBase)):addTo(sprOptionBase)
+    txt:align(display.CENTER, W(sp) + 10 + W2(txt), H2(sprOptionBase)):addTo(sprOptionBase)
     
     return sprOptionBase
 end
+
+--点文字选项勾选
+function CreateRoomOption:initWithPointTick(str, card)
+    local sprItemOff = self:getPointTick(str, card, false)
+    local sprItemOn = self:getPointTick(str, card, true)
+    
+    self:initSelectItem(sprItemOff, sprItemOn)
+end
+
+--圆点勾选选项
+function CreateRoomOption:getPointTick(str, card, isSelect)
+    local strTickFile = ""
+    local strCardFile = ""
+    local txtColor = nil
+    local width = 0
+    local height = 0
+
+    if isSelect == false then
+        strTickFile = "#create_room_option_dxt_off.png"
+        strCardFile = "#create_room_option_card.png"
+        txtColor = cc.c3b(147,44,17)
+    else
+        strTickFile = "#create_room_option_dxt_on.png"
+        strCardFile = "#create_room_option_card_select.png"
+        txtColor = cc.c3b(0,136,0)
+    end
+
+    local sprOptionBase = display.newNode()
+    
+    --勾
+    local sp = display.newSprite(strTickFile):addTo(sprOptionBase)
+    local spPosX = width
+    width = width + W(sp) + 5
+    
+    --文字
+    local txt = display.newTTFLabel({
+        text = string.format("%s (" , str),
+        size = 36,
+        color = txtColor,
+        align = cc.TEXT_ALIGNMENT_CENTER,
+    }):addTo(sprOptionBase)
+    local txtPosX = width
+    width = width + W(txt)
+
+    --房卡
+    local spCard = display.newSprite(strCardFile):addTo(sprOptionBase)
+    local cardPosX = width
+    width = width + W(spCard)
+
+    --数量
+    local txtCard = display.newTTFLabel({
+        text = string.format("x%d)" , card),
+        size = 36,
+        color = txtColor,
+        align = cc.TEXT_ALIGNMENT_CENTER,
+    }):addTo(sprOptionBase)
+    local txtCardPosX = width
+    width = width + W(txtCard)
+
+    sprOptionBase:setContentSize(cc.size(width, math.max(H(sp), H(spCard))))
+
+    if card <= 0 then
+        --Free
+        cc.ui.UIImage.new("#".."create_room_option_free.png"):align(display.CENTER_LEFT, cardPosX - 10 , H2(sprOptionBase)):addTo(sprOptionBase, 1)
+    end
+
+    sp:align(display.CENTER_LEFT, spPosX, H2(sprOptionBase))
+    txt:align(display.CENTER_LEFT, txtPosX, H2(sprOptionBase))
+    spCard:align(display.CENTER_LEFT, cardPosX, H2(sprOptionBase))
+    txtCard:align(display.CENTER_LEFT, txtCardPosX, H2(sprOptionBase))
+    
+    return sprOptionBase
+end
+
+--勾选文字选项
+-- function CreateRoomOption:getTickString(str, isSelect, baseW)
+--     local strTickFile = ""
+--     local txtColor = nil
+
+--     if isSelect == false then
+--         strTickFile = "#create_room_option_m_off_skin.png"
+--         txtColor = cc.c3b(113, 63, 50)
+--     else
+--         strTickFile = "#create_room_option_m_on_skin.png"
+--         txtColor = cc.c3b(16, 69, 141)
+--     end
+
+--     local sprOptionBase = display.newNode()
+    
+--     --勾
+--     local sp = display.newSprite(strTickFile)
+    
+--     --文字
+--     local txt = display.newTTFLabel({
+--         text = str,
+--         size = 42,
+--         color = txtColor,
+--         align = cc.TEXT_ALIGNMENT_CENTER,
+--     })
+--     local baseWidth = (W(sp) + 10 + W(txt)) 
+--     dump(baseWidth,"11111baseWbaseWbaseWbaseWbaseW")
+--     if baseWidth < 302 then
+--         baseWidth = 302
+--     end
+--     baseWidth = baseW or baseWidth
+--     dump(baseWidth,"22222baseWbaseWbaseWbaseWbaseW")
+--     sprOptionBase:setContentSize(cc.size(baseWidth, math.max(H(txt), H(sp))))
+
+--     sp:align(display.CENTER_LEFT, 0, H2(sprOptionBase)):addTo(sprOptionBase)
+--     txt:align(display.CENTER_LEFT, W(sp) + 10, H2(sprOptionBase)):addTo(sprOptionBase)
+    
+--     return sprOptionBase
+-- end
 
 --选中
 function CreateRoomOption:setSelect(bSelect)

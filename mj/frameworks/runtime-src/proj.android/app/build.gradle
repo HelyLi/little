@@ -6,7 +6,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVer
 
     defaultConfig {
-        applicationId "triangle.little.potatoes"
+        applicationId "www.wan.csmj.com"
         minSdkVersion rootProject.ext.minSdkVer
         targetSdkVersion rootProject.ext.targetSdkVer
         versionCode 100
@@ -22,10 +22,14 @@ android {
 
         //签名配置
         release {
-            storeFile file("triangle")
-            storePassword "TRI2019"
-            keyAlias "Triangle"
-            keyPassword "TRI2019"
+//            storeFile file("triangle")
+//            storePassword "TRI2019"
+//            keyAlias "Triangle"
+//            keyPassword "TRI2019"
+            storeFile file("wwKey")
+            storePassword "ww2016"
+            keyAlias "ww2016"
+            keyPassword "ww2016"
         }
     }
 

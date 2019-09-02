@@ -10,49 +10,35 @@ function CreateRoomInfo:clear()
 			name = "泉州麻将",
 			dwGameId = XTMJ_CARD_GAME_ID,
 			isEnable = false,
-			isHaveFree = 0,
-			isCardAA = 0,
+			isFree = 0,
 			-- 排序
-			dwOrder = 0,
-            
-            playerJuInfos = {},
-            playerJuInfos_default = 1,
-
+            order = 0,
             difen = {},
-            difen_default = 1,
-            --封顶
             fengding = {},
-            fengding_default = 1,
-            --飘赖子有奖
-            piao_laizi_prize = {},
-            piao_laizi_prize_default = 1,
-            --赖子几张胡牌
             hu_laizi_num = {},
-            hu_laizi_num_default = 1
+            jushu = {},
+            piao_laizi_prize = {},
+
+            playerJuInfos = {},
+            playernum = {},
+			playernum_default = 0
         },
         [QJMJ_CARD_GAME_ID] = {
 			name = "泉州麻将",
-			dwGameId = XTMJ_CARD_GAME_ID,
+			dwGameId = QJMJ_CARD_GAME_ID,
 			isEnable = false,
-			isHaveFree = 0,
-			isCardAA = 0,
+			isFree = 0,
 			-- 排序
-			dwOrder = 0,
-            
-            playerJuInfos = {},
-            playerJuInfos_default = 1,
-
+            order = 0,
             difen = {},
-            difen_default = 1,
-            --封顶
             fengding = {},
-            fengding_default = 1,
-            --飘赖子有奖
-            piao_laizi_prize = {},
-            piao_laizi_prize_default = 1,
-            --赖子几张胡牌
             hu_laizi_num = {},
-            hu_laizi_num_default = 1
+            jushu = {},
+            piao_laizi_prize = {},
+
+            playerJuInfos = {},
+            playernum = {},
+			playernum_default = 0
         },
     }
 end
@@ -79,44 +65,56 @@ function CreateRoomInfo:decodeCardRoomInfo(data)
         local gameId = room.kindid
         local roomInfo = self:getCardRoomInfo(gameId)
         roomInfo.name = room.name
+        roomInfo.isFree = room.free
 
         local config = json.decode(room.config)
         roomInfo.isEnable = true
-        roomInfo.dwOrder = i
+        roomInfo.order = i
 
---         dump(config, "config", 8)
+        local default_rule = config.default_rule
+        roomInfo.difen_default = default_rule.difen
+        roomInfo.fengding_default = default_rule.fengding
+        roomInfo.hu_laizi_num_default = default_rule.hu_laizi_num
+        roomInfo.jushu_default = default_rule.jushu
+        roomInfo.payment_default = default_rule.payment
+        roomInfo.piao_laizi_prize_default = default_rule.piao_laizi_prize
+        roomInfo.playernum_default = default_rule.playernum
+--         "difen":{
+--             "1":1,
+--             "2":2,
+--             "3":5
+--        },
+--   "fengding":{
+--        "1":100,
+--        "2":200,
+--        "3":-1
+--        },
+        for k,v in pairs(config.difen) do
+            roomInfo.difen[tonumber(k)] = v
+            -- table.insert(roomInfo.difen, tonumber(k), v)
+        end
+        for k,v in pairs(config.fengding) do
+            roomInfo.fengding[tonumber(k)] = v
+            -- table.insert(roomInfo.fengding, tonumber(k), v)
+        end
+        for k,v in pairs(config.hu_laizi_num) do
+            roomInfo.hu_laizi_num[tonumber(k)] = v
+            -- table.insert(roomInfo.hu_laizi_num, tonumber(k), v)
+        end
+        for k,v in pairs(config.jushu) do
+            roomInfo.jushu[tonumber(k)] = v
+            -- table.insert(roomInfo.jushu, tonumber(k), v)
+        end
+        for k,v in pairs(config.piao_laizi_prize) do
+            roomInfo.piao_laizi_prize[tonumber(k)] = v
+            -- table.insert(roomInfo.piao_laizi_prize, tonumber(k), v)
+        end
 
--- --         "difen"            = "1,2,5,-1"
--- -- [LUA-print] -     "fengding"         = "100,200,-1"
--- -- [LUA-print] -     "hu_laizi_num"     = "1,2"
--- -- [LUA-print] -     "piao_laizi_prize" = "1,2"
-
-        local difen = string.split(config.difen, ",")
-        for i,v in ipairs(difen) do
-            if v ~= "-1" then
-                table.insert(roomInfo.difen, tonumber(v))
-            end
+        for i,v in ipairs(config.diamond) do
+            local people = v.playernum
+            roomInfo.playerJuInfos[people] = v.ju_diamond
+            table.insert(roomInfo.playernum, i, people)
         end
-        local fengding = string.split(config.fengding, ",")
-        for i,v in ipairs(fengding) do
-            -- if v ~= "-1" then
-                table.insert(roomInfo.fengding, tonumber(v))
-            -- end
-        end
-        local hu_laizi_num = string.split(config.hu_laizi_num, ",")
-        for i,v in ipairs(hu_laizi_num) do
-            if v ~= "-1" then
-                table.insert(roomInfo.hu_laizi_num, tonumber(v))
-            end
-        end
-        local piao_laizi_prize = string.split(config.piao_laizi_prize, ",")
-        for i,v in ipairs(piao_laizi_prize) do
-            if v ~= "-1" then
-                table.insert(roomInfo.piao_laizi_prize, tonumber(v))
-            end
-        end
-
-        roomInfo.playerJuInfos = config.diamond
 
         dump(roomInfo, "roomInfo")
     end

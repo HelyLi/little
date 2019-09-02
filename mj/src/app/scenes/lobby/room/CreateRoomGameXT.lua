@@ -41,12 +41,12 @@ function CreateRoomGameXT:initView()
 
     local lineHeight = 20
 
-    local juY = H(self)
+    self.m_juY = H(self)
     --局数
-    display.newSprite("#create_room_txt_jushu.png"):align(display.CENTER_LEFT, optionNameX, juY):addTo(self)
-    self:initOptionJu(self.m_startOptionX, juY)
+    display.newSprite("#create_room_txt_jushu.png"):align(display.CENTER_LEFT, optionNameX, self.m_juY):addTo(self)
+    self:initOptionJu(self.m_startOptionX, self.m_juY)
 
-    local peopleY = juY - self.m_optionPaddingY - lineHeight
+    local peopleY = self.m_juY - self.m_optionPaddingY - lineHeight
     --人数
     display.newSprite("#create_room_txt_people.png"):align(display.CENTER_LEFT, optionNameX, peopleY):addTo(self)
     self:initOptionPeople(self.m_startOptionX, peopleY)
@@ -69,45 +69,43 @@ function CreateRoomGameXT:initView()
 
 end
 
--- "playerJuInfos" = {
---              1 = {
---                  "aapay_ju16"    = 2
---                  "aapay_ju8"     = 1
---                  "ownerpay_ju16" = 4
---                  "ownerpay_ju8"  = 2
---                  "playernum"     = 2
---              }
---              2 = {
---                  "aapay_ju16"    = 2
---                  "aapay_ju8"     = 1
---                  "ownerpay_ju16" = 6
---                  "ownerpay_ju8"  = 3
---                  "playernum"     = 3
---              }
---              3 = {
---                  "aapay_ju16"    = 2
---                  "aapay_ju8"     = 1
---                  "ownerpay_ju16" = 8
---                  "ownerpay_ju8"  = 4
---                  "playernum"     = 4
---              }
---          }
+function CreateRoomGameXT:initOptionJu(startx, starty)
+    self:removeChildByTag(TAG.JU_BASE)
 
-function CreateRoomGameXT:initOptionJu()
-    -- self:removeChild(TAG.JU_BASE, TAG.JU_MAX)
+    local people_def = self.m_roomInfo.playernum_default
+    local juInfo = self.m_roomInfo.playerJuInfos[people_def]
 
+    --选择人数
+    local selectIndex = 0
 
+    local index = 0
+    for k,v in pairs(juInfo) do
+        index = index + 1
+        local optionJu = CreateRoomOption.new(function()
+            self:menuOptionSelect(TAG.JU_BASE + index)
+        end):align(display.CENTER_LEFT, startx + self.m_optionPaddingX*3/2*(index - 1), starty)
+        
+        optionJu:initWithPointTick(string.format("%s局", k), v)
+        
+        if v == self.m_roomInfo.jushu_default then
+            optionJu:setSelect(true)
+        else
+            optionJu:setSelect(false)
+        end
+        
+        optionJu:addTo(self)
+    end
 end
 
 function CreateRoomGameXT:initOptionPeople(startx, starty)
-    local peopleInfo = self.m_roomInfo.playerJuInfos
+    local people = self.m_roomInfo.playernum
+
     --选择人数
     local rbs = {}
     local selectIndex = 0
-    -- for i=1,#peopleInfo do
-    for i,info in ipairs(peopleInfo) do
+    for i,v in ipairs(people) do
         
-        local strPeople = string.format("%d 人", info.playernum)
+        local strPeople = string.format("%d 人", v)
         
         table.insert(rbs, {
             on = "#create_room_option_dxt_on.png",
@@ -120,7 +118,7 @@ function CreateRoomGameXT:initOptionPeople(startx, starty)
             }
         })
 
-        if self.m_roomInfo.playerJuInfos_default == i then
+        if self.m_roomInfo.playernum_default == v then
             selectIndex = i + TAG.PEOPLE_BASE
         end
     end
@@ -137,24 +135,6 @@ function CreateRoomGameXT:initOptionPeople(startx, starty)
         rg:setSelectIndex(selectIndex)
     end
 end
-
--- "difen" = {
---     [LUA-print] -             1 = "1"
---     [LUA-print] -             2 = "2"
---     [LUA-print] -             3 = "5"
---     [LUA-print] -         }
--- function CreateRoomGameXT:initOptionDifen(startx, starty)
---     self:removeChild(TAG.DIFEN_BASE, TAG.DIFEN_MAX)
-
-    
---     for i,v in ipairs(difen) do
---         local params = {}
---         params.str = string.format("%d底分", v)
---         local option = CreateRoomOption.new(function() self:menuOptionSelect(TAG.DIFEN_BASE + i) end):align(display.CENTER, startx + self.m_optionPaddingX * (i - 1), starty):addTo(self, 0, TAG.DIFEN_BASE + i)
---         option:initWithString(params)
---         option:setSelect(CALC_3(self.m_roomInfo.difen_default == i, true, false))
---     end
--- end
 
 function CreateRoomGameXT:initOptionDifen(startx, starty)
     local difen = self.m_roomInfo.difen
@@ -202,7 +182,9 @@ function CreateRoomGameXT:initOptionFengding(startx, starty)
     for i,v in ipairs(fengding) do
         
         local str = string.format("%d封顶", v)
-        
+        if v == -1 then
+            str = "不封顶"
+        end
         table.insert(rbs, {
             on = "#create_room_option_dxt_on.png",
             off = "#create_room_option_dxt_off.png",
@@ -214,7 +196,7 @@ function CreateRoomGameXT:initOptionFengding(startx, starty)
             }
         })
 
-        if self.m_roomInfo.fengding_default == i then
+        if self.m_roomInfo.fengding_default == v then
             selectIndex = i + TAG.FENGDING_BASE
         end
     end
@@ -233,23 +215,33 @@ function CreateRoomGameXT:initOptionFengding(startx, starty)
 end
 
 function CreateRoomGameXT:initOptionTese(startx, starty)
-    -- self:removeChild(TAG.PIAO_LAIZI_PRIZE, TAG.HU_LAIZI_NUM)
-
+    -- "payment_default"          = 1
+    -- "piao_laizi_prize" = {
+    --     1 = 1
+    --     2 = 2
+    -- }
     local pdefault = self.m_roomInfo.piao_laizi_prize_default
     local option = CreateRoomOption.new(function ()
         self:menuOptionSelect(TAG.PIAO_LAIZI_PRIZE)
-    end):align(display.CENTER, startx, starty):addTo(self, 0, TAG.PIAO_LAIZI_PRIZE)
+    end):align(display.CENTER_LEFT, startx, starty):addTo(self, 0, TAG.PIAO_LAIZI_PRIZE)
     option:initWithTickString({
         str = "漂赖有奖",
+        style = AppGlobal.RoomOptonStyle.SMALL
     })
     option:setSelect(CALC_3(pdefault == 1, true, false))
 
+    -- "hu_laizi_num" = {
+    --     1 = 1
+    --     2 = 2
+    -- }
+    -- "hu_laizi_num_default"     = 1
     local hdefault = self.m_roomInfo.hu_laizi_num_default
     local option = CreateRoomOption.new(function ()
         self:menuOptionSelect(TAG.HU_LAIZI_NUM)
-    end):align(display.CENTER, startx + self.m_optionPaddingX, starty):addTo(self, 0, TAG.HU_LAIZI_NUM)
+    end):align(display.CENTER_LEFT, startx + self.m_optionPaddingX*3/2, starty):addTo(self, 0, TAG.HU_LAIZI_NUM)
     option:initWithTickString({
-        str = "一个赖子胡",
+        str = "一赖到底",
+        style = AppGlobal.RoomOptonStyle.SMALL
     })
     option:setSelect(CALC_3(hdefault == 1, true, false))
 end
@@ -287,7 +279,7 @@ function CreateRoomGameXT:initOptionCost(startx, starty)
     })
     if rg then
         rg:align(display.CENTER_LEFT, startx, starty):addTo(self)
-        if self.m_roomInfo.isCardAA > 0 then
+        if self.m_roomInfo.payment_default == 2 then
             rg:setSelectIndex(1 + TAG.COST_BASE)
         else
             rg:setSelectIndex(2 + TAG.COST_BASE)
@@ -295,25 +287,48 @@ function CreateRoomGameXT:initOptionCost(startx, starty)
     end
 end
 
--- function CreateRoomGameXT:removeChild(starttag, endtag)
---     for tag=starttag, endtag do
---         self:removeChildByTag(tag)
---     end
--- end
-
 function CreateRoomGameXT:menuOptionSelect(tag)
+    print("menuOptionSelect:", tag)
     if tag >= TAG.JU_BASE and tag <= TAG.JU_MAX then
-
+        local selectIndx = tag - TAG.JU_BASE
+        local people_def = self.m_roomInfo.playernum_default
+        local juInfo = self.m_roomInfo.playerJuInfos[people_def]
+        self.m_roomInfo.jushu_default = juInfo[selectIndx]
+        
+        self:refreshOptionItem(self, TAG.JU_BASE, TAG.JU_MAX, selectIndx)
     elseif tag >= TAG.PEOPLE_BASE and tag <= TAG.PEOPLE_MAX then
+        local selectIndx = tag - TAG.PEOPLE_BASE
+        self.m_roomInfo.jushu_default = self.m_roomInfo.playernum[selectIndx]
+        self:initOptionJu(self.m_startOptionX, self.m_juY)
 
     elseif tag >= TAG.DIFEN_BASE and tag <= TAG.DIFEN_MAX then
+        local selectIndx = tag - TAG.DIFEN_BASE
+        self.m_roomInfo.difen_default = self.m_roomInfo.difen[selectIndx]
 
     elseif tag >= TAG.FENGDING_BASE and tag <= TAG.FENGDING_MAX then
+        local selectIndx = tag - TAG.FENGDING_BASE
+        self.m_roomInfo.fengding_default = self.m_roomInfo.fengding[selectIndx]
+
+    elseif tag >= TAG.COST_BASE and tag <= TAG.COST_MAX then
+        local selectIndx = tag - TAG.COST_BASE
+        
 
     elseif tag == TAG.PIAO_LAIZI_PRIZE then
-
+        local pdefault = self.m_roomInfo.piao_laizi_prize_default
+        if pdefault == 1 then
+            pdefault = 2
+        else
+            pdefault = 1
+        end
+        self:refreshOneOptionItem(self, TAG.PIAO_LAIZI_PRIZE, pdefault == 1)
     elseif tag == TAG.HU_LAIZI_NUM then
-
+        local hdefault = self.m_roomInfo.hu_laizi_num_default
+        if hdefault == 1 then
+            hdefault = 2
+        else
+            hdefault = 1
+        end
+        self:refreshOneOptionItem(self, TAG.HU_LAIZI_NUM, hdefault == 1)
     end
 end
 

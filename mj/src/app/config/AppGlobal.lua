@@ -18,6 +18,11 @@ APP_ENTER_FOREGROUND_EVENT = "APP_ENTER_FOREGROUND_EVENT"
 XTMJ_CARD_GAME_ID = 255
 QJMJ_CARD_GAME_ID = 260
 
+AppGlobal.ChannelId = {
+    ANDROID = 2,
+    IOS = 3,
+}
+
 AppGlobal.LoginStatus = {
 
 }

@@ -54,4 +54,11 @@ function UserData:setGold(gold)
     self.m_gold = gold
 end
 
+--微信unionid
+function UserData:setWXUnionId(unionid)
+    self.m_unionid = unionid
+end
+
+
+
 return UserData

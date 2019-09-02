@@ -17,7 +17,7 @@ end
 function BaseView:initBaseData()
     self.m_keyCanClose = true
     self.m_touchListener = nil
-    self.m_isTouchSwallow = true
+    self.m_isTouchSwallow = false
 end
 
 function BaseView:onEnter()
