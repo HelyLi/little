@@ -32,24 +32,24 @@ AppGlobal.LoginType = {
 }
 
 AppGlobal.ShopType = {
-    card = "card",
-    gold = "gold"
+    CARD = "card",
+    GOLD = "gold"
 }
 
 AppGlobal.SceneType = {
-    login = 1,
-    lobby = 2,
-    game = 3,
-    club = 4
+    LOGIN = 1,
+    LOBBY = 2,
+    GAME = 3,
+    CLUB = 4
 }
 
 AppGlobal.CardPayType = {
     --房主付费
-    fz = 0,
-    aa = 1,
+    FZ = 0,
+    AA = 1,
     --会长付费
-    agency = 2,
-    clubaa = 3
+    AGENCY = 2,
+    CLUBAA = 3
 }
 
 AppGlobal.EventMsg = {

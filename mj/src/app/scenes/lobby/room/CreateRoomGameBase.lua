@@ -33,6 +33,7 @@ function CreateRoomGameBase:refreshOneOptionItem(menu, tag, select)
     if menu then
         local item = menu:getChildByTag(tag)
         if item then
+            print("refreshOneOptionItem:select", tag, select)
             if select then
                 item:setSelect(true)
                 item:selectAnima()
@@ -41,6 +42,21 @@ function CreateRoomGameBase:refreshOneOptionItem(menu, tag, select)
             end
         end
     end
+end
+
+--创建房间需要多少张房卡
+function CreateRoomGameBase:getNeedFCard()
+    return 0
+end
+
+--选房间完成，创建房间
+function CreateRoomGameBase:createGameFinish()
+    Game:getGameData():getCreateRoomInfo():encodeLastConfig(self.m_roomInfo.dwGameId)
+    Game:getSceneMgr():goCardGameScene({
+        gameId = self.m_roomInfo.dwGameId,
+        fromScene = {type = AppGlobal.SceneType.LOBBY}
+    })
+    return true
 end
 
 return CreateRoomGameBase

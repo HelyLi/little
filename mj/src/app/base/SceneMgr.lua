@@ -18,9 +18,11 @@ function SceneMgr:goLobbyScene()
 end
 
 local CardGameScene = {
+    [XTMJ_CARD_GAME_ID] = "app.scenes.game.cardGame.xtmj.XTMJScene"
 }
 
-function SceneMgr:goCardGameScene(gameId)
+function SceneMgr:goCardGameScene(game)
+    local gameId = game.gameId
     self:gotoScene(CardGameScene[gameId])
 end
 

@@ -20,6 +20,14 @@ function UserData:setPlayerInfo(info)
     self.m_gold = info.goldCoin
 end
 
+function UserData:getToken()
+    return self.m_token or 0
+end
+
+function UserData:setToken(token)
+    self.m_token = token
+end
+
 function UserData:getUserId()
     return self.m_userId
 end

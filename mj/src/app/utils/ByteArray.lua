@@ -215,7 +215,7 @@ function ByteArray:writeLong(__long)
 end
 
 function ByteArray:readULong()
-	local __, __v = string.unpack(self:readBuf(4), self:_getLC("L"))
+	local __, __v = string.unpack(self:readBuf(8), self:_getLC("L"))
 	return __v
 end
 

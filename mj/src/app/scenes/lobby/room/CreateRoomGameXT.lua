@@ -70,30 +70,27 @@ function CreateRoomGameXT:initView()
 end
 
 function CreateRoomGameXT:initOptionJu(startx, starty)
-    self:removeChildByTag(TAG.JU_BASE)
+    for i=1,5 do
+        self:removeChildByTag(TAG.JU_BASE + i)
+    end
 
     local people_def = self.m_roomInfo.playernum_default
     local juInfo = self.m_roomInfo.playerJuInfos[people_def]
 
-    --选择人数
-    local selectIndex = 0
-
-    local index = 0
-    for k,v in pairs(juInfo) do
-        index = index + 1
+    --选择局数
+    for i,v in ipairs(juInfo) do
         local optionJu = CreateRoomOption.new(function()
-            self:menuOptionSelect(TAG.JU_BASE + index)
-        end):align(display.CENTER_LEFT, startx + self.m_optionPaddingX*3/2*(index - 1), starty)
+            self:menuOptionSelect(TAG.JU_BASE + i)
+        end):align(display.CENTER_LEFT, startx + self.m_optionPaddingX*3/2*(i - 1), starty)
         
-        optionJu:initWithPointTick(string.format("%s局", k), v)
+        optionJu:initWithPointTick(string.format("%d局", v[1]), v[2])
         
-        if v == self.m_roomInfo.jushu_default then
+        if v[1] == self.m_roomInfo.jushu_default then
             optionJu:setSelect(true)
         else
             optionJu:setSelect(false)
         end
-        
-        optionJu:addTo(self)
+        optionJu:addTo(self, 0, TAG.JU_BASE + i)
     end
 end
 
@@ -221,7 +218,7 @@ function CreateRoomGameXT:initOptionTese(startx, starty)
     --     2 = 2
     -- }
     local pdefault = self.m_roomInfo.piao_laizi_prize_default
-    local option = CreateRoomOption.new(function ()
+    local option = CreateRoomOption.new(function()
         self:menuOptionSelect(TAG.PIAO_LAIZI_PRIZE)
     end):align(display.CENTER_LEFT, startx, starty):addTo(self, 0, TAG.PIAO_LAIZI_PRIZE)
     option:initWithTickString({
@@ -236,7 +233,7 @@ function CreateRoomGameXT:initOptionTese(startx, starty)
     -- }
     -- "hu_laizi_num_default"     = 1
     local hdefault = self.m_roomInfo.hu_laizi_num_default
-    local option = CreateRoomOption.new(function ()
+    local option = CreateRoomOption.new(function()
         self:menuOptionSelect(TAG.HU_LAIZI_NUM)
     end):align(display.CENTER_LEFT, startx + self.m_optionPaddingX*3/2, starty):addTo(self, 0, TAG.HU_LAIZI_NUM)
     option:initWithTickString({
@@ -293,12 +290,12 @@ function CreateRoomGameXT:menuOptionSelect(tag)
         local selectIndx = tag - TAG.JU_BASE
         local people_def = self.m_roomInfo.playernum_default
         local juInfo = self.m_roomInfo.playerJuInfos[people_def]
-        self.m_roomInfo.jushu_default = juInfo[selectIndx]
+        self.m_roomInfo.jushu_default = juInfo[selectIndx][1]
         
         self:refreshOptionItem(self, TAG.JU_BASE, TAG.JU_MAX, selectIndx)
     elseif tag >= TAG.PEOPLE_BASE and tag <= TAG.PEOPLE_MAX then
         local selectIndx = tag - TAG.PEOPLE_BASE
-        self.m_roomInfo.jushu_default = self.m_roomInfo.playernum[selectIndx]
+        self.m_roomInfo.playernum_default = self.m_roomInfo.playernum[selectIndx]
         self:initOptionJu(self.m_startOptionX, self.m_juY)
 
     elseif tag >= TAG.DIFEN_BASE and tag <= TAG.DIFEN_MAX then
@@ -311,7 +308,14 @@ function CreateRoomGameXT:menuOptionSelect(tag)
 
     elseif tag >= TAG.COST_BASE and tag <= TAG.COST_MAX then
         local selectIndx = tag - TAG.COST_BASE
-        
+        -- self.m_roomInfo.payment_default = self.m_roomInfo.payment[selectIndx]
+        local pdefault = self.m_roomInfo.payment_default
+        if pdefault == 1 then
+            pdefault = 2
+        else
+            pdefault = 1
+        end
+        self.m_roomInfo.payment_default = pdefault
 
     elseif tag == TAG.PIAO_LAIZI_PRIZE then
         local pdefault = self.m_roomInfo.piao_laizi_prize_default
@@ -320,6 +324,7 @@ function CreateRoomGameXT:menuOptionSelect(tag)
         else
             pdefault = 1
         end
+        self.m_roomInfo.piao_laizi_prize_default = pdefault
         self:refreshOneOptionItem(self, TAG.PIAO_LAIZI_PRIZE, pdefault == 1)
     elseif tag == TAG.HU_LAIZI_NUM then
         local hdefault = self.m_roomInfo.hu_laizi_num_default
@@ -328,6 +333,7 @@ function CreateRoomGameXT:menuOptionSelect(tag)
         else
             hdefault = 1
         end
+        self.m_roomInfo.hu_laizi_num_default = hdefault
         self:refreshOneOptionItem(self, TAG.HU_LAIZI_NUM, hdefault == 1)
     end
 end

@@ -91,12 +91,53 @@ end
 -- 	required ROOM_RUlES room_rules = 2;
 -- }
 --
+
+-- message ROOM_RUlES
+-- {
+-- 	required int32 kindid = 1;
+-- 	required int32 paytype = 2;   //1:房主支付  2：AA支付
+-- 	required int32 playernum = 3; //玩家人数
+-- 	required int32 ju_num =4;	//局数
+-- 	required int32 difen = 5;      //底分
+-- 	required int32 fengding = 6;  //封顶
+-- 	message XTHH_RULES
+-- 	{
+-- 	required 	int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
+-- 	required 	int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
+-- 	}
+-- 	required XTHH_RULES xthh_rules = 7;
+-- }
+
 function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
+    dump(data, "C2L_PLAYER_CREATE_ROOM_SYN", 8)
+
     local msg = Message_pb.MSG_C2L_PLAYER_CREATE_ROOM_SYN()
     msg.messageID = C2L_PLAYER_CREATE_ROOM_SYN
 
-    return msg:SerializeToString()
+    local room_rules = msg.room_rules--:add() 
+    room_rules.kindid = data.dwGameId
+    room_rules.paytype = data.payment_default
+    room_rules.playernum = data.playernum_default
+    room_rules.ju_num = data.jushu_default
+    room_rules.difen = data.difen_default
+    room_rules.fengding = data.fengding_default
+
+    -- room_rules.xthh_rules = room_rules.xthh_rules:add()
+    room_rules.xthh_rules.piao_prize = data.piao_laizi_prize_default
+    room_rules.xthh_rules.hu_laizinum = data.hu_laizi_num_default
+
+    return msg:SerializeToString(), C2L_PLAYER_CREATE_ROOM_SYN
 end
+
+function Message_Def:L2C_PLAYER_CREATE_ROOM_SYN(msgData)
+    local msg = Message_pb.MSG_C2L_PLAYER_CREATE_ROOM_SYN()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
+
 
 function Message_Def:C2L_PLAYER_ENTER_ROOM_SYN(data)
 end

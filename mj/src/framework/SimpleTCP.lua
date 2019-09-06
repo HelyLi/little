@@ -125,6 +125,11 @@ function SimpleTCP:_connectAndCheck()
 	return rtn == 1 or err == "already connected"
 end
 
+function SimpleTCP:hex(s)
+    local s = string.gsub(s,"(.)",function (x) return string.format("%02X",string.byte(x)) end)
+    return s
+end
+
 function SimpleTCP:_update(dt)
 	if self.stat == SimpleTCP.STAT_CONNECTED then
 		local body, status, partial = self.tcp:receive(4)	-- receive mode: get all data
@@ -137,6 +142,7 @@ function SimpleTCP:_update(dt)
 			end
 			body, status, partial = self.tcp:receive(length)
 			if body and string.len(body) > 0 then
+				print("body:"..self:hex(body))
 				self.callback(SimpleTCP.EVENT_DATA, body)
 			end
 		end

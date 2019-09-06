@@ -33,15 +33,15 @@ function CreateRoomLayer:init()
     for _,config in pairs(roomConfigs) do
         --isEnable 开放
         if config.isEnable then
-            table.insert(self.m_roomInfoListData, config.order, config)
+            table.insert(self.m_roomInfoListData, config)
         end
     end
     --排序
-    table.sort(self.m_roomInfoListData, function (a, b)
-        return a.order > b.order
-    end)
-    
-
+    -- table.sort(self.m_roomInfoListData, function (a, b)
+    --     dump(a, "a", 8)
+    --     dump(b, "b", 8)
+    --     return a.order > b.order
+    -- end)
 
     dump(self.m_roomInfoListData, "self.m_roomInfoListData")
 
@@ -137,6 +137,21 @@ end
 
 function CreateRoomLayer:menuCreateRoom()
     
+    -- local msg = {}
+    -- msg.openid = "1"
+    -- msg.accesstoken = ""
+    -- msg.nickname = "test1"
+    -- msg.sex = 0
+
+    local msg = Game:getGameData():getCreateRoomInfo():getCardRoomInfo(XTMJ_CARD_GAME_ID)
+
+    local data, msgId = Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(msg)
+
+    local t = Message_Def:L2C_PLAYER_CREATE_ROOM_SYN(data)
+    
+    dump(t, "TTTTtttttt", 8)
+
+    Game:getSocketMgr():lobbySocketSend(data, msgId)
 end
 
 

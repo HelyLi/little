@@ -14,6 +14,12 @@ function SocketMgr:ctor()
         host = Game:getAppConfig():getLobbyHost(),
         port = Game:getAppConfig():getLobbyPort()
     })
+
+    self.m_cardsocket = SocketWrapper.new({
+        name = "game",
+        host = Game:getAppConfig():getLoginHost(),
+        port = Game:getAppConfig():getLoginPort()
+    })
 end
 
 ------Login------
@@ -76,13 +82,32 @@ function SocketMgr:lobbySocketClose()
     end
 end
 ------Game------
-function SocketMgr:getCardSocket()
+function SocketMgr:getCardGameSocket()
     return self.m_cardsocket
 end
 
-function SocketMgr:cardSocketConnect()
+function SocketMgr:setCardGameListener(listener)
+    if self.m_cardsocket then
+        print("setGameListener")
+        self.m_cardsocket:setListener(listener)
+    end
+end
+
+function SocketMgr:cardGameSocketConnect()
     if self.m_cardsocket then
         self.m_cardsocket:connect()
+    end
+end
+
+function SocketMgr:cardGameSocketSend(data, msgId)
+    if self.m_cardsocket then
+        self.m_cardsocket:send(data, msgId)
+    end
+end
+
+function SocketMgr:cardGameSocketClose()
+    if self.m_cardsocket then
+        self.m_cardsocket:close()
     end
 end
 

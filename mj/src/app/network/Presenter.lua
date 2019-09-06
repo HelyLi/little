@@ -20,8 +20,8 @@ end
 function Presenter:onReveived(byteArray)
     -- local bufferSize = byteArray:readUInt()--4
     local msgId = byteArray:readUInt()--4
-    local token = byteArray:readLong()--8
-
+    local token = byteArray:readULong()--8
+    -- byteArray:readUInt()
     print(msgId, token)
 
     print("len:", byteArray:getLen())

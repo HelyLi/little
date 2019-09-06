@@ -94,6 +94,9 @@ function LoginPresenter:l2c_player_login_ack(msgData)
     dump(data, "L2C_PLAYER_LOGIN_ACK")
 
     if data.errorcode == nil then
+        print(string.format("token:%u", data.clienttoken))
+        Game:getUserData():setToken(data.clienttoken)
+        
         self:preloadRes()
     end
 end

@@ -46,7 +46,11 @@ end
 function SocketWrapper:send(data, msgId)
     -- print(self:hex(data)
     print("msgId:", msgId)
-    local byteArray = ByteArray.new(ByteArray.ENDIAN_BIG):writeUInt(string.len(data) + 12):writeUInt(msgId):writeUInt(0):writeUInt(0):writeString(data):getPack()
+
+    local token = Game:getUserData():getToken()
+    print(string.format("token:%d", token))
+
+    local byteArray = ByteArray.new(ByteArray.ENDIAN_BIG):writeUInt(string.len(data) + 12):writeUInt(msgId):writeULong(token):writeString(data):getPack()
     print(self:hex(byteArray))
     print("---------")
     if self.m_socket then
