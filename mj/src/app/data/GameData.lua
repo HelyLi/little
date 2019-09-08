@@ -15,4 +15,12 @@ function GameData:getCreateRoomInfo()
 	return self.m_createRoomInfo
 end
 
+function GameData:getCreateOneRoomInfo()
+	return self.m_createOneRoomInfo
+end
+
+function GameData:setCreateOneRoomInfo(info)
+	self.m_createOneRoomInfo = info
+end
+
 return GameData

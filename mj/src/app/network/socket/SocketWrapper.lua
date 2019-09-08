@@ -29,8 +29,8 @@ function SocketWrapper:hex(s)
     return s
 end
 
-function SocketWrapper:connect()
-    self.m_socket = SimpleTCP.new(self.m_host, self.m_port, handler(self, self.onSocketEvent))
+function SocketWrapper:connect(host, port)
+    self.m_socket = SimpleTCP.new(host or self.m_host, port or self.m_port, handler(self, self.onSocketEvent))
     self.m_socket:connect()
 end
 

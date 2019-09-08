@@ -32,7 +32,10 @@ local Modules = {
     "app.config.AppGlobal",
     "app.views.Comui",
     "app.native.System",
-    "app.utils.bitOp"
+    "app.utils.bitOp",
+    "app.native.NativeApi",
+    "app.native.System",
+    "app.native.WeChat"
 }
 
 function Game:init()

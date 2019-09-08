@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVer
@@ -13,7 +12,7 @@ android {
         versionName "1.0.0"
 
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a","x86"
         }
         flavorDimensions "default"
     }
@@ -95,77 +94,14 @@ dependencies {
     })
     implementation 'com.android.support:multidex:1.+'
     implementation project(':libcocos2dx')
-    implementation project(':handlers')
-    implementation project(':library')
-    implementation project(':bannerlibrary')
 
     implementation 'com.google.guava:guava:27.0.1-jre'
     //support
-//    implementation "com.android.support:support-v4:$rootProject.ext.supportLibVer"
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVer}"
     implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVer}"
     implementation "com.android.support:design:${rootProject.ext.supportLibVer}"
 
-    //rxbinding
-    implementation "com.jakewharton.rxbinding2:rxbinding:${rootProject.ext.rxbindingVer}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rootProject.ext.rxbindingVer}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-design:${rootProject.ext.rxbindingVer}"
-
-    //retrofit2.x
-    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVer}"
-    implementation "com.squareup.retrofit2:retrofit-adapters:${rootProject.ext.retrofitVer}"
-    implementation "com.squareup.retrofit2:retrofit-converters:${rootProject.ext.retrofitVer}"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofitVer}"
-    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVer}"
-
-    //gson
-    implementation "com.google.code.gson:gson:${rootProject.ext.gsonVer}"
-
-    //okHttp
-    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttpVer}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okHttpVer}"
-
-    //rxJava
-    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJavaVer}"
-    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxAndroidVer}"
-
-    //rxlifecycle
-    implementation "com.trello.rxlifecycle2:rxlifecycle:${rootProject.ext.rxlifecycleVer}"
-//    implementation 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
-    implementation "com.trello.rxlifecycle2:rxlifecycle-components:${rootProject.ext.rxlifecycleComponentsVer}"
-//
-    //rxPermission
-//    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-    implementation "com.github.tbruyelle:rxpermissions:${rootProject.ext.rxPermissionsVer}"
-
-    //glide
-    implementation "com.github.bumptech.glide:glide:${rootProject.ext.glideVer}"
-
-    //logger
-    implementation "com.orhanobut:logger:${rootProject.ext.loggerVer}"
-    //greendao
-//    implementation "org.greenrobot:greendao:${rootProject.ext.greendaoVer}"
-
-    //bufferknife
-//    implementation "com.jakewharton:butterknife:${rootProject.ext.butterKnifeVer}"
-//    apt "com.jakewharton:butterknife-compiler:${rootProject.ext.butterKnifeVer}"
-    implementation "com.jakewharton:butterknife:${rootProject.ext.butterKnifeVer}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${rootProject.ext.butterKnifeVer}"
-//    compile 'com.jakewharton:butterknife:8.8.1'
-//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    //recyclerViewAdapterHelper
-    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:${rootProject.ext.baseRecyclerViewHelperVer}"
-
-    //MPAndroidChart
-    implementation "com.github.PhilJay:MPAndroidChart:${rootProject.ext.MPAndroidChartVer}"
-
-
-    //flowLayout
-    implementation "com.zhy:flowlayout-lib:${rootProject.ext.flowLayoutVer}"
-    //zxing 生成二维码
-    implementation "com.google.zxing:core:${rootProject.ext.zxingCoreVer}"
-    //NestFullListView
-    implementation "com.github.mcxtzhang:NestFullListView:${rootProject.ext.NestFullListViewVer}"
-
+    //wechat
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 }
 

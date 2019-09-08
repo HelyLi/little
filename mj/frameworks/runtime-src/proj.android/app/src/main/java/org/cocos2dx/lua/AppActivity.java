@@ -28,6 +28,7 @@ package org.cocos2dx.lua;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
+import org.cocos2dx.platform.WeChat;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ public class AppActivity extends Cocos2dxActivity{
 		int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 				| View.SYSTEM_UI_FLAG_FULLSCREEN;
 		decorView.setSystemUiVisibility(uiOptions);
+
+		WeChat.init(this);
 	}
 
 	@Override

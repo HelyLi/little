@@ -211,7 +211,7 @@ function Message_Def:L2C_PLAYER_GAME_ROOM_CONFIG_ACK(msgData)
     return T
 end
 
-function Message_Def:L2C_PLAYER_CREATE_ROOM_ACK()
+function Message_Def:L2C_PLAYER_CREATE_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_CREATE_ROOM_ACK()
     msg:ParseFromString(msgData)
 
@@ -220,7 +220,7 @@ function Message_Def:L2C_PLAYER_CREATE_ROOM_ACK()
     return T
 end
 
-function Message_Def:L2C_PLAYER_ENTER_ROOM_ACK()
+function Message_Def:L2C_PLAYER_ENTER_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_ENTER_ROOM_ACK()
     msg:ParseFromString(msgData)
 
@@ -229,7 +229,7 @@ function Message_Def:L2C_PLAYER_ENTER_ROOM_ACK()
     return T
 end
 
-function Message_Def:L2C_PLAYER_MONEY_UPDATA_ACK()
+function Message_Def:L2C_PLAYER_MONEY_UPDATA_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_MONEY_UPDATA_ACK()
     msg:ParseFromString(msgData)
 
@@ -334,7 +334,7 @@ end
 -- 	M2C_SUB_GAME_END_ACK									= 21018;			//游戏结束
 -- 	M2C_SUB_GAME_END_ALL_ACK								= 21019;			//所有游戏结束
 -- //--------------------------------------------------------------------------------------------------------------------------------------
-function Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_SYN()
+function Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_SYN(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ENTER_GAME_ROOM_SYN()
     msg:ParseFromString(msgData)
 
@@ -342,7 +342,7 @@ function Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_SYN()
     return T
 end
 
-function Message_Def:M2C_PLAYER_RECONNECT_GAME_ACK()
+function Message_Def:M2C_PLAYER_RECONNECT_GAME_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_RECONNECT_GAME_ACK()
     msg:ParseFromString(msgData)
 
@@ -350,7 +350,7 @@ function Message_Def:M2C_PLAYER_RECONNECT_GAME_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_BASEINFO_ACK()
+function Message_Def:M2C_PLAYER_BASEINFO_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_BASEINFO_ACK()
     msg:ParseFromString(msgData)
 
@@ -358,7 +358,7 @@ function Message_Def:M2C_PLAYER_BASEINFO_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK()
+function Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ROOM_BASEINFO_ACK()
     msg:ParseFromString(msgData)
 
@@ -366,7 +366,7 @@ function Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_ROOM_FREE_SCENE_ACK()
+function Message_Def:M2C_PLAYER_ROOM_FREE_SCENE_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ROOM_FREE_SCENE_ACK()
     msg:ParseFromString(msgData)
 
@@ -374,7 +374,7 @@ function Message_Def:M2C_PLAYER_ROOM_FREE_SCENE_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK()
+function Message_Def:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ROOM_PLAYING_SCENE_ACK()
     msg:ParseFromString(msgData)
 
@@ -382,7 +382,7 @@ function Message_Def:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_STATE_UPDATA_ACK()
+function Message_Def:M2C_PLAYER_STATE_UPDATA_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_STATE_UPDATA_ACK()
     msg:ParseFromString(msgData)
 
@@ -390,7 +390,7 @@ function Message_Def:M2C_PLAYER_STATE_UPDATA_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_ROOM_STATE_UPDATA_ACK()
+function Message_Def:M2C_PLAYER_ROOM_STATE_UPDATA_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ROOM_STATE_UPDATA_ACK()
     msg:ParseFromString(msgData)
 
@@ -398,7 +398,7 @@ function Message_Def:M2C_PLAYER_ROOM_STATE_UPDATA_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_SIT_DOWN_ACK()
+function Message_Def:M2C_PLAYER_SIT_DOWN_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_SIT_DOWN_ACK()
     msg:ParseFromString(msgData)
 
@@ -406,7 +406,7 @@ function Message_Def:M2C_PLAYER_SIT_DOWN_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_READY_ACK()
+function Message_Def:M2C_PLAYER_READY_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_READY_ACK()
     msg:ParseFromString(msgData)
 
@@ -414,7 +414,7 @@ function Message_Def:M2C_PLAYER_READY_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_OPER_LEAVE_ROOM_ACK()
+function Message_Def:M2C_PLAYER_OPER_LEAVE_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_OPER_LEAVE_ROOM_ACK()
     msg:ParseFromString(msgData)
 
@@ -422,7 +422,7 @@ function Message_Def:M2C_PLAYER_OPER_LEAVE_ROOM_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_DISMISS_ROOM_ACK()
+function Message_Def:M2C_PLAYER_DISMISS_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_DISMISS_ROOM_ACK()
     msg:ParseFromString(msgData)
 
@@ -430,7 +430,7 @@ function Message_Def:M2C_PLAYER_DISMISS_ROOM_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_VOTE_SYN()
+function Message_Def:M2C_PLAYER_VOTE_SYN(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_VOTE_SYN()
     msg:ParseFromString(msgData)
 
@@ -438,7 +438,7 @@ function Message_Def:M2C_PLAYER_VOTE_SYN()
     return T
 end
 
-function Message_Def:M2C_PLAYER_GAME_START_ACK()
+function Message_Def:M2C_PLAYER_GAME_START_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_GAME_START_ACK()
     msg:ParseFromString(msgData)
 
@@ -446,7 +446,7 @@ function Message_Def:M2C_PLAYER_GAME_START_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_MONEY_UPDATA_ACK()
+function Message_Def:M2C_PLAYER_MONEY_UPDATA_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_MONEY_UPDATA_ACK()
     msg:ParseFromString(msgData)
 
@@ -454,7 +454,7 @@ function Message_Def:M2C_PLAYER_MONEY_UPDATA_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_OPERATE_NOTIFY_ACK()
+function Message_Def:M2C_PLAYER_OPERATE_NOTIFY_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_OPERATE_NOTIFY_ACK()
     msg:ParseFromString(msgData)
 
@@ -462,7 +462,7 @@ function Message_Def:M2C_PLAYER_OPERATE_NOTIFY_ACK()
     return T
 end
 
-function Message_Def:M2C_PLAYER_OPERATE_RESULT_ACK()
+function Message_Def:M2C_PLAYER_OPERATE_RESULT_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_OPERATE_RESULT_ACK()
     msg:ParseFromString(msgData)
 
@@ -470,7 +470,7 @@ function Message_Def:M2C_PLAYER_OPERATE_RESULT_ACK()
     return T
 end
 
-function Message_Def:M2C_SUB_GAME_END_ACK()
+function Message_Def:M2C_SUB_GAME_END_ACK(msgData)
     local msg = Message_pb.MSG_M2C_SUB_GAME_END_ACK()
     msg:ParseFromString(msgData)
 
@@ -478,7 +478,7 @@ function Message_Def:M2C_SUB_GAME_END_ACK()
     return T
 end
 
-function Message_Def:M2C_SUB_GAME_END_ALL_ACK()
+function Message_Def:M2C_SUB_GAME_END_ALL_ACK(msgData)
     local msg = Message_pb.MSG_M2C_SUB_GAME_END_ALL_ACK()
     msg:ParseFromString(msgData)
 

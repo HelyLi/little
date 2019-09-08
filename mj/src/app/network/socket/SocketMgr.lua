@@ -93,9 +93,9 @@ function SocketMgr:setCardGameListener(listener)
     end
 end
 
-function SocketMgr:cardGameSocketConnect()
+function SocketMgr:cardGameSocketConnect(host, port)
     if self.m_cardsocket then
-        self.m_cardsocket:connect()
+        self.m_cardsocket:connect(host, port)
     end
 end
 

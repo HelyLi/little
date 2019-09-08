@@ -1,5 +1,7 @@
 local Presenter = import("app.network.Presenter")
 local Message_Def = import("app.pb.Message_Def")
+-- require("app.native.NativeApi")
+-- require("app.native.WeChat")
 
 local AsyncRes = {
     "LoginRes",
@@ -23,12 +25,12 @@ function LoginPresenter:ctor(view)
 end
 
 function LoginPresenter:initLoginSocket()
-    Game:getSocketMgr():setLoginListener(self)
-    Game:getSocketMgr():loginSocketConnect()
+    --Game:getSocketMgr():setLoginListener(self)
+    --Game:getSocketMgr():loginSocketConnect()
 end
 
 function LoginPresenter:onConnected()
-    self:toLogin()
+    --self:toLogin()
 end
 
 function LoginPresenter:onClosed()
@@ -39,18 +41,20 @@ end
 function LoginPresenter:toLogin()
     -- pushEvent
     -- Game:getEventDispatcher().pushEvent(AppGlobal.EventMsg.SPEAKER_POP_UP, { data = "data" })
-    
-    comui.addWaitingLayer()
+    -- WeChat.doLogin()
+    -- comui.addWaitingLayer()
 
-    local msg = {}
-    msg.openid = "1"
-    msg.accesstoken = ""
-    msg.nickname = "test1"
-    msg.sex = 0
+    -- local msg = {}
+    -- msg.openid = "1"
+    -- msg.accesstoken = ""
+    -- msg.nickname = "test1"
+    -- msg.sex = 0
     
-    local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
+    -- local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
 
-    Game:getSocketMgr():loginSocketSend(data, msgId)
+    -- Game:getSocketMgr():loginSocketSend(data, msgId)
+
+    self:preloadRes()
 end
 
 function LoginPresenter:preloadRes()
