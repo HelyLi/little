@@ -116,6 +116,7 @@ function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
 
     local room_rules = msg.room_rules--:add() 
     room_rules.kindid = data.dwGameId
+    room_rules.areaid = data.areaId
     room_rules.paytype = data.payment_default
     room_rules.playernum = data.playernum_default
     room_rules.ju_num = data.jushu_default
@@ -252,64 +253,132 @@ end
 -- 	C2M_PLAYER_TRUSTEE_SYN									= 21010;		//玩家托管
 -- //--------------------------------------------------------------------------------------------------------------------------------------
 
+-- message MSG_C2M_PLAYER_ENTER_GAME_ROOM_SYN
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 roomid = 2;
+-- 	optional uint64 token = 3;
+-- 	optional int32 playerid = 4;
+-- }
+
 function Message_Def:C2M_PLAYER_ENTER_GAME_ROOM_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_ENTER_GAME_ROOM_SYN()
+    msg.messageID = C2M_PLAYER_ENTER_GAME_ROOM_SYN
+    msg.roomid = data.roomId
+    msg.token = data.token
+    msg.playerid = data.userId
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2M_PLAYER_ENTER_GAME_ROOM_SYN
 end
+
+-- message MSG_C2M_PLAYER_RECONNECT_GAME_SYN
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 playerid = 2;
+-- 	optional uint64 token = 3 ;
+-- }
 
 function Message_Def:C2M_PLAYER_RECONNECT_GAME_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_RECONNECT_GAME_SYN()
+    msg.messageID = C2M_PLAYER_RECONNECT_GAME_SYN
+    msg.playerid = data.userId
+    msg.token = data.token
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2M_PLAYER_RECONNECT_GAME_SYN
 end
 
 function Message_Def:C2M_PLAYER_SIT_DOWN_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_SIT_DOWN_SYN()
+    msg.messageID = C2M_PLAYER_SIT_DOWN_SYN
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2M_PLAYER_SIT_DOWN_SYN
 end
 
 function Message_Def:C2M_PLAYER_READY_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_READY_SYN()
-
-    return msg:SerializeToString()
+    msg.messageID = C2M_PLAYER_READY_SYN
+    return msg:SerializeToString(), C2M_PLAYER_READY_SYN
 end
 
 function Message_Def:C2M_PLAYER_LEAVE_ROOM_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_LEAVE_ROOM_SYN()
+    msg.messageID = C2M_PLAYER_LEAVE_ROOM_SYN
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2M_PLAYER_LEAVE_ROOM_SYN
 end
 
 function Message_Def:C2M_PLAYER_DISMISS_ROOM_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_DISMISS_ROOM_SYN()
+    mgs.messageID = C2M_PLAYER_DISMISS_ROOM_SYN
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2M_PLAYER_DISMISS_ROOM_SYN
 end
 
-function Message_Def:C2M_PLAYER_VOTE_SYN(data)
+-- message MSG_C2M_PLAYER_VOTE_SYN
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 oper = 2;	//1:同意 2：拒绝
+-- }
+function Message_Def:C2M_PLAYER_VOTE_SYN(oper)
     local msg = Message_pb.MSG_C2M_PLAYER_VOTE_SYN()
+    msg.messageID = C2M_PLAYER_VOTE_SYN
+    msg.oper = oper
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2M_PLAYER_VOTE_SYN
 end
 
+-- message MSG_C2M_PLAYER_OUT_CARD_SYN
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 cardval =2;
+-- 	optional int32 cardindex = 3; 
+-- }
 function Message_Def:C2M_PLAYER_OUT_CARD_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_OUT_CARD_SYN()
+    msg.messageID = C2M_PLAYER_OUT_CARD_SYN
+    msg.cardval = data.cardval
+    msg.cardindex = data.cardindex
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2M_PLAYER_OUT_CARD_SYN
 end
 
+-- message MSG_C2M_PLAYER_OPERATE_RESULT_SYN
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional OPERATE_CODE oper = 2;			//操作码
+-- 	repeated int32 actiondata = 3;  //吃碰杠数据
+-- }
+-- //操作码
+-- enum OPERATE_CODE
+-- {
+-- 	SUB_OPER_INIT = 0;
+-- 	SUB_OPER_CHI = 1;
+-- 	SUB_OPER_PENG = 2;
+-- 	SUB_OPER_AN_GANG = 3;
+-- 	SUB_OPER_MING_GANG = 4;
+-- 	SUB_OPER_BU_GANG = 5;
+-- 	SUB_OPER_HU	= 6;
+-- }
 function Message_Def:C2M_PLAYER_OPERATE_RESULT_SYN(data)
     local msg = Message_pb.MSG_C2M_PLAYER_OPERATE_RESULT_SYN()
+    msg.messageID = C2M_PLAYER_OPERATE_RESULT_SYN
+    msg.oper = data.oper
+    msg.actiondata = data.actiondata
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2M_PLAYER_OPERATE_RESULT_SYN
 end
 
-function Message_Def:C2M_PLAYER_TRUSTEE_SYN(data)
+-- message MSG_C2M_PLAYER_TRUSTEE_SYN
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional bool btrustee = 2;							//是否托管
+-- }
+function Message_Def:C2M_PLAYER_TRUSTEE_SYN(btrustee)
     local msg = Message_pb.MSG_C2M_PLAYER_TRUSTEE_SYN()
+    msg.messageID = C2M_PLAYER_TRUSTEE_SYN
+    msg.btrustee = btrustee
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2M_PLAYER_TRUSTEE_SYN
 end
 
 -- //-------------------------------------------------------------------------------------------------------------------------------------
@@ -485,5 +554,29 @@ function Message_Def:M2C_SUB_GAME_END_ALL_ACK(msgData)
     local T = {}
     return T
 end
+
+-- //-------------------------------------------------------------------------------------------------------------------------------------
+-- //游戏服务器发送给客户端的消息
+-- 	M2C_PLAYER_ENTER_GAME_ROOM_ACK							= 22001;			//请求进入游戏房间成功
+-- 	M2C_PLAYER_RECONNECT_GAME_ACK							= 22002;			//重连成功
+-- 	M2C_PLAYER_BASEINFO_ACK									= 22003;			//玩家的基本信息
+-- 	M2C_PLAYER_ROOM_BASEINFO_ACK							= 22004;			//桌子的基本信息
+-- 	M2C_PLAYER_ROOM_FREE_SCENE_ACK							= 22005;			//桌子空闲场景消息
+-- 	M2C_PLAYER_ROOM_PLAYING_SCENE_ACK						= 22006;			//桌子战斗场景消息
+-- 	M2C_PLAYER_STATE_UPDATA_ACK								= 22007;			//玩家状态更新
+-- 	M2C_PLAYER_ROOM_STATE_UPDATA_ACK						= 22008;			//桌子状态更新
+-- 	M2C_PLAYER_SIT_DOWN_ACK									= 22009;			//玩家坐下成功
+-- 	M2C_PLAYER_READY_ACK									= 22010;			//玩家准备成功
+-- 	M2C_PLAYER_OPER_LEAVE_ROOM_ACK							= 22011;			//玩家离开成功
+-- 	M2C_PLAYER_DISMISS_ROOM_ACK								= 22012;			//玩家解散房间成功
+-- 	M2C_PLAYER_VOTE_SYN										= 22013;			//玩家投票成功
+-- 	M2C_PLAYER_GAME_START_ACK								= 22014;			//游戏开始
+-- 	M2C_PLAYER_MONEY_UPDATA_ACK								= 22015;			//货币更新
+-- 	M2C_PLAYER_OPERATE_NOTIFY_ACK							= 22016;			//操作提示
+-- 	M2C_PLAYER_OPERATE_RESULT_ACK							= 21017;			//操作命令
+-- 	M2C_SUB_GAME_END_ACK									= 21018;			//游戏结束
+-- 	M2C_SUB_GAME_END_ALL_ACK								= 21019;			//所有游戏结束
+-- //--------------------------------------------------------------------------------------------------------------------------------------
+
 
 return Message_Def

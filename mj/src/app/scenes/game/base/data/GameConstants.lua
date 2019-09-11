@@ -1,11 +1,39 @@
 GameConstants = GameConstants or {}
 
 GameConstants.ROOM_UI = {
+    PHONE_INFO = 1,
+    ROOM_ID = 2,
+    DESK_INFO = 3,
+    DESK_MENU = 4,
+    WAIT_MENU = 5,
+    GAME_HEART = 6,
+    SPEAKER = 7,
+    PLAYERS = 8,
+    GAME_CHAT = 9,
+    TRUST_MENU = 10,
+}
 
+GameConstants.VIEW_ID = {
+    My = 1,
+    PlayerA = 2,
+    PlayerB = 3,
+    PlayerC = 4
 }
 
 GameConstants.GAME_UI = {
-
+    MyPlayingCards = 1,
+    PlayingCardsA = 2,
+    PlayingCardsB = 3,
+    PlayingCardsC = 4,
+    GoldCardOnDesk = 5,
+    OutCardsOnDesk = 6,
+    GameDirection = 7,
+    RemainCards = 8,
+    GameFlow = 9,
+    PlayStatus = 10,
+    SendCardCtr = 11,
+    TipOpResult = 12,
+    TipProcess = 13,
 }
 
 GameConstants.Z_ORDER = {

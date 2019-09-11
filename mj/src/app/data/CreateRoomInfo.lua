@@ -10,7 +10,8 @@ function CreateRoomInfo:clear()
 			name = "泉州麻将",
 			dwGameId = XTMJ_CARD_GAME_ID,
 			isEnable = false,
-			isFree = 0,
+            isFree = 0,
+            areaId = 0,--地区
 			-- 排序
             order = 0,
             difen = {},
@@ -66,6 +67,7 @@ function CreateRoomInfo:decodeCardRoomInfo(data)
         local roomInfo = self:getCardRoomInfo(gameId)
         roomInfo.name = room.name
         roomInfo.isFree = room.free
+        roomInfo.areaId = room.areaid
 
         local config = json.decode(room.config)
         roomInfo.isEnable = true

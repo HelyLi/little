@@ -12,6 +12,7 @@ function LobbyPresenter:ctor(view)
     Presenter.init(self, view)
     self:initHandlerMsg()
     self:initLobbySocket()
+    self.m_enterRoom = false
 end
 
 function LobbyPresenter:initLobbySocket()
@@ -25,7 +26,11 @@ function LobbyPresenter:onConnected()
 end
 
 function LobbyPresenter:onClosed()
-    
+    if self.m_enterRoom == true then
+        self.m_enterRoom = false
+        
+        Game:getSceneMgr():goCardGameScene()
+    end
 end
 -- message MSG_L2D_PLAYER_LOGIN_SYN
 -- {
@@ -134,6 +139,14 @@ function LobbyPresenter:l2c_player_game_room_config_ack(msgData)
     
 end
 
+-- - "L2C_PLAYER_CREATE_ROOM_ACK" = {
+--         "gameip"    = "47.94.233.203"
+--         "gameport"  = 9000
+--         "messageID" = 11004
+--         "ownerid"   = 10001
+--         "roomid"    = 756608
+--     }
+
 function LobbyPresenter:l2c_player_create_room_ack(msgData)
     print("l2c_player_create_room_ack")
     local data = Message_Def:L2C_PLAYER_CREATE_ROOM_ACK(msgData)
@@ -142,6 +155,7 @@ function LobbyPresenter:l2c_player_create_room_ack(msgData)
     if data.errorcode == nil then
         Game:getSocketMgr():lobbySocketClose()
         Game:getGameData():setCreateOneRoomInfo(data)
+        self.m_enterRoom = true
     end
     
 end

@@ -88,4 +88,14 @@ public class System {
     public static void compressImage(final String srcpath, final String dstpath, final float quality){
 
     }
+
+//    static boolean exit;
+//
+//    public static boolean isExit() {
+//        return exit;
+//    }
+//
+//    public static void setExit(boolean exit) {
+//        System.exit = exit;
+//    }
 }
