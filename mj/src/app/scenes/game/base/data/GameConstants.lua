@@ -11,6 +11,7 @@ GameConstants.ROOM_UI = {
     Players = 8,
     GameChat = 9,
     TrustMenu = 10,
+    ShareScreen = 11
 }
 
 GameConstants.VIEW_ID = {
@@ -41,6 +42,10 @@ GameConstants.Z_ORDER = {
     RoomId = 5,
     DeskInfo = 10,
     Players = 15,
+    DeskMenu = 20,
+    WaitMenu = 25,
+    ShareScreen = 30,
+    Speaker = 35,
 }
 
 GameConstants.TAG = {
@@ -48,6 +53,10 @@ GameConstants.TAG = {
     RoomId = 2,
     DeskInfo = 3,
     Players = 4,
+    DeskMenu = 5,
+    WaitMenu = 6,
+    ShareScreen = 7,
+    Speaker = 8
 }
 
 GameConstants.CARD_TAG = {
