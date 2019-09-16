@@ -1,7 +1,6 @@
 --麻将
 local XTMJPresenter = import(".XTMJPresenter")
-local CardLayer = import("..data.CardLayer")
-
+local CardLayer = import("..base.CardLayer")
 local XTMJScene = class("XTMJScene", function ()
     return display.newScene("XTMJScene")
 end)

@@ -22,8 +22,8 @@ local CardGameScene = {
 }
 
 function SceneMgr:goCardGameScene(game)
-    local gameId = game.gameId
-    self:gotoScene(CardGameScene[gameId])
+    -- local gameId = game.gameId
+    self:gotoScene(CardGameScene[XTMJ_CARD_GAME_ID])
 end
 
 return SceneMgr

@@ -8,12 +8,12 @@ function UIParent:ctor()
     
 end
 
-function UIParent:setPresenter(presenter)
-    self.m_presenter = presenter
+function UIParent:setContainer(container)
+    self.m_container = container
 end
 
-function UIParent:getPresenter()
-    return self.m_presenter
+function UIParent:getContainer()
+    return self.m_container
 end
 
 function UIParent:onEnter()

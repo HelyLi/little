@@ -30,6 +30,7 @@ function SocketWrapper:hex(s)
 end
 
 function SocketWrapper:connect(host, port)
+    print("host:", host, ",port:", port)
     self.m_socket = SimpleTCP.new(host or self.m_host, port or self.m_port, handler(self, self.onSocketEvent))
     self.m_socket:connect()
 end
@@ -52,7 +53,7 @@ function SocketWrapper:send(data, msgId)
 
     local byteArray = ByteArray.new(ByteArray.ENDIAN_BIG):writeUInt(string.len(data) + 12):writeUInt(msgId):writeULong(token):writeString(data):getPack()
     print(self:hex(byteArray))
-    print("---------")
+    print(self.m_name .. "---------")
     if self.m_socket then
         self.m_socket:send(byteArray)
     end

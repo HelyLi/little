@@ -28,8 +28,9 @@ end
 function LobbyPresenter:onClosed()
     if self.m_enterRoom == true then
         self.m_enterRoom = false
-        
-        Game:getSceneMgr():goCardGameScene()
+        self.m_view:runAction(cc.Sequence:create(cc.DelayTime:create(0.5), cc.CallFunc:create(function ()
+            Game:getSceneMgr():goCardGameScene()
+        end)))
     end
 end
 -- message MSG_L2D_PLAYER_LOGIN_SYN
@@ -80,15 +81,24 @@ function LobbyPresenter:toLogin()
     -- WeChat.doLogin()
     -- comui.addWaitingLayer()
 
-    local msg = {}
-    msg.openid = "1"
-    msg.accesstoken = ""
-    msg.nickname = "test1"
-    msg.sex = 0
+    -- local msg = {}
+    -- msg.openid = "1"
+    -- msg.accesstoken = ""
+    -- msg.nickname = "test1"
+    -- msg.sex = 0
     
-    local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
+    -- local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
 
-    Game:getSocketMgr():lobbySocketSend(data, msgId)
+    local data = {
+        roomId = 999040,
+        token  = 1568560920023,
+        userId = 10001,
+        }
+        
+
+    local msg, msgId = Message_Def:C2M_PLAYER_ENTER_GAME_ROOM_SYN(data)
+
+    Game:getSocketMgr():lobbySocketSend(msg, msgId)
 end
 
 -- message MSG_D2L_PLAYER_PLAYER_TOTALINFO_ACK
@@ -154,9 +164,21 @@ function LobbyPresenter:l2c_player_create_room_ack(msgData)
 
     if data.errorcode == nil then
         Game:getSocketMgr():lobbySocketClose()
-        Game:getGameData():setCreateOneRoomInfo(data)
+        Game:getGameData():setCreateRoomAck(data)
         self.m_enterRoom = true
     end
+
+    -- data = {
+    --         gameip    = "47.94.233.203",
+    --         gameport  = 9000,
+    --         messageID = 11004,
+    --         ownerid   = 10001,
+    --         roomid    = 544384,
+    --     }
+
+    --     Game:getSocketMgr():lobbySocketClose()
+    --     Game:getGameData():setCreateRoomAck(data)
+    --     self.m_enterRoom = true
     
 end
 

@@ -1,6 +1,7 @@
 local GameRoomData = class("GameRoomData")
 
 function GameRoomData:ctor()
+    
 end
 
 function GameRoomData:clearBase()

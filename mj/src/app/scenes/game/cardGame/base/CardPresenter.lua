@@ -1,74 +1,59 @@
 -- local Rx = require 'app.utils.rx'
-local ByteArray = import("app.utils.ByteArray")
-local Presenter = import("app.network.Presenter")
+-- local ByteArray = import("app.utils.ByteArray")
+local GamePresenter = import("app.scenes.game.base.GamePresenter")
 
-
-local CardPresenter = class("CardPresenter",function()
-    return Presenter.new()
-end)
+local CardPresenter = class("CardPresenter",GamePresenter)
 
 function CardPresenter:ctor(view)
-    Presenter.init(self, view)
-    self:initHandlerMsg()
-    self:initCardGameSocket()
+    CardPresenter.super.ctor(self, view)
 end
-
+-- - "L2C_PLAYER_CREATE_ROOM_ACK" = {
+--         "gameip"    = "47.94.233.203"
+--         "gameport"  = 9000
+--         "messageID" = 11004
+--         "ownerid"   = 10001
+--         "roomid"    = 756608
+--     }
 function CardPresenter:initCardGameSocket()
     Game:getSocketMgr():setCardGameListener(self)
-    Game:getSocketMgr():cardGameSocketConnect()
+    local ack = Game:getGameData():getCreateRoomAck()
+    dump(ack, "initCardGameSocket")
+    Game:getSocketMgr():cardGameSocketConnect(ack.gameip, ack.gameport)
 end
-
+-- function Message_Def:C2M_PLAYER_ENTER_GAME_ROOM_SYN(data)
+--     local msg = Message_pb.MSG_C2M_PLAYER_ENTER_GAME_ROOM_SYN()
+--     msg.messageID = C2M_PLAYER_ENTER_GAME_ROOM_SYN
+--     msg.roomid = data.roomId
+--     msg.token = data.token
+--     msg.playerid = data.userI
 function CardPresenter:onConnected()
-    print("onConnected")
+    print("CardPresenter.onConnected")
+    local ack = Game:getGameData():getCreateRoomAck()
+    local data = {}
+    data.roomId = ack.roomid
+    data.token = Game:getUserData():getToken()
+    data.userId = ack.ownerid
+
+    dump(data, "onConnected")
+
+    local msg, msgId = Message_Def:C2M_PLAYER_ENTER_GAME_ROOM_SYN(data)
+    Game:getSocketMgr():cardGameSocketSend(msg, msgId)
 end
 
-function CardPresenter:onClosed()
-    
-end
--- message MSG_L2D_PLAYER_LOGIN_SYN
--- {
--- 	required int32 messageID = 1;
--- 	required uint64 clientid = 2;
--- 	required string openid = 3;
--- 	required string accesstoken = 4;
--- 	required string nickname = 5;
--- 	required int32 sex = 6;
--- }
+-- function CardPresenter:onConnected()
+--     print("CardPresenter.onConnected")
+--     -- local ack = Game:getGameData():getCreateRoomAck()
+--     -- local data = {}
+--     -- data.roomId = ack.roomid
+--     -- data.token = Game:getUserData():getToken()
+--     -- data.userId = ack.ownerid
 
--- MSG_L2D_PLAYER_LOGIN_SYN
+--     -- dump(data, "onConnected")
 
--- L2D_PLAYER_LOGIN_SYN = 10008
--- D2L_PLAYER_PLAYER_TOTALINFO_ACK = 10009
--- L2D_PLAYERINFO_UPDATE_SYN = 10012
+--     local msg, msgId = Message_Def:C2M_PLAYER_SIT_DOWN_SYN()
+--     Game:getSocketMgr():cardGameSocketSend(msg, msgId)
+-- end
 
-function CardPresenter:initHandlerMsg()
-    self.m_handlerTable = {}
-
-    -- self.m_handlerTable[D2L_PLAYER_PLAYER_TOTALINFO_ACK] = handler(self, self.d2l_player_player_totalinfo_ack)
-
-end
-
--- //客户端请求游戏服务器消息
--- 	C2M_PLAYER_ENTER_GAME_ROOM_SYN							= 21001;		//请求进入游戏房间
--- 	C2M_PLAYER_RECONNECT_GAME_SYN							= 21002;		//断线重连
--- 	C2M_PLAYER_SIT_DOWN_SYN									= 21003;		//请求坐下
--- 	C2M_PLAYER_READY_SYN									= 21004;		//玩家准备
--- 	C2M_PLAYER_LEAVE_ROOM_SYN								= 21005;		//玩家离开
--- 	C2M_PLAYER_DISMISS_ROOM_SYN								= 21006;		//请求房间解散
--- 	C2M_PLAYER_VOTE_SYN										= 21007;		//玩家解散投票
--- 	C2M_PLAYER_OUT_CARD_SYN									= 21008;		//玩家出牌
--- 	C2M_PLAYER_OPERATE_RESULT_SYN							= 21009;		//操作命令
--- 	C2M_PLAYER_TRUSTEE_SYN									= 21010;		//玩家托管
--- //--------------------------------------------------------------------------------------------------------------------------------------
-
-
--- message MSG_D2L_PLAYER_PLAYER_TOTALINFO_ACK
--- {
--- 	required int32 messageID = 1;
--- 	required int32 errorcode = 2;
--- 	required PlayerTotalInfo playerInfo = 3;
--- 	required uint64 clientid = 4;
--- }
 
 
 return CardPresenter

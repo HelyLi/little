@@ -1,5 +1,5 @@
 local UIParent = import("app.scenes.game.base.UIParent")
-local UIPlayersItem = import("UIPlayersItem")
+local UIPlayersItem = import(".UIPlayersItem")
 
 local UIPlayers = class("UIPlayers", function ()
     return UIParent.new()

@@ -10,7 +10,7 @@ function GameLayer:ctor()
 end
 
 function GameLayer:init()
-    self:initBG()
+    self:initBg()
     self:regBackEvent()
 end
 

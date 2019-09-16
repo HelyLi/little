@@ -1,16 +1,16 @@
 GameConstants = GameConstants or {}
 
 GameConstants.ROOM_UI = {
-    PHONE_INFO = 1,
-    ROOM_ID = 2,
-    DESK_INFO = 3,
-    DESK_MENU = 4,
-    WAIT_MENU = 5,
-    GAME_HEART = 6,
-    SPEAKER = 7,
-    PLAYERS = 8,
-    GAME_CHAT = 9,
-    TRUST_MENU = 10,
+    PhoneInfo = 1,
+    RoomId = 2,
+    DeskInfo = 3,
+    DeskMenu = 4,
+    WaitMenu = 5,
+    GameHeart = 6,
+    Speaker = 7,
+    Players = 8,
+    GameChat = 9,
+    TrustMenu = 10,
 }
 
 GameConstants.VIEW_ID = {
@@ -37,7 +37,17 @@ GameConstants.GAME_UI = {
 }
 
 GameConstants.Z_ORDER = {
+    PhoneInfo = 1,
+    RoomId = 5,
+    DeskInfo = 10,
+    Players = 15,
+}
 
+GameConstants.TAG = {
+    PhoneInfo = 1,
+    RoomId = 2,
+    DeskInfo = 3,
+    Players = 4,
 }
 
 GameConstants.CARD_TAG = {

@@ -4,11 +4,11 @@ local UIPhoneInfo = class("UIPhoneInfo", function ()
     return UIParent.new()
 end)
 
-function UIPhoneInfo:ctor(presenter, order, tag, roomType)
-    self.m_presenter = presenter
+function UIPhoneInfo:ctor(container, order, tag, roomType)
+    self.m_container = container
     self.m_roomType = roomType
 
-    self:addTo(presenter, order, tag)
+    self:addTo(container, order, tag)
 end
 
 function UIPhoneInfo:onEnter()

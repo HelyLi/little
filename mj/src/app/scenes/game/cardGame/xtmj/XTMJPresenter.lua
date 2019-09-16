@@ -1,15 +1,9 @@
 local CardPresenter = import("..base.CardPresenter")
 
-local XTMJPresenter = class("XTMJPresenter",function()
-    return CardPresenter.new()
-end)
+local XTMJPresenter = class("XTMJPresenter",CardPresenter)
 
-function XTMJPresenter:ctor()
-    
-end
-
-function XTMJPresenter:onConnected()
-    print("onConnected")
+function XTMJPresenter:ctor(view)
+    XTMJPresenter.super.ctor(self, view)
 end
 
 function XTMJPresenter:onEnter()
