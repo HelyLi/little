@@ -1,17 +1,18 @@
 local GameConstants = import("..data.GameConstants")
+local UIParent = import("app.scenes.game.base.UIParent")
 
 local GameFlow = class("GameFlow", function ()
-    return display.newNode()
+    return UIParent.new()
 end)
 
-function GameFlow:ctor(presenter)
-    self.m_presenter = presenter
+function GameFlow:ctor(container)
+    self.m_container = container
     self.m_flowQueue = Queue.new(10)
     self.m_curProcess = GameConstants.PROCESS.NONE
     self.m_processOver = {}
 
     self:initFlowFunc()
-    self:addTo(presenter)
+    self:addTo(container)
 end
 -- GameConstants.PROCESS = {
 --     NONE                = 0,

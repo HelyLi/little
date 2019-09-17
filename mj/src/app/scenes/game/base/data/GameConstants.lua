@@ -26,15 +26,16 @@ GameConstants.GAME_UI = {
     PlayingCardsA = 2,
     PlayingCardsB = 3,
     PlayingCardsC = 4,
-    GoldCardOnDesk = 5,
-    OutCardsOnDesk = 6,
+    DeskGoldCard = 5,
+    DeskOutCards = 6,
     GameDirection = 7,
-    RemainCards = 8,
+    GameInfo = 8,
     GameFlow = 9,
-    PlayStatus = 10,
+    -- PlayStatus = 10,
     SendCardCtr = 11,
     TipOpResult = 12,
     TipProcess = 13,
+    GameHuFlow = 14,
 }
 
 GameConstants.Z_ORDER = {
@@ -46,6 +47,20 @@ GameConstants.Z_ORDER = {
     WaitMenu = 25,
     ShareScreen = 30,
     Speaker = 35,
+    MyPlayingCards = 1,
+    PlayingCardsA = 2,
+    PlayingCardsB = 3,
+    PlayingCardsC = 4,
+    DeskGoldCard= 5,
+    DeskOutCards = 6,
+    GameDirection = 7,
+    GameInfo = 8,
+    GameFlow = 9,
+    PlayStatus = 10,
+    SendCardCtr = 11,
+    TipOpResult = 12,
+    TipProcess = 13,
+    GameHuFlow = 14
 }
 
 GameConstants.TAG = {
