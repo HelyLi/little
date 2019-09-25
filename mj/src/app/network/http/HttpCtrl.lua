@@ -7,7 +7,7 @@ function HttpCtrl.http(params)
     local url = params.url
 
     if type(callback) ~= "function" then
-        callback = function(data) end
+        callback = function(...) end
     end
 
     local request = network.createHTTPRequest(function(event)

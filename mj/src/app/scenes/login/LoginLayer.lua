@@ -24,6 +24,13 @@ function LoginLayer:initView()
         parent = self
     })
 
+    -- comui.Button({
+    --     normal = "login_btn_yk_skin.png",
+    --     pos = cc.p(display.cx + 200, display.cy-135),
+    --     callfunc = handler(self.m_presenter, self.m_presenter.releaseRes),
+    --     parent = self
+    -- })
+
     -- local clipSize = cc.size(100, 100)
     -- local node = display.newRoundedRect(clipSize, 8, {
     --     fillColor = cc.c4f(0,0,0,1),

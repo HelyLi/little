@@ -4,9 +4,9 @@ local HostInfo = {
     --release
     {
         login_host = "47.94.233.203",
-        login_port = "9000",
+        login_port = "8000",
         lobby_host = "47.94.233.203",
-        lobby_port = "9000",
+        lobby_port = "8000",
         update_url = ""
     },
     --beta

@@ -4,14 +4,9 @@ local Message_Def = import("app.pb.Message_Def")
 -- require("app.native.WeChat")
 
 local AsyncRes = {
-    "LoginRes",
-    "ComRes",
     "LobMainRoomRes",
-    "LobAddRoomRes",
-    "ComUIRes",
     "LobCreateRoomRes",
-    "QzRoomRes",
-    "HotRes"
+    "QzRoomRes"
 }
 
 local LoginPresenter = class("LoginPresenter",function()
@@ -25,12 +20,12 @@ function LoginPresenter:ctor(view)
 end
 
 function LoginPresenter:initLoginSocket()
-    --Game:getSocketMgr():setLoginListener(self)
-    --Game:getSocketMgr():loginSocketConnect()
+    -- Game:getSocketMgr():setLoginListener(self)
+    -- Game:getSocketMgr():loginSocketConnect()
 end
 
 function LoginPresenter:onConnected()
-    --self:toLogin()
+    -- self:toLogin()
 end
 
 function LoginPresenter:onClosed()
@@ -53,11 +48,52 @@ function LoginPresenter:toLogin()
     -- local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
 
     -- Game:getSocketMgr():loginSocketSend(data, msgId)
+    if device.platform == "ios" then
+        self:preloadRes()
+    elseif device.platform == "android" then
+        self:preloadResAsync()
+    end
+end
 
-    self:preloadRes()
+function LoginPresenter:releaseRes()
+    self:unloadTextures(AsyncRes)
+    cc.Director:getInstance():purgeCachedData()
+end
+
+function LoginPresenter:unloadTextures( textures )
+    if textures and #textures > 0 then
+        local sharedTextureCache = cc.Director:getInstance():getTextureCache()
+        for i, v in ipairs(textures) do
+            
+            display.removeSpriteFramesWithFile(v..".plist")
+            sharedTextureCache:removeTextureForKey(v..".pvr.ccz")
+        end
+    end
 end
 
 function LoginPresenter:preloadRes()
+    
+    local resNum = #AsyncRes
+    local curNum = 0
+    
+    for i,v in ipairs(AsyncRes) do
+        curNum =  curNum + 1
+        print("加载"..AsyncRes[curNum]..".pvr.ccz")
+        display.addSpriteFrames(AsyncRes[curNum]..".plist",AsyncRes[curNum]..".pvr.ccz")
+        if curNum == resNum and self then
+            print("图片加载完成")
+            if comui.isWaiting() then
+                comui.removeWaitingLayer()
+            end
+            Game:getSceneMgr():goLobbyScene()
+        end
+    end
+    if #AsyncRes > 0 then
+        self:startLoadResTimeout()
+    end
+end
+
+function LoginPresenter:preloadResAsync()
     
     local resNum = #AsyncRes
     local curNum = 0
@@ -101,7 +137,7 @@ function LoginPresenter:l2c_player_login_ack(msgData)
         print(string.format("token:%u", data.clienttoken))
         Game:getUserData():setToken(data.clienttoken)
         
-        self:preloadRes()
+        -- self:preloadRes()
     end
 end
 

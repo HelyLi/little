@@ -81,22 +81,22 @@ function LobbyPresenter:toLogin()
     -- WeChat.doLogin()
     -- comui.addWaitingLayer()
 
-    -- local msg = {}
-    -- msg.openid = "1"
-    -- msg.accesstoken = ""
-    -- msg.nickname = "test1"
-    -- msg.sex = 0
+    local msg = {}
+    msg.openid = "2"
+    msg.accesstoken = ""
+    msg.nickname = "test1"
+    msg.sex = 0
     
-    -- local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
+    local msg, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
 
-    local data = {
-        roomId = 999040,
-        token  = 1568560920023,
-        userId = 10001,
-        }
+    -- local data = {
+    --     roomId = 999040,
+    --     token  = 1568560920023,
+    --     userId = 10001,
+    --     }
         
 
-    local msg, msgId = Message_Def:C2M_PLAYER_ENTER_GAME_ROOM_SYN(data)
+    -- local msg, msgId = Message_Def:C2M_PLAYER_ENTER_GAME_ROOM_SYN(data)
 
     Game:getSocketMgr():lobbySocketSend(msg, msgId)
 end
