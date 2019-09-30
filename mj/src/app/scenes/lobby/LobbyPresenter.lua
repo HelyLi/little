@@ -101,6 +101,18 @@ function LobbyPresenter:toLogin()
     Game:getSocketMgr():lobbySocketSend(msg, msgId)
 end
 
+function LobbyPresenter:serviceTest()
+    local data = {
+        roomId = 999040,
+        token  = 1568560920023,
+        userId = 10001,
+    }
+
+    local msg, msgId = Message_Def:C2M_PLAYER_ENTER_GAME_ROOM_SYN(data)
+
+    Game:getSocketMgr():lobbySocketSend(msg, msgId)
+end
+
 -- message MSG_D2L_PLAYER_PLAYER_TOTALINFO_ACK
 -- {
 -- 	required int32 messageID = 1;

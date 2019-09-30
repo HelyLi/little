@@ -22,9 +22,11 @@ function Presenter:onReveived(byteArray)
     local msgId = byteArray:readUInt()--4
     local token = byteArray:readULong()--8
     -- byteArray:readUInt()
-    print(msgId, token)
+    -- print(msgId, token)
 
-    print("len:", byteArray:getLen())
+    -- print("len:", byteArray:getLen())
+
+    print("msgId:", msgId)
 
     local msg = byteArray:readStringBytes(byteArray:getLen() - 12)
 

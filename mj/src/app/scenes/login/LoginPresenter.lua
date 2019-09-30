@@ -64,7 +64,6 @@ function LoginPresenter:unloadTextures( textures )
     if textures and #textures > 0 then
         local sharedTextureCache = cc.Director:getInstance():getTextureCache()
         for i, v in ipairs(textures) do
-            
             display.removeSpriteFramesWithFile(v..".plist")
             sharedTextureCache:removeTextureForKey(v..".pvr.ccz")
         end

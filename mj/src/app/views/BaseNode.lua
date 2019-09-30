@@ -16,6 +16,10 @@ function BaseNode:onExit()
     Game:getEventDispatcher().removeListenersByTag(self)
 end
 
+function BaseNode:regMsgHandler()
+    
+end
+
 --事件处理
 function BaseNode:addMsgListener(eventname, callback)
     Game:getEventDispatcher().addListener(eventname, callback, self)

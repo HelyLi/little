@@ -49,7 +49,7 @@ function comui.Button(params)
         end
     end)
     if params.parent then
-        button:align(params.anchor or display.CENTER, params.pos.x, params.pos.y):addTo(params.parent, params.order, params.tag)
+        button:align(params.anchor or display.CENTER, params.pos.x, params.pos.y):addTo(params.parent, params.order or 0, params.tag or 0)
     end
     return button
 end

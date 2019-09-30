@@ -40,7 +40,7 @@ function UpdateLayer:displayVersion()
             text = string.format("App V%s Res V%s", Game:getAppConfig():getAppVersion(), Game:getAppConfig():getLocalResVersion()),
             size = 27,
         })
-        self.v_version:align(display.TOP_LEFT, 16 + UIAdapter.padding,display.top-10):addTo(self)
+        self.v_version:align(display.TOP_LEFT, 16 + UIAdapter.paddingL,display.top-10):addTo(self)
     else
         self.v_version:setString(string.format("App V%s Res V%s", Game:getAppConfig():getAppVersion(), Game:getAppConfig():getLocalResVersion()))
     end

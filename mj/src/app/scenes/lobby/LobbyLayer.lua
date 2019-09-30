@@ -6,7 +6,7 @@ local LobbyMainMenu = import("app.scenes.lobby.room.LobbyMainMenu")
 local CreateRoomLayer = import("app.scenes.lobby.room.CreateRoomLayer")
 local AddRoomLayer = import("app.scenes.lobby.room.AddRoomLayer")
 local UserInfoLayer = import("app.scenes.lobby.subLayer.UserInfoLayer")
-
+local SettingLayer = import("app.scenes.lobby.subLayer.SettingLayer")
 
 local LobbyLayer = class("LobbyLayer",function()
     return BaseView.new()
@@ -43,6 +43,11 @@ function LobbyLayer:regMsgHandler()
     end)
     self:addMsgListener(AppGlobal.EventMsg.DIALOG_EXIT_GAME, function ()
         
+    end)
+    self:addMsgListener(AppGlobal.EventMsg.SERVICE_TEST, function ()
+        if self.m_presenter then
+            self.m_presenter:serviceTest()
+        end
     end)
 end
 

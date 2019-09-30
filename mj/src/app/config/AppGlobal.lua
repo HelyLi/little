@@ -67,8 +67,10 @@ AppGlobal.EventMsg = {
     LAYER_ACTIVITY = "layer_activity",
     LAYER_SHOP = "layer_shop",
 
-    SPEAKER_POP_UP = "speaker_pop_up"
+    SPEAKER_POP_UP = "speaker_pop_up",
+    ACTIVITY_RED_REFRESH = "activity_red_refresh",
     --data
+    SERVICE_TEST = "service_test"
 }
 
 AppGlobal.RoomOptonStyle = {

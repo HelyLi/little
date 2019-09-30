@@ -2,6 +2,8 @@ local BaseView = import("app.views.BaseView")
 local LoginPresenter = import(".LoginPresenter")
 local Speaker = import("app.scenes.lobby.subLayer.Speaker")
 local TableView = import("app.utils.TableView")
+local MenuSprite = import("app.views.MenuSprite")
+
 -- local src/
 local CardStore = import("app.scenes.lobby.shop.CardStore")
 
@@ -17,9 +19,27 @@ end
 function LoginLayer:initView()
     self.v_bg = display.newSprite("BigBg/login_bg_skin.png"):align(display.CENTER, display.cx, display.cy):addTo(self)
 
-    comui.Button({
-        normal = "login_btn_yk_skin.png",
-        pos = cc.p(display.cx, display.cy-135),
+    -- comui.Button({
+    --     normal = "login_btn_yk_skin.png",
+    --     pos = cc.p(display.cx, display.cy-135),
+    --     callfunc = handler(self.m_presenter, self.m_presenter.toLogin),
+    --     parent = self
+    -- })
+
+    --[[
+    params.normal = nil
+    params.selected = nil
+    params.position = cc.p(0,0)
+    params.anchor = display.CENTER
+    params.tag = 0
+    params.parent = 
+    params.order = 
+    params.callback = nil
+]]
+    MenuSprite.new({
+        normal = display.newSprite("#login_btn_yk_skin.png"),
+        selected = display.newSprite("#login_btn_yk_skin.png"):setOpacity(150),
+        position = cc.p(display.cx, display.cy-135),
         callfunc = handler(self.m_presenter, self.m_presenter.toLogin),
         parent = self
     })

@@ -111,8 +111,13 @@ end
 ---为node注册一个点击事件
 function cc.Node:addOnClick(fun)
     self:addNodeEventListener(cc.NODE_TOUCH_EVENT,function(event)
+        dump(event, "event", 8)
         if event.name == "began" then
-            return true
+            if self:hitTest(cc.p(event.x,event.y)) then
+                fun(event)
+                return true
+            end
+            return false
         elseif event.name == "ended" then
             if self:hitTest(cc.p(event.x,event.y)) then
                 fun(event)

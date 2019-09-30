@@ -14,7 +14,7 @@ local TAG = {
 }
 
 function UserInfoLayer:ctor()
-    self.m_baseX = UIAdapter.padding
+    self.m_baseX = UIAdapter.paddingL
     --self:init()
 end
 
