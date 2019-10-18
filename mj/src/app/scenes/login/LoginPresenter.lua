@@ -4,9 +4,12 @@ local Message_Def = import("app.pb.Message_Def")
 -- require("app.native.WeChat")
 
 local AsyncRes = {
-    "LobMainRoomRes",
-    "LobCreateRoomRes",
-    "QzRoomRes"
+    "GameLobRes",
+    "GameBaseRes",
+    "GameRoomRes",
+    "GameMJRes",
+    "LoginRes",
+    "ComRes",
 }
 
 local LoginPresenter = class("LoginPresenter",function()

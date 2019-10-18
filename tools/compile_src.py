@@ -19,7 +19,7 @@ def main():
     srcPath = os.path.abspath(config["srcPath"])
     etKey = config["etKey"]
 
-    os.system("{0}/quick/bin/PackageScripts.py -p {1} -b {2}".format(quickPath,projPath,32))
+    # os.system("{0}/quick/bin/PackageScripts.py -p {1} -b {2}".format(quickPath,projPath,32))
     # os.system("{0}/quick/bin/PackageScripts.py -p {1} -b {2}".format(quickPath,projPath,64))
 
 def getCfgInfo():
