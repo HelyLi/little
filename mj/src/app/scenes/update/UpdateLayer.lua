@@ -12,7 +12,7 @@ function UpdateLayer:ctor()
 end
 
 function UpdateLayer:initView()
-    self.v_bg = display.newSprite("BigBg/login_bg_skin.png"):align(display.CENTER, display.cx, display.cy):addTo(self)
+    self.v_bg = display.newSprite("BigRes/lob_bg.png"):align(display.CENTER, display.cx, display.cy):addTo(self)
     self:displayVersion()
     
     self.v_loadingBarBg = display.newSprite("#login_update_bg.png"):align(display.CENTER_BOTTOM,display.cx,160):addTo(self)

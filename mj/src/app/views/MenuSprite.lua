@@ -32,12 +32,12 @@ function MenuSprite:ctor(params)
     self:align(params.anchor or display.CENTER, params.position.x,params.position.y):addTo(params.parent, params.order or 0, params.tag or 0)
 
     self.m_callback = params.callfunc or function() end
-    self:addOnClick(handler(self, self.OnClick))
+    self:addOnClick(handler(self, self.onClick))
     self:setTouchEnabled(true)
     self:unselected()
 end
 
-function MenuSprite:OnClick(event)
+function MenuSprite:onClick(event)
     dump(event, "OnClick", 8)
     if event.name == "began" then
         self:selected()

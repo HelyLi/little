@@ -23,7 +23,7 @@ Game = {
 
 local Modules = {
     -- "app.utils.rx",
-    "pack",
+    -- "pack",
     "app.utils.utf8",
     "app.utils.DataStruct",
     "app.utils.SimpleApi",
@@ -39,7 +39,8 @@ local Modules = {
 }
 
 function Game:init()
-    self:loadModules()
+    self:clear()
+    self:reloadModules()
     self.m_appConfig = require("app.config.AppConfig").new()
     self.m_eventDispatch = require("app.utils.PushCenter")
     self.m_settingData = require("app.data.SettingData").new()
@@ -48,6 +49,17 @@ function Game:init()
     self.m_sceneMgr = require("app.base.SceneMgr").new()
     self.m_socketMgr = require("app.network.socket.SocketMgr").new()
     self.m_audioMgr = require("app.base.AudioMgr").new()
+end
+
+function Game:clear()
+    self.m_appConfig = nil
+    self.m_eventDispatch = nil
+    self.m_settingData = nil
+    self.m_userData = nil
+    self.m_gameData = nil
+    self.m_sceneMgr = nil
+    self.m_socketMgr = nil
+    self.m_audioMgr = nil
 end
 
 function Game:getAppConfig()

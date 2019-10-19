@@ -115,7 +115,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     quick_module_register(L);
     
 #ifdef RESOURCE_ENCRYPTION
-    //0xb04030e1 0xfcaee09c 0xf008e930 0xd39c521e (加密的 必须是32位十六进制值)
+    //0xb04030e1fcaee09cf008e930d39c521e (加密的 必须是32位十六进制值)
     
     ZipUtils::setPvrEncryptionKeyPart(0, 0xb04030e1);
     ZipUtils::setPvrEncryptionKeyPart(1, 0xfcaee09c);

@@ -9,11 +9,12 @@ function SocketMgr:ctor()
         port = Game:getAppConfig():getLoginPort()
     })
 
-    self.m_lobbysocket = SocketWrapper.new({
-        name = "lobby",
-        host = Game:getAppConfig():getLobbyHost(),
-        port = Game:getAppConfig():getLobbyPort()
-    })
+    self.m_lobbysocket = self.m_loginsocket
+    -- SocketWrapper.new({
+    --     name = "lobby",
+    --     host = Game:getAppConfig():getLobbyHost(),
+    --     port = Game:getAppConfig():getLobbyPort()
+    -- })
 
     self.m_cardsocket = SocketWrapper.new({
         name = "game",

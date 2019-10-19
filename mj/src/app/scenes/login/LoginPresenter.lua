@@ -10,6 +10,8 @@ local AsyncRes = {
     "GameMJRes",
     "LoginRes",
     "ComRes",
+    "LobCreateRoomRes",
+    "QzRoomRes"
 }
 
 local LoginPresenter = class("LoginPresenter",function()
@@ -23,12 +25,12 @@ function LoginPresenter:ctor(view)
 end
 
 function LoginPresenter:initLoginSocket()
-    -- Game:getSocketMgr():setLoginListener(self)
-    -- Game:getSocketMgr():loginSocketConnect()
+    Game:getSocketMgr():setLoginListener(self)
+    Game:getSocketMgr():loginSocketConnect()
 end
 
 function LoginPresenter:onConnected()
-    -- self:toLogin()
+    self:toLogin()
 end
 
 function LoginPresenter:onClosed()
@@ -42,20 +44,15 @@ function LoginPresenter:toLogin()
     -- WeChat.doLogin()
     -- comui.addWaitingLayer()
 
-    -- local msg = {}
-    -- msg.openid = "1"
-    -- msg.accesstoken = ""
-    -- msg.nickname = "test1"
-    -- msg.sex = 0
+    local msg = {}
+    msg.openid = "1"
+    msg.accesstoken = ""
+    msg.nickname = "test1"
+    msg.sex = 0
     
-    -- local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
+    local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
 
-    -- Game:getSocketMgr():loginSocketSend(data, msgId)
-    if device.platform == "ios" then
-        self:preloadRes()
-    elseif device.platform == "android" then
-        self:preloadResAsync()
-    end
+    Game:getSocketMgr():loginSocketSend(data, msgId)
 end
 
 function LoginPresenter:releaseRes()
@@ -107,7 +104,6 @@ function LoginPresenter:preloadResAsync()
         display.addSpriteFrames(AsyncRes[curNum]..".plist",AsyncRes[curNum]..".pvr.ccz")
         if curNum == resNum and self then
             print("异步图片加载完成")
-            -- self:beginLoginGame()
             if comui.isWaiting() then
                 comui.removeWaitingLayer()
             end
@@ -134,13 +130,8 @@ end
 function LoginPresenter:l2c_player_login_ack(msgData)
     local data = Message_Def:L2C_PLAYER_LOGIN_ACK(msgData)
     dump(data, "L2C_PLAYER_LOGIN_ACK")
-
-    if data.errorcode == nil then
-        print(string.format("token:%u", data.clienttoken))
-        Game:getUserData():setToken(data.clienttoken)
-        
-        -- self:preloadRes()
-    end
+    
+    self:handlingLogin(data)
 end
 
 function LoginPresenter:l2c_player_baseinfo_ack(msgData)
@@ -150,7 +141,6 @@ function LoginPresenter:l2c_player_baseinfo_ack(msgData)
   
 
     Game:getUserData():setPlayerInfo(data.playerInfo)
-
 end
 
 function LoginPresenter:l2c_player_game_room_config_ack(msgData)
@@ -163,6 +153,19 @@ end
 
 function LoginPresenter:startLoadResTimeout()
     
+end
+
+function LoginPresenter:handlingLogin(data)
+    if data.errorcode == nil then
+        print(string.format("token:%u", data.clienttoken))
+        Game:getUserData():setToken(data.clienttoken)
+        
+        if device.platform == 'ios' then
+            self:preloadRes()
+        elseif device.platform == 'android' then
+            self:preloadResAsync()
+        end
+    end
 end
 
 return LoginPresenter

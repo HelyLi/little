@@ -30,30 +30,30 @@ function LobbyMainMenu:initRoomMenu()
     
     --加入房间
     comui.Button({
-        normal = "lob_room_b_skin.png",
-        pos = cc.p(UIAdapter.adUIRatioX(1131 - UIAdapter.paddingR), UIAdapter.adUIRatioY(293 - 265)),
+        normal = "lob_add_room.png",
+        pos = cc.p(display.width*4/5, display.cy - 200),--cc.p(UIAdapter.adUIRatioX(1131 - UIAdapter.paddingR), UIAdapter.adUIRatioY(293 - 265)),
         tag = TAG.ROOM_ADD_BTN,
-        anchor = display.CENTER_TOP,
+        anchor = display.CENTER_BOTTOM,
         callfunc = handler(self, self.menuCallback),
         parent = self
     })
 
     --创建房间
     comui.Button({
-        normal = "lob_room_a_skin.png",
-        pos = cc.p(UIAdapter.adUIRatioX(891 - UIAdapter.paddingR), UIAdapter.adUIRatioY(272 - 285)),
+        normal = "lob_create_room.png",
+        pos = cc.p(display.width/2, display.cy - 200),--cc.p(UIAdapter.adUIRatioX(891 - UIAdapter.paddingR), UIAdapter.adUIRatioY(272 - 285)),
         tag = TAG.ROOM_CREATE_BTN,
-        anchor = display.CENTER_TOP,
+        anchor = display.CENTER_BOTTOM,
         callfunc = handler(self, self.menuCallback),
         parent = self
     })
 
     --金币场
     comui.Button({
-        normal = "lob_room_gold_skin.png",
-        pos = cc.p(UIAdapter.adUIRatioX(654 - UIAdapter.paddingR), UIAdapter.adUIRatioY(270 - 288)),
+        normal = "lob_gold_room.png",
+        pos = cc.p(display.width/5, display.cy - 200),--cc.p(UIAdapter.adUIRatioX(654 - UIAdapter.paddingR), UIAdapter.adUIRatioY(270 - 288)),
         tag = TAG.GOLD_CREATE_BTN,
-        anchor = display.CENTER_TOP,
+        anchor = display.CENTER_BOTTOM,
         callfunc = handler(self, self.menuCallback),
         parent = self
     })

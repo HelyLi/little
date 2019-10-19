@@ -18,12 +18,12 @@ local mainStoragePath_ = writablePath.."main_version"
 local addPaths = {
 	storagePath_,
 	storagePath_.."/res/",
-	storagePath_.."/res/750x1334",
+	storagePath_.."/res/1334x750",
 	mainStoragePath_,
 	mainStoragePath_.."/res/",
-	mainStoragePath_.."/res/750x1334",
+	mainStoragePath_.."/res/1334x750",
 	"res/",
-	"res/750x1334/",
+	"res/1334x750/",
 	writablePath.."user",
 	writablePath.."cross_user",
 }

@@ -84,17 +84,17 @@ function CreateRoomLayer:initBG()
     --灰色
     local zzLayer = display.newColorLayer(cc.c4b(0,0,0,200)):addTo(self, Order.zzLayer):setContentSize(display.width,display.height)
     
-    local spBG = display.newScale9Sprite('#create_room_dialog_bg_skin.png', 0, 0, cc.size(1334, 750), cc.rect(355, 350, 10, 10))
+    local spBG = display.newScale9Sprite('#com_dialog_bg.png', 0, 0, cc.size(1334, 750), cc.rect(355, 350, 10, 10))
     spBG:align(display.CENTER, display.cx, display.cy):addTo(self, Order.Bg, Tag.Bg)
     
-    display.newSprite("#com_btn_line_left_skin.png"):align(display.CENTER_RIGHT, display.cx + 161 - 12, display.cy - 200):addTo(self, Order.Bg)
-    display.newSprite('#com_btn_line_left_skin.png'):align(display.CENTER_LEFT, display.cx + 161 + 12, display.cy - 200):addTo(self, Order.Bg):setFlippedX(true)
+    -- display.newSprite("#com_btn_line_left_skin.png"):align(display.CENTER_RIGHT, display.cx + 161 - 12, display.cy - 200):addTo(self, Order.Bg)
+    -- display.newSprite('#com_btn_line_left_skin.png'):align(display.CENTER_LEFT, display.cx + 161 + 12, display.cy - 200):addTo(self, Order.Bg):setFlippedX(true)
 end
 
 function CreateRoomLayer:initMenu()
     local Bg = self:getChildByTag(Tag.Bg)
     comui.Button({
-            normal = "com_close_btn_special.png",
+            normal = "com_close_btn.png",
             pos = cc.p(W(Bg), H(Bg)),
             anchor = display.TOP_RIGHT,
             callfunc = handler(self, self.dismiss),
@@ -104,7 +104,7 @@ function CreateRoomLayer:initMenu()
 
     -- 95,32,01
     self.v_createRoomMenu = comui.Button({
-        normal = "create_room_bt_skin.png",
+        normal = "com_green_btn.png",
         text = "创建房间",
         fontSize = 50,
         fontColor = cc.c3b(149, 50, 1),
@@ -115,7 +115,7 @@ function CreateRoomLayer:initMenu()
     })
     
     self.v_createRoomMenu_free = comui.Button({
-        normal = "create_room_bt_skin.png",
+        normal = "com_green_btn.png",
         text = "免费开房",
         fontSize = 50,
         fontColor = cc.c3b(149, 50, 1),

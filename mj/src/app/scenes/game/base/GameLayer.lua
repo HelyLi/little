@@ -19,7 +19,7 @@ function GameLayer:initBg()
 end
 
 function GameLayer:getBgImg()
-    return "BigBg/game_four_bg.png"
+    return "BigRes/game_four_bg.png"
 end
 
 ----------------房间状态标志-------------

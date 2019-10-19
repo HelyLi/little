@@ -70,7 +70,26 @@ end
 -- 	M2C_SUB_GAME_END_ACK									= 21018;			//游戏结束
 -- 	M2C_SUB_GAME_END_ALL_ACK								= 21019;			//所有游戏结束
 -- //--------------------------------------------------------------------------------------------------------------------------------------
-
+    -- M2C_PLAYER_ENTER_GAME_ROOM_ACK							= 22001;			//请求进入游戏房间成功
+	-- M2C_PLAYER_RECONNECT_GAME_ACK							= 22002;			//重连成功
+	-- M2C_PLAYER_BASEINFO_ACK									= 22003;			//玩家的基本信息
+	-- M2C_PLAYER_ROOM_BASEINFO_ACK							= 22004;			//桌子的基本信息
+	-- M2C_TABLE_PLAYER_INFO_NOTIFY							= 22005;			//桌子上玩家信息
+	-- M2C_PLAYER_ROOM_FREE_SCENE_ACK							= 22006;			//桌子空闲场景消息
+	-- M2C_PLAYER_ROOM_PLAYING_SCENE_ACK						= 22007;			//桌子战斗场景消息
+	-- M2C_PLAYER_STATE_UPDATA_ACK								= 22008;			//玩家状态更新
+	-- M2C_PLAYER_ROOM_STATE_UPDATA_ACK						= 22009;			//桌子状态更新
+	-- M2C_PLAYER_SIT_DOWN_ACK									= 22010;			//玩家坐下成功
+	-- M2C_PLAYER_READY_ACK									= 22011;			//玩家准备成功
+	-- M2C_PLAYER_OP_ACK										= 22012;			//玩家离开或解散成功
+	-- M2C_PLAYER_DISMISS_ROOM_ACK								= 22013;			//玩家解散房间成功
+	-- M2C_PLAYER_VOTE_ACK										= 22014;			//玩家投票成功
+	-- M2C_PLAYER_GAME_START_ACK								= 22015;			//游戏开始
+	-- M2C_PLAYER_MONEY_UPDATA_ACK								= 22016;			//货币更新
+	-- M2C_PLAYER_OPERATE_NOTIFY_ACK							= 22017;			//操作提示
+	-- M2C_PLAYER_OPERATE_RESULT_ACK							= 21018;			//操作命令
+	-- M2C_SUB_GAME_END_ACK									= 21019;			//游戏结束
+	-- M2C_SUB_GAME_END_ALL_ACK								= 21020;			//所有游戏结束
 
 function GamePresenter:initHandlerMsg()
     self.m_handlerTable = {}
@@ -85,9 +104,9 @@ function GamePresenter:initHandlerMsg()
     self.m_handlerTable[M2C_PLAYER_ROOM_STATE_UPDATA_ACK] = handler(self, self.m2c_player_room_state_updata_ack)
     self.m_handlerTable[M2C_PLAYER_SIT_DOWN_ACK] = handler(self, self.m2c_player_sit_down_ack)
     self.m_handlerTable[M2C_PLAYER_READY_ACK] = handler(self, self.m2c_player_ready_ack)
-    self.m_handlerTable[M2C_PLAYER_OPER_LEAVE_ROOM_ACK] = handler(self, self.M2C_PLAYER_OPER_LEAVE_ROOM_ACK)
+    self.m_handlerTable[M2C_PLAYER_OP_ACK] = handler(self, self.m2c_player_oper_leave_room_ack)
     self.m_handlerTable[M2C_PLAYER_DISMISS_ROOM_ACK] = handler(self, self.M2C_PLAYER_DISMISS_ROOM_ACK)
-    self.m_handlerTable[M2C_PLAYER_VOTE_SYN] = handler(self, self.M2C_PLAYER_VOTE_SYN)
+    self.m_handlerTable[M2C_PLAYER_VOTE_ACK] = handler(self, self.M2C_PLAYER_VOTE_ACK)
     self.m_handlerTable[M2C_PLAYER_GAME_START_ACK] = handler(self, self.m2c_player_game_start_ack)
     self.m_handlerTable[M2C_PLAYER_MONEY_UPDATA_ACK] = handler(self, self.m2c_player_money_updata_ack)
     self.m_handlerTable[M2C_PLAYER_OPERATE_NOTIFY_ACK] = handler(self, self.m2c_player_operate_notify_ack)
@@ -159,7 +178,7 @@ function GamePresenter:m2c_player_ready_ack()
 end
 
 --玩家离开成功
-function GamePresenter:m2c_player_oper_leave_room_ack()
+function GamePresenter:m2c_player_op_ack()
     
 end
 
@@ -169,7 +188,7 @@ function GamePresenter:m2c_player_dismiss_room_ack()
 end
 
 --玩家投票成功
-function GamePresenter:m2c_player_vote_syn()
+function GamePresenter:m2c_player_vote_ack()
     
 end
 

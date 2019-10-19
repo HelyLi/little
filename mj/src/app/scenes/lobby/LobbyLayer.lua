@@ -21,7 +21,7 @@ function LobbyLayer:ctor()
 end
 
 function LobbyLayer:initView()
-    self.v_bg = display.newSprite("BigBg/lob_bg_skin.png"):align(display.CENTER, display.cx, display.cy):addTo(self)
+    self.v_bg = display.newSprite("BigRes/lob_bg.png"):align(display.CENTER, display.cx, display.cy):addTo(self)
 
     self.v_userInfo = UserInfoLayer.new():addTo(self)
     self.v_mainMenu = LobbyMainMenu.new():addTo(self)

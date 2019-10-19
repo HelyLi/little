@@ -34,7 +34,7 @@ function CardLayer:ctor()
 end
 
 function CardLayer:getBgImg()
-    return "BigBg/game_four_bg.png"
+    return "BigRes/game_four_bg.png"
 end
 
 -- GameConstants.ROOM_UI = {

@@ -23,7 +23,6 @@ end
 local AsyncRes = {
     "LoginRes",
     "ComRes",
-    "ComUIRes",
 }
 
 function UpdateScene:loadSpriteFrames()
@@ -31,13 +30,6 @@ function UpdateScene:loadSpriteFrames()
     for i,res in ipairs(AsyncRes) do
         display.addSpriteFrames(res..".plist",res..".pvr.ccz")
     end
-end
-
-function UpdateScene:reloadSpriteFrames()
-    for i,res in ipairs(AsyncRes) do
-        cc.Director:getInstance():getTextureCache():reloadTexture(res .. '.pvr.ccz')
-    end
-    cc.Director:getInstance():purgeCachedData()
 end
 
 return UpdateScene

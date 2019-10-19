@@ -70,4 +70,10 @@ function ComFunc.getChineseNum( num )
     return ChineseNum[num]
 end
 
+
+--统一处理错误码
+function ComFunc.HandlingErrorCode(code)
+    
+end
+
 return ComFunc

@@ -17,6 +17,7 @@ function SocketWrapper:onSocketEvent(event, data)
             self.m_listener:onConnected()
         elseif event == SimpleTCP.EVENT_CLOSED then
             self.m_listener:onClosed()
+            self.m_socket = nil
         elseif event == SimpleTCP.EVENT_DATA then
             print(self:hex(data))
             self.m_listener:onReveived(ByteArray.new(ByteArray.ENDIAN_BIG):writeString(data):setPos(1))
@@ -30,6 +31,9 @@ function SocketWrapper:hex(s)
 end
 
 function SocketWrapper:connect(host, port)
+    if self.m_socket then
+        return
+    end
     print("host:", host, ",port:", port)
     self.m_socket = SimpleTCP.new(host or self.m_host, port or self.m_port, handler(self, self.onSocketEvent))
     self.m_socket:connect()
@@ -63,6 +67,10 @@ function SocketWrapper:close()
     if self.m_socket then
         self.m_socket:close()
     end
+end
+
+function SocketWrapper:heartBeat()
+    scheduler.scheduleGlobal(listener, interval)
 end
 
 return SocketWrapper

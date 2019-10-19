@@ -19,6 +19,21 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
+            <key>create_room_txt_difen.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{-1,0}</string>
+                <key>spriteSize</key>
+                <string>{75,36}</string>
+                <key>spriteSourceSize</key>
+                <string>{77,36}</string>
+                <key>textureRect</key>
+                <string>{{954,317},{75,36}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
             <key>create_room_txt_jushu.png</key>
             <dict>
                 <key>aliases</key>
@@ -93,7 +108,7 @@
             <key>size</key>
             <string>{991,752}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:e92e47b7c4b0544c7e5fae0ac957b5f3:550d9f232731be51b56082f7c7a8fefd:0156178a790640d82ec835351d41f7f4$</string>
+            <string>$TexturePacker:SmartUpdate:1f170944f290a7bdae1c7f0be1d8b091:fa226a0869c32492b397d37a950b754c:0156178a790640d82ec835351d41f7f4$</string>
             <key>textureFileName</key>
             <string>GameRoomRes.pvr.ccz</string>
         </dict>
