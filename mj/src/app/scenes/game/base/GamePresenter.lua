@@ -132,6 +132,7 @@ end
 --请求进入游戏房间成功
 function GamePresenter:m2c_player_enter_game_room_ack()
     
+    
 end
 
 --重连成功

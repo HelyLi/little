@@ -10,6 +10,9 @@ function UIDeskInfo:ctor(container, order, tag)
     self:addTo(container, order, tag)
 end
 
+
+
+
 function UIDeskInfo:onEnter()
     
 end

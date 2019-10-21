@@ -40,20 +40,6 @@ function CardPresenter:onConnected()
     Game:getSocketMgr():cardGameSocketSend(msg, msgId)
 end
 
--- function CardPresenter:onConnected()
---     print("CardPresenter.onConnected")
---     -- local ack = Game:getGameData():getCreateRoomAck()
---     -- local data = {}
---     -- data.roomId = ack.roomid
---     -- data.token = Game:getUserData():getToken()
---     -- data.userId = ack.ownerid
-
---     -- dump(data, "onConnected")
-
---     local msg, msgId = Message_Def:C2M_PLAYER_SIT_DOWN_SYN()
---     Game:getSocketMgr():cardGameSocketSend(msg, msgId)
--- end
-
 
 
 return CardPresenter

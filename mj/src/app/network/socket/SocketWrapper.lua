@@ -10,7 +10,7 @@ function SocketWrapper:ctor(params)
 end
 
 function SocketWrapper:onSocketEvent(event, data)
-    print(self.m_name, "onSocketEvent.event:", event)
+    print(self.m_name, "<<<-----------onSocketEvent.event:", event)
 
     if self.m_listener then
         if event == SimpleTCP.EVENT_CONNECTED then
@@ -50,14 +50,14 @@ end
 
 function SocketWrapper:send(data, msgId)
     -- print(self:hex(data)
-    print("msgId:", msgId)
+    print("----------->>>Send:msgId:", msgId)
 
     local token = Game:getUserData():getToken()
     print(string.format("token:%d", token))
 
     local byteArray = ByteArray.new(ByteArray.ENDIAN_BIG):writeUInt(string.len(data) + 12):writeUInt(msgId):writeULong(token):writeString(data):getPack()
     print(self:hex(byteArray))
-    print(self.m_name .. "---------")
+    -- print(self.m_name .. "---------")
     if self.m_socket then
         self.m_socket:send(byteArray)
     end

@@ -26,7 +26,7 @@ function Presenter:onReveived(byteArray)
 
     -- print("len:", byteArray:getLen())
 
-    print("msgId:", msgId)
+    print("<<<-------------Reveived:msgId:", msgId)
 
     local msg = byteArray:readStringBytes(byteArray:getLen() - 12)
 

@@ -1,5 +1,6 @@
 require("app.pb.Message_ID")
 require("app.pb.Message_pb")
+require("app.pb.Subgame_pb")
 --消息在此处解析和组合
 Message_Def = Message_Def or {}
 --踢玩家
