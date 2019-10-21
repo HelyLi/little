@@ -68,11 +68,16 @@ enum ERRORCODE
 	ERROR_GAME_SERVER_UNUSUAL							 = -601;							//服务器异常
 	ERROR_ROOM_NOT_FIND									 = -602;							//房间没找到
 	ERROR_TOKEN_NO_EQUAL								 = -603;							//大厅和游戏服务器token不相等
-	ERROR_LOBBY_PLAYER_NOT_EXIT							 = -604;							//大厅玩家不存在
-	ERROR_LOBBY_PLAYER_STATE							 = -605;							//大厅玩家状态错误
+	ERROR_PLAYER_NOT_EXIT								 = -604;							//玩家不存在
+	ERROR_PLAYER_STATE									 = -605;							//玩家状态错误
 	ERROR_ROOM_NOTCAN_ENTER								 = -606;							//玩家不能进入
 	ERROR_GAME_PLAYER_FULL								 = -607;							//房间满
-	ERROR_GAME_PLAYER_EXIT								 = -608;							//玩家在该房间				
+	ERROR_GAME_PLAYER_EXIT								 = -608;							//玩家在该房间	
+	ERROR_ROOM_NOT_EXIT									 = -609;							//房间不存在
+	ERROR_SIT_DOWN_FAIL									 = -610;							//玩家坐下失败
+	ERROR_LEAVE_FAILL									 = -6011;							//玩家离开失败
+	ERROR_DISMISS_ROOM_FAILL							 = -6012;							//玩家解散房间失败
+	ERROR_NEED_VOTE_DISMISS_ROOM						 = -6013;							//需要投票解散
 }
 
 enum LOBBYMESSAGEID 
@@ -111,8 +116,8 @@ enum LOBBYMESSAGEID
 	C2M_PLAYER_RECONNECT_GAME_SYN							= 21002;		//断线重连
 	C2M_PLAYER_SIT_DOWN_SYN									= 21003;		//请求坐下
 	C2M_PLAYER_READY_SYN									= 21004;		//玩家准备
-	C2M_PLAYER_LEAVE_ROOM_SYN								= 21005;		//玩家离开
-	C2M_PLAYER_DISMISS_ROOM_SYN								= 21006;		//请求房间解散
+	C2M_PLAYER_OP_SYN										= 21005;		//玩家请求离开和解散（不需要投票）
+	C2M_PLAYER_VOTE_BEGIN_SYN								= 21006;		//请求投票解散
 	C2M_PLAYER_VOTE_SYN										= 21007;		//玩家解散投票
 	C2M_PLAYER_OUT_CARD_SYN									= 21008;		//玩家出牌
 	C2M_PLAYER_OPERATE_RESULT_SYN							= 21009;		//操作命令
@@ -126,21 +131,29 @@ enum LOBBYMESSAGEID
 	M2C_PLAYER_RECONNECT_GAME_ACK							= 22002;			//重连成功
 	M2C_PLAYER_BASEINFO_ACK									= 22003;			//玩家的基本信息
 	M2C_PLAYER_ROOM_BASEINFO_ACK							= 22004;			//桌子的基本信息
-	M2C_PLAYER_ROOM_FREE_SCENE_ACK							= 22005;			//桌子空闲场景消息
-	M2C_PLAYER_ROOM_PLAYING_SCENE_ACK						= 22006;			//桌子战斗场景消息
-	M2C_PLAYER_STATE_UPDATA_ACK								= 22007;			//玩家状态更新
-	M2C_PLAYER_ROOM_STATE_UPDATA_ACK						= 22008;			//桌子状态更新
-	M2C_PLAYER_SIT_DOWN_ACK									= 22009;			//玩家坐下成功
-	M2C_PLAYER_READY_ACK									= 22010;			//玩家准备成功
-	M2C_PLAYER_OPER_LEAVE_ROOM_ACK							= 22011;			//玩家离开成功
-	M2C_PLAYER_DISMISS_ROOM_ACK								= 22012;			//玩家解散房间成功
-	M2C_PLAYER_VOTE_SYN										= 22013;			//玩家投票成功
-	M2C_PLAYER_GAME_START_ACK								= 22014;			//游戏开始
-	M2C_PLAYER_MONEY_UPDATA_ACK								= 22015;			//货币更新
-	M2C_PLAYER_OPERATE_NOTIFY_ACK							= 22016;			//操作提示
-	M2C_PLAYER_OPERATE_RESULT_ACK							= 21017;			//操作命令
-	M2C_SUB_GAME_END_ACK									= 21018;			//游戏结束
-	M2C_SUB_GAME_END_ALL_ACK								= 21019;			//所有游戏结束
+	M2C_TABLE_PLAYER_INFO_NOTIFY							= 22005;			//桌子上玩家信息
+	M2C_PLAYER_ROOM_FREE_SCENE_ACK							= 22006;			//桌子空闲场景消息
+	M2C_PLAYER_ROOM_PLAYING_SCENE_ACK						= 22007;			//桌子战斗场景消息
+	M2C_PLAYER_STATE_UPDATA_ACK								= 22008;			//玩家状态更新
+	M2C_PLAYER_ROOM_STATE_UPDATA_ACK						= 22009;			//桌子状态更新
+	M2C_PLAYER_SIT_DOWN_ACK									= 22010;			//玩家坐下成功
+	M2C_PLAYER_READY_ACK									= 22011;			//玩家准备成功
+	M2C_PLAYER_OP_ACK										= 22012;			//玩家离开或解散成功
+	M2C_PLAYER_DISMISS_ROOM_ACK								= 22013;			//玩家解散房间成功
+	M2C_PLAYER_VOTE_ACK										= 22014;			//玩家投票成功
+	M2C_PLAYER_GAME_START_ACK								= 22015;			//游戏开始
+	M2C_PLAYER_MONEY_UPDATA_ACK								= 22016;			//货币更新
+	M2C_PLAYER_OPERATE_NOTIFY_ACK							= 22017;			//操作提示
+	M2C_PLAYER_OPERATE_RESULT_ACK							= 21018;			//操作命令
+	M2C_SUB_GAME_END_ACK									= 21019;			//游戏结束
+	M2C_SUB_GAME_END_ALL_ACK								= 21020;			//所有游戏结束
+	
+	M2C_PLAYER_VOTE_BEGIN_ACK								= 21030;			//玩家开始投票解散结果
+	M2C_PLAYER_VOTE_NOTIFY									= 21031;			//玩家解散投票结果
+	M2C_PLAYER_VOTE_END_NOTIFY								= 21032;			//房间解散投票结果
+	M2C_PLAYER_LEAVE_FROM_ROOM								= 21033;			//玩家离开
+	M2C_PLAYER_VOTE_BEGIN_NOTIFY							= 21034;			//房间解散投票开始
+	M2C_DISMISS_ROOM_NOTIFY									= 21035;			//房间解散通知
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -152,7 +165,10 @@ enum LOBBYMESSAGEID
 	M2L_PLAYER_BASEINFO_SYN 							= 12004;						//获取玩家基本信息
 	L2M_PLAYER_BASEINFO_ACK								= 12005;						//玩家基本信息获取成功
 	M2L_PLAYER_ENTER_ROOM_NOTIFY 						= 12006;						//玩家进入房间成功
-
+	M2L_PLAYER_SIT_DOWN_NOTIFY							= 12007;						//玩家坐下
+	M2L_PLAYER_OP_SYN									= 12008;						//玩家离开或解散房间操作
+	L2M_PLAYER_TOKEN_EXPIRE_NOTIFY						= 12009;						//玩家token失效
+	L2M_PLAYER_OP_ACK									= 12010;						//玩家离开或解散房间成功
 //-----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -274,6 +290,7 @@ message ROOM_CONFIG
 	optional string name = 2;
 	optional string config = 3;
 	optional int32 free = 4;	//0:不收费 1：收费
+	optional int32 areaid = 5; //区域id
 }
 
 message MSG_L2C_PLAYER_GAME_ROOM_CONFIG_ACK
@@ -296,23 +313,20 @@ message MSG_D2L_PLAYER_GAME_ROOM_CONFIG_ACK
 message ROOM_RUlES
 {
 	optional int32 kindid = 1;
-	optional int32 paytype = 2;   //1:房主支付  2：AA支付
-	optional int32 playernum = 3; //玩家人数
-	optional int32 ju_num =4;	//局数
-	optional int32 difen = 5;      //底分
-	optional int32 fengding = 6;  //封顶
-	message XTHH_RULES
-	{
-	optional 	int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
-	optional 	int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
-	}
-	optional XTHH_RULES xthh_rules = 7;
+	optional int32 areaid = 2; //区域id
+	optional int32 paytype = 3;   //1:房主支付  2：AA支付
+	optional int32 playernum = 4; //玩家人数
+	optional int32 ju_num =5;	//局数
+	optional int32 difen = 6;      //底分
 }
 
 message MSG_C2L_PLAYER_CREATE_ROOM_SYN
 {
 	optional int32 messageID = 1;
-	optional ROOM_RUlES room_rules = 2;
+
+	optional ROOM_RUlES room_rules = 2;  //游戏房间通用规则
+
+	optional string sub_game_rule = 3;//子游戏规则
 }
 
 message MSG_L2C_PLAYER_CREATE_ROOM_ACK
@@ -443,6 +457,37 @@ message MSG_M2L_PLAYER_ENTER_ROOM_NOTIFY
 	optional int32 	playerid = 6;
 }
 
+message MSG_M2L_PLAYER_OP_SYN
+{
+	optional int32 messageID = 1;
+	optional int32 opcode = 2;
+	optional int32 player_id = 3;
+	optional int32 roomid = 4;
+}
+
+message MSG_M2L_PLAYER_SIT_DOWN_NOTIFY
+{
+	optional int32 messageID = 1;
+	optional int32 player_id = 2;
+	optional int32 tableposid = 3;
+	optional int32 roomid = 4;
+}
+
+message MSG_L2M_PLAYER_TOKEN_EXPIRE_NOTIFY
+{
+	optional int32 messageID = 1;
+	optional int32 playerid = 2;
+	optional int64 clienttoken = 3;
+}
+
+message MSG_L2M_PLAYER_OP_ACK
+{
+	optional int32 messageID = 1;
+	optional int32 opcode = 2;
+	optional int32 player_id = 3;
+	optional int32 roomid = 4;
+}
+
 //--------------------------------------------------------------------------------------------------------------------
 //客户端请求游戏服务器消息
 message MSG_C2M_PLAYER_ENTER_GAME_ROOM_SYN
@@ -470,12 +515,13 @@ message MSG_C2M_PLAYER_READY_SYN
 	optional int32 messageID = 1;
 }
 
-message MSG_C2M_PLAYER_LEAVE_ROOM_SYN
+message MSG_C2M_PLAYER_OP_SYN
 {
 	optional int32 messageID = 1;
+	optional int32 opcode = 2;  //1:离开  2：解散
 }
 
-message MSG_C2M_PLAYER_DISMISS_ROOM_SYN
+message MSG_C2M_PLAYER_VOTE_BEGIN_SYN
 {
 	optional int32 messageID =1;
 }
@@ -483,7 +529,7 @@ message MSG_C2M_PLAYER_DISMISS_ROOM_SYN
 message MSG_C2M_PLAYER_VOTE_SYN
 {
 	optional int32 messageID = 1;
-	optional int32 oper = 2;	//1:同意 2：拒绝
+	optional int32 voteval = 2;	//1:同意 2：拒绝
 }
 
 message MSG_C2M_PLAYER_OUT_CARD_SYN
@@ -583,6 +629,18 @@ message MSG_M2C_PLAYER_ROOM_BASEINFO_ACK
 	optional ROOM_RUlES room_baseinfo = 5;
 }
 
+message MSG_M2C_TABLE_PLAYER_INFO_NOTIFY
+{
+	optional int32 messageID = 1;
+	optional 	string name  = 2;
+	optional int32 player_id = 3;
+	optional int32 sex = 4;
+	optional int64 registerdate = 5;
+	optional int32 userstate = 6;
+	optional int32 tableposid = 7;
+	optional int32 isonline = 8;
+}
+
 message MSG_M2C_PLAYER_ROOM_FREE_SCENE_ACK
 {
 	optional int32 messageID = 1;
@@ -663,7 +721,7 @@ message MSG_M2C_PLAYER_SIT_DOWN_ACK
 	optional int32 messageID = 1;
 	optional int32 errorcode = 2;
 	optional int32 playerid = 3;
-	optional int32 chairid = 4;
+	optional int32 tableposid = 4;
 }
 
 message MSG_M2C_PLAYER_READY_ACK
@@ -673,11 +731,11 @@ message MSG_M2C_PLAYER_READY_ACK
 	optional int32 playerid = 3;
 }
 
-message MSG_M2C_PLAYER_OPER_LEAVE_ROOM_ACK
+message MSG_M2C_PLAYER_OP_ACK
 {
 	optional int32 messageID = 1;
 	optional int32 errorcode = 2;
-	optional int32 playerid = 3;
+	optional int32 opcode = 3; //1:离开 2：解散
 }
 
 message MSG_M2C_PLAYER_DISMISS_ROOM_ACK
@@ -689,7 +747,7 @@ message MSG_M2C_PLAYER_DISMISS_ROOM_ACK
 	optional string faceurl = 5;
 }
 
-message MSG_M2C_PLAYER_VOTE_SYN
+message MSG_M2C_PLAYER_VOTE_ACK
 {
 	optional int32 messageID = 1;
 	optional int32 errorcode = 2;
@@ -805,4 +863,47 @@ message MSG_M2C_SUB_GAME_END_ALL_ACK
 	optional 	int32 		heimocounts = 6;//黑摸次数
 	}
 	repeated END_ALL end_all = 2;
+}
+
+message MSG_M2C_PLAYER_VOTE_BEGIN_ACK
+{
+	optional int32 messageID = 1;
+	optional int32 errorcode = 2;
+}
+
+message MSG_M2C_PLAYER_VOTE_NOTIFY
+{
+	optional int32 messageID = 1;
+	optional int32 playerpos = 2;
+	optional int32 playervoteval = 3;
+}
+
+message MSG_M2C_PLAYER_VOTE_END_NOTIFY
+{
+	optional int32 messageID = 1;
+	optional int32 voteresult = 2;
+}
+
+message MSG_M2C_PLAYER_LEAVE_FROM_ROOM
+{
+	optional int32 messageID = 1;
+	optional int32 player_id = 2;
+}
+
+message MSG_M2C_PLAYER_VOTE_BEGIN_NOTIFY
+{
+	message PLAYER_VOTE_INFO
+	{
+		optional int32 playerpos = 1;
+		optional int32 playervoteval = 2;
+	}
+	optional int32 messageID = 1;
+	optional int32 sponsorpos = 2;
+	repeated PLAYER_VOTE_INFO voteinfo = 3;
+	
+}
+
+message MSG_M2C_DISMISS_ROOM_NOTIFY
+{
+	optional int32 messageID = 1;
 }
