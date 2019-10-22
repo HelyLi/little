@@ -1,0 +1,7 @@
+/*仙桃晃晃的规则*/
+message XTHH_RULES
+{
+	optional int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
+	optional int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
+    optional int32 fengding = 3;  //封顶
+}

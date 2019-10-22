@@ -122,6 +122,32 @@ end
 -- 	required XTHH_RULES xthh_rules = 7;
 -- }
 
+-- message ROOM_RUlES
+-- {
+-- 	optional int32 kindid = 1;
+-- 	optional int32 areaid = 2; //区域id
+-- 	optional int32 paytype = 3;   //1:房主支付  2：AA支付
+-- 	optional int32 playernum = 4; //玩家人数
+-- 	optional int32 ju_num =5;	//局数
+-- 	optional int32 difen = 6;      //底分
+-- }
+
+-- message MSG_C2L_PLAYER_CREATE_ROOM_SYN
+-- {
+-- 	optional int32 messageID = 1;
+
+-- 	optional ROOM_RUlES room_rules = 2;  //游戏房间通用规则
+
+-- 	optional string sub_game_rule = 3;//子游戏规则
+-- }
+
+-- message XTHH_RULES
+-- {
+-- 	optional int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
+-- 	optional int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
+--     optional int32 fengding = 3;  //封顶
+-- }
+
 function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
     dump(data, "C2L_PLAYER_CREATE_ROOM_SYN", 8)
 
@@ -135,11 +161,20 @@ function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
     room_rules.playernum = data.playernum_default
     room_rules.ju_num = data.jushu_default
     room_rules.difen = data.difen_default
-    room_rules.fengding = data.fengding_default
+
+    local subgame = Subgame_pb.XTHH_RULES()
+    dump(subgame, "subgame", 8)
+    subgame.piao_prize = data.piao_laizi_prize_default
+    subgame.hu_laizinum = data.hu_laizi_num_default
+    subgame.fengding = data.fengding_default
+
+    msg.sub_game_rule = subgame:SerializeToString()
+
+    -- room_rules.fengding = data.fengding_default
 
     -- room_rules.xthh_rules = room_rules.xthh_rules:add()
-    room_rules.xthh_rules.piao_prize = data.piao_laizi_prize_default
-    room_rules.xthh_rules.hu_laizinum = data.hu_laizi_num_default
+    -- room_rules.xthh_rules.piao_prize = data.piao_laizi_prize_default
+    -- room_rules.xthh_rules.hu_laizinum = data.hu_laizi_num_default
 
     return msg:SerializeToString(), C2L_PLAYER_CREATE_ROOM_SYN
 end
