@@ -1,7 +1,572 @@
-/*仙桃晃晃的规则*/
-message XTHH_RULES
+package subgame;
+
+enum messageid 
 {
-	optional int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
+    //起始位置, 无意义
+    NULL = 0;
+    
+    // M2C
+    M2C_GAME_START_NOTIFY                 = 1000;  //游戏开始
+    M2C_PLAYER_CATCH_CARD_NOTIFY          = 1001;  //抓牌
+    M2C_PLAYER_DISCARD_ACK                = 1002;  //出牌
+    M2C_MAHJONG_INTERCEPTED_EVENTS_NOTIFY = 1003;  //操作提示
+    M2C_MAHJONG_INTERCEPTED_DELETE_ACK    = 1004;  //删除操作按钮
+    M2C_MAHJONG_INTERCEPTED_EVENTS_ACK    = 1005;  //操作确认
+    M2C_PLAYER_SCORE_CHANGE               = 1006;  //玩家分数变化
+    M2C_GAME_END_NOTIFY                   = 1007; //单局结束
+    M2C_GAME_SUMMARIZATION_INFO_NOTIFY    = 1008; //总结算
+ 
+
+    M2C_ROOM_STATE_FREE_NOTIFY            = 1020; //重连-空闲状态
+    M2C_ROOM_STATE_PLAYING_NOTIFY         = 1021; //重连-游戏状态
+    
+  // C2M
+  C2M_PLAYER_DISCARD_SYN                = 2000; //出牌
+  C2M_MAHJONG_INTERCEPTED_EVENTS_SYN    = 2001; //操作命令
+}
+
+
+/* 二层子信息结构体 */
+message PLAYER_INFO
+{
+    optional int32 playerpos = 1;
+    optional int64   playergold = 2;
+}
+message PLAYER_HAND_CARDS_INFO
+{
+    /* 玩家位置 */
+    optional int32 playerstation = 1;
+    
+    /* 手牌数据 */
+    repeated int32 playerhandcards = 2;
+    
+    /* 手牌张数 */
+    repeated int32 handcardnums = 3;
+}
+message GAME_START_INFO
+{
+    /* 当前局数 */
+    optional uint32 curgameround = 1;
+
+    /* 当前庄家 */
+    optional int32 bankerstation = 2;
+    
+    /* 当前操作玩家 */
+    optional int32 curdiscardstation = 3;
+    
+    /* 上一次操作玩家 */
+    optional int32 lastdiscardstation = 4;
+    
+    /* 牌堆剩余牌数 */
+    optional int32 restcardnums = 5;
+    
+    /* 牌前牌尾已抓牌数 0-牌前 1-牌尾 */
+    repeated int32 deletedcardnum = 6;
+    
+    /* 可是否可吃碰杠听胡过 */
+    repeated uint32 actiontypevalue = 7;
+    
+    /* 能碰的牌数据-只出现在断线重连*/
+    optional int32 pengcardvalue = 8;
+        
+    /* 能杠的牌数据 */
+    repeated int32 gangcardvalue = 9;
+        
+    /* 玩家手牌数据 */
+    optional PLAYER_HAND_CARDS_INFO handcardsinfo = 10;
+    
+    /* 骰子点数 0-第一个 1-第二个 */
+    repeated int32 sicecount = 11;
+
+    /* 回放码*/
+    optional int32 replay_code = 12;
+    
+    /* 玩家当前身上的金币*/
+    repeated    PLAYER_INFO playerinfo = 13;
+
+    /*房间剩余时间 (秒)*/
+    optional uint32 game_time = 14;
+    
+}
+
+message GAME_HAVECPG_SUBINFO
+{
+    /* 玩家吃碰杠玩家位置 */
+    optional int32 havestation = 1;
+    
+    /*出牌-被吃碰杠玩家位置 */
+    optional int32 bestation = 2;
+    
+    /*
+     * 低2位：碰
+     * 低3位：杠
+    */
+    optional int32 operationcode = 3;
+    
+    /* 选择的子操作-暂时只有杠有该值：暗杠-1 明杠-2 补杠-3 其它操作传0 */
+    optional int32 suboperationcode = 4;
+    
+    /* 吃碰杠的数据 */
+    repeated int32 operationdata = 5;
+}
+message MAHJONG_INTERCEPTED_EVENTS_INFO
+{
+    /* 选择的操作 */
+    /*
+     * 低1位：吃(晃晃不能吃)
+     * 低2位：碰
+     * 低3位：杠
+     * 低4位：胡
+     * 低5位：听牌
+     * 低6位：过
+    */
+    optional int32 operationcode = 1;
+    
+    /* 选择的子操作-暂时只有杠有该值：暗杠-1 明杠-2 补杠-3 其它操作传0 */
+    optional int32 suboperationcode = 2;
+    
+    /* 吃碰杠操作玩家 */
+    optional int32 havestation = 3;
+    
+    /* 出牌操作玩家 */
+    optional int32 bestation = 4;
+    
+    /* 吃碰杠牌数据 */
+    repeated int32 operationdata= 5;
+    
+    /* 吃碰杠牌数据牌值索引 */
+    repeated int32 operationdataindex= 6;
+
+    optional int32 gang_operate = 7; // 是否杠上操作（1是）
+    
+    enum HU_ACTION
+    {
+        hu_no = 0;
+        hu_zimo = 1;  //自摸
+        hu_dian_pao = 2; //点炮
+        hu_gang_pao =3; //杠后炮
+        hu_qiang_gang = 4;//抢杠胡
+        hu_gang_kai = 5;//杠开
+    }
+    /*胡牌方式*/
+    optional HU_ACTION hu_type = 8; 
+    
+    /*胡牌玩家座位号*/
+    repeated int32 hu_station = 9;
+}
+
+message GAME_HU_INFO
+{
+    enum flag
+    {
+        invalid = 0;
+        gang_shang_pao = 1; // 杠上炮
+        gang_shang_hua = 2; // 杠上花
+        qiang_gang_hu = 3;  // 抢杠胡
+    }
+
+    /* 胡牌玩家 */
+    optional int32 havestation = 1;
+    
+    /* 放炮玩家-自摸为默认值255 */
+    optional int32 bestation = 2;
+    
+    /* 胡牌类型 */
+    repeated int32 hutype = 3;
+
+    optional flag code = 4;  // 标记（参见flag）
+}
+
+/* 游戏结束信息结构体 */
+message GAME_END_INFO
+{
+    optional int32 playerstation = 1;
+    
+    /* 胡牌分数 */
+    optional int32 huscore = 2;
+    
+    /* 杠牌分数 */
+    optional int32 gangscore = 3;
+        
+    /* 输赢总分 */
+    optional int32 scoreresult = 4;
+        
+    /* 手牌数据*/
+    repeated int32 handcards = 5;
+
+	/*胡牌番数*/
+    optional int32 hu_multiple = 6;   
+
+   
+}
+message GAME_SUMMARIZATION_INFO
+{
+    optional int32 playerstation = 1;
+    
+    /* 玩家id */
+    optional uint64  playerid = 2;
+    
+    /* 玩家昵称 */
+    optional string playername = 3;
+    
+    /* 坐庄次数 */
+    optional int32 bankertimes = 4;
+    
+    /* 自摸次数 */
+    optional int32 zimotimes = 5;
+    
+    /* 炮胡次数 */
+    optional int32 paohutimes = 6;
+    
+    /* 点炮次数 */
+    optional int32 fangpaotimes = 7;
+    
+    /* 输赢总结算 */
+    optional int32 scoreresult = 9;
+    
+    /* 人物头像*/
+    optional string faceurl =10;
+}
+
+message ROOM_STATE_PLAYER_FREE_DATA
+{
+    optional int32 playerpos = 1;
+    optional int64 playertotalscore = 2;
+}
+
+/* 玩家已经出牌*/
+message GAME_HAVEDISCARD_INFO
+{
+    /* 玩家 */
+    optional int32 playerstation = 1;
+    
+    /* 出牌玩家已出牌数据 */
+    repeated int32 playerdiscards = 2;
+}
+
+/* 玩家已吃碰杠数据 */
+message GAME_HAVECPG_MAININFO
+{
+    /* 玩家位置 */
+    optional int32 playerstation = 1;
+    
+    /* 玩家已吃碰杠数据数组 */
+    repeated GAME_HAVECPG_SUBINFO havecpgsubinfo = 2;
+}
+message GAME_PLAYER_PLAYING_INFO
+{
+    /* 玩家位置 */
+    optional int32 playerstation = 1;
+    
+    /* 玩家状态 */
+    optional int32 playerstatus = 2;
+    
+    optional int32 selectedscore = 3;
+
+    optional int32 ju_score = 4; // 当前局分数
+    
+    /* 托管 true：托管*/
+    optional bool istuoguan = 5;
+     
+}
+
+/* 二层子信息结构体 */
+
+
+/*******************************************************************************
+ **      M2C结构体
+********************************************************************************/
+
+
+message MSG_M2C_GAME_START_NOTIFY
+{
+    optional uint32 messageid = 1;
+    
+    /* 游戏开始基本信息 */
+    optional GAME_START_INFO gamestartinfo = 2;
+}
+
+message MSG_M2C_PLAYER_CATCH_CARD_NOTIFY
+{
+    optional uint32 messageid = 1;
+    
+    /* 可操作标识位 */
+    repeated uint32 actiontypevalue = 2;
+    
+    /* 位数量 */
+    /*uint32 bitnums = 3;*/
+    
+    /* 抓牌玩家 */
+    optional int32 playerstation = 3;
+    
+    /* 抓牌牌值 */
+    optional int32 cardvalue = 4;
+    
+    /* 手牌张数 */
+    optional int32 handcardnums = 5;
+    
+    /* 手牌数据-只会接收自己的数据 其他玩家数据是默认值 */
+    repeated int32 handcards = 6;
+    
+    /* 牌堆剩余牌数 */
+    optional int32 restcardnums = 7;
+    
+    /* 抓牌方向： 1-牌前 0-牌尾 */
+    optional int32 catchdirection = 8;
+    
+    /* 能杠的牌数据 */
+    repeated int32 gangcardvalue = 9;
+}
+
+message MSG_M2C_PLAYER_DISCARD_ACK
+{
+    optional uint32 messageid = 1;
+    optional int32 errorcode = 2;
+    
+    /* 出牌玩家 */
+    optional int32 playerstation = 3;
+    
+    /* 出牌牌值 */
+    optional int32 cardvalue = 4;
+    
+    /* 手牌张数 */
+    optional int32 handcardnums = 5;
+    
+    /* 出牌索引 */
+    optional int32 cardindex = 6;
+
+    /* 手牌数据-只会接收自己的数据 其他玩家数据是默认值 */
+    repeated int32 handcards = 7;
+    
+    /* 出牌玩家已出牌数据 */
+    repeated int32 playerdiscards = 8;
+
+
+}
+
+/* 吃碰杠胡拦截事件处理 - Begin*/
+message MSG_M2C_MAHJONG_INTERCEPTED_EVENTS_NOTIFY
+{
+    optional uint32 messageid = 1;
+    
+    /* 可是否可吃碰杠听胡过 */
+    repeated uint32 actiontypevalue = 2;
+    
+    /* 操作玩家 */
+    optional int32 playerstation = 3;
+    
+    /* 能碰和胡的牌 默认255 */
+    optional int32 pengorhucardvalue = 4;
+    
+    /* 能杠的牌 */
+    repeated int32 gangcardvalue = 5;
+}
+
+message MSG_M2C_MAHJONG_INTERCEPTED_DELETE_ACK
+{
+    optional uint32 messageid = 1;
+    optional int32 errorcode = 2;
+    
+    /* 能否删除拦截提示 1-true 0-false*/
+    optional uint32 clearaction = 3;
+    
+    /* 操作玩家 */
+    optional int32 playerstation = 4;
+}
+
+
+message MSG_M2C_MAHJONG_INTERCEPTED_EVENTS_ACK
+{
+    optional uint32 messageid = 1;
+    optional int32 errorcode = 2;
+    
+    optional MAHJONG_INTERCEPTED_EVENTS_INFO interceptedinfo = 3;
+    
+    /* 手牌张数 */
+    repeated int32 handcardnums = 4;
+    
+    /* 手牌数据-只会接收自己的数据 其他玩家数据是默认值 */
+    repeated int32 handcards = 5;
+}
+
+message MSG_M2C_PLAYER_SCORE_CHANGE
+{
+    message item
+    {
+        optional uint32 seat = 1;    // 座位
+        optional int32 amount = 2;   // 数量
+    }
+
+    optional uint32 messageid = 1;
+    repeated item data = 2;
+}
+
+message MSG_M2C_GAME_END_NOTIFY
+{
+    optional uint32 messageid = 1;
+    /* 是否流局 */
+    optional uint32 isdrawngame = 2; //0:正常结束  1：流局
+    
+    /* 胡牌玩家数据 */
+    repeated GAME_HU_INFO gamehuinfo = 3;
+
+    /* 三个玩家的手牌信息 */
+    repeated GAME_END_INFO gameendinfo = 4;
+
+    optional int32 hu_card = 5;  // 胡牌值
+}
+
+message MSG_M2C_GAME_SUMMARIZATION_INFO_NOTIFY
+{
+    optional uint32 messageid = 1;
+    
+    /* 游戏总结算信息 */
+    repeated GAME_SUMMARIZATION_INFO gamesummarizationinfo = 2;
+
+    optional int32 end_type = 3; // 结束类型（0正常结束，1投票结束)
+}
+
+
+
+
+/*******************************************************************************
+ **      C2M结构体
+********************************************************************************/
+
+
+/* 出牌消息结构体 - Begin */
+message MSG_C2M_PLAYER_DISCARD_SYN
+{
+    optional uint32 messageid = 1;
+    
+    /* 出牌牌值 */
+    optional int32 cardvalue = 2;
+    
+    /* 出牌索引 */
+    optional int32 cardindex = 3;
+    
+    /* 是否亮倒 0-不亮倒 1-亮倒 */
+    optional int32 hadting = 4;
+
+   /* 亮牌数据 */
+   repeated int32 tinghandcards = 5;
+}
+
+message MSG_C2M_MAHJONG_INTERCEPTED_EVENTS_SYN
+{
+    optional uint32 messageid = 1;
+    
+    /* 选择的操作 */
+    /*
+     * 低1位：吃(晃晃不能吃)
+     * 低2位：碰
+     * 低3位：杠
+     * 低4位：胡
+     * 低5位：听牌
+     * 低6位：过
+    */
+    optional int32 operationcode = 2;
+    
+    /* 吃碰杠的数据 */
+    repeated int32 operationdata = 3;
+    
+    /* 吃碰杠的数据牌值索引 */
+    repeated int32 operationdataindex = 4;
+}
+
+
+/*******************************************************************************
+ **      断线重连结构体
+********************************************************************************/
+
+message MSG_M2C_ROOM_STATE_FREE_NOTIFY
+{
+    optional uint32 messageid = 1;
+    repeated ROOM_STATE_PLAYER_FREE_DATA playerfree = 2;
+    optional uint32 game_time = 3;
+    optional uint32 currjushu = 4;   //当前局数
+}
+
+message MSG_M2C_ROOM_STATE_PLAYING_NOTIFY
+{
+    optional uint32 messageid = 1;
+
+    /* 断线回来的游戏开始基本信息 */
+    optional GAME_START_INFO gamestartinfo = 2;
+    
+    /* 玩家已出牌数据 */
+    repeated GAME_HAVEDISCARD_INFO havediscardsinfo = 3;
+    
+    /* 各个玩家已吃碰杠数据 */
+    repeated GAME_HAVECPG_MAININFO havecpgmaininfo = 4;
+    
+    repeated GAME_PLAYER_PLAYING_INFO playerinfo = 5;
+}
+
+
+/*******************************************************************************
+ **      子游戏房间规则结构体
+********************************************************************************/
+//子游戏房间规则
+message MSG_SUB_ROOM_RULE
+{
+	optional uint32 gameAreaRule = 1;            // 玩法(0:仙桃 1:天门 2:潜江)
+ 
+    optional XIAN_TAO_RULE xgRule = 4;           // 仙桃晃晃
+    optional TIAN_MEN_RULE szRule = 5;           // 天门晃晃
+    optional QIAN_JIANG_RULE xyRule = 6;         // 潜江晃晃
+};
+
+enum area_type
+{
+    xian_tao = 0;   // 仙桃
+    tian_men = 1;   // 天门
+    qian_jiang = 2; // 潜江
+}
+
+message XIAN_TAO_RULE
+{
+  
+    optional int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
 	optional int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
     optional int32 fengding = 3;  //封顶
+}
+
+message TIAN_MEN_RULE
+{
+    optional int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
+	optional int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
+    optional int32 fengding = 3;  //封顶
+}
+
+message QIAN_JIANG_RULE
+{
+    optional int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
+	optional int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
+    optional int32 fengding = 3;  //封顶
+}
+
+
+/*操作时间*/
+message GAME_ACTION_TIME_INFO
+{
+    optional uint32 ready_time = 1;  // 准备时间
+    optional uint32 out_card_time = 2;   // 出牌时间
+    optional uint32 operate_time = 3;    // 操作时间（碰杠胡）
+}
+
+/*战绩记录*/
+message MSG_L2C_RECORD_INFO
+{
+    message record_struct
+    {
+        optional int32   user_id = 1;  // 用户id
+        optional int32   xj_score = 2; //小局胡分
+        optional bool    zhuang = 3;    // 庄
+        optional bool    zimo = 4;      // 自摸
+        optional bool    dianpao = 5;  // 点炮
+        optional bool    fangpao = 6;   //放炮
+    }
+    
+    repeated record_struct record_info = 1;
 }

@@ -3,6 +3,47 @@ require("app.pb.Message_pb")
 require("app.pb.Subgame_pb")
 --消息在此处解析和组合
 Message_Def = Message_Def or {}
+
+--SubGame
+-- xian_tao = 0
+-- tian_men = 1
+-- qian_jiang = 2
+-- hu_no = 0
+-- hu_zimo = 1
+-- hu_dian_pao = 2
+-- hu_gang_pao = 3
+-- hu_qiang_gang = 4
+-- hu_gang_kai = 5
+-- invalid = 0
+-- gang_shang_pao = 1
+-- gang_shang_hua = 2
+-- qiang_gang_hu = 3
+
+AREA_TYPE =
+{
+    xian_tao = 0, -- 仙桃
+    tian_men = 1, -- 天门
+    qian_jiang = 2, -- 潜江
+}
+
+HU_ACTION =
+{
+    hu_no = 0,
+    hu_zimo = 1,--自摸
+    hu_dian_pao = 2,--点炮
+    hu_gang_pao =3,--杠后炮
+    hu_qiang_gang = 4,--抢杠胡
+    hu_gang_kai = 5,--杠开
+}
+
+HU_FLAG =
+{
+    invalid = 0,
+    gang_shang_pao = 1,-- 杠上炮
+    gang_shang_hua = 2,-- 杠上花
+    qiang_gang_hu = 3,-- 抢杠胡
+}
+
 --踢玩家
 KICK_CLIENT_REASON = {
 	CLIENT_REPEAT_LOGIN = 0;
@@ -162,22 +203,25 @@ function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
     room_rules.ju_num = data.jushu_default
     room_rules.difen = data.difen_default
 
-    local subgame = Subgame_pb.XTHH_RULES()
-    dump(subgame, "subgame", 8)
-    subgame.piao_prize = data.piao_laizi_prize_default
-    subgame.hu_laizinum = data.hu_laizi_num_default
-    subgame.fengding = data.fengding_default
+    local subgame = Subgame_pb.MSG_SUB_ROOM_RULE()
+    subgame.gameAreaRule = 0
+    local sub_rules = subgame.xgRule
+    sub_rules.piao_prize = data.piao_laizi_prize_default
+    sub_rules.hu_laizinum = data.hu_laizi_num_default
+    sub_rules.fengding = data.fengding_default
 
     msg.sub_game_rule = subgame:SerializeToString()
 
-    -- room_rules.fengding = data.fengding_default
-
-    -- room_rules.xthh_rules = room_rules.xthh_rules:add()
-    -- room_rules.xthh_rules.piao_prize = data.piao_laizi_prize_default
-    -- room_rules.xthh_rules.hu_laizinum = data.hu_laizi_num_default
-
     return msg:SerializeToString(), C2L_PLAYER_CREATE_ROOM_SYN
 end
+
+-- message XIAN_TAO_RULE
+-- {
+  
+--     optional int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
+-- 	optional int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
+--     optional int32 fengding = 3;  //封顶
+-- }
 
 function Message_Def:L2C_PLAYER_CREATE_ROOM_SYN(msgData)
     local msg = Message_pb.MSG_C2L_PLAYER_CREATE_ROOM_SYN()

@@ -5,6 +5,7 @@ app.iml
 .DS_Store
 QZCertificateSigningRequest.certSigningRequest
 aps_dev.p12
+build/
 aps_development.cer
 aps_pro.cer
 aps_pro.p12
@@ -15,7 +16,6 @@ xx/
 obj/
 assets/
 frameworks/runtime-src/proj.android/local.properties
-build/
 .gradle/
 .idea/
 *.iml

@@ -310,6 +310,7 @@ message MSG_D2L_PLAYER_GAME_ROOM_CONFIG_ACK
 	repeated ROOM_CONFIG room_config = 2;
 }
 
+/*----------------------->此结构体要删除的*/
 message ROOM_RUlES
 {
 	optional int32 kindid = 1;
@@ -632,7 +633,7 @@ message MSG_M2C_PLAYER_ROOM_BASEINFO_ACK
 message MSG_M2C_TABLE_PLAYER_INFO_NOTIFY
 {
 	optional int32 messageID = 1;
-	optional 	string name  = 2;
+	optional string name  = 2;
 	optional int32 player_id = 3;
 	optional int32 sex = 4;
 	optional int64 registerdate = 5;
