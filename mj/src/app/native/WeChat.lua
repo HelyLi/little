@@ -89,7 +89,7 @@ function WeChat.doLogin(regcallback)
 
     if not self:isInstalled(appId) then
         regcallback({})
-        break
+        return
     end
 
     local listener = function (status, code)
