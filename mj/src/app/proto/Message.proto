@@ -776,13 +776,11 @@ message MSG_M2C_PLAYER_GAME_START_ACK
 	message HAND_CARD
 	{
 	optional 	int32 chairid = 1;
-		repeated int32 card = 2;
+	repeated int32 card = 2;
 	optional 	int32 cardcount = 3;
 	}
 
-
 	repeated HAND_CARD hand_card = 13;					//手牌信息
-	
 }
 
 message MSG_M2C_PLAYER_MONEY_UPDATA_ACK
@@ -842,10 +840,9 @@ message MSG_M2C_SUB_GAME_END_ACK
 	optional 	int32 gangscore = 4;
 	optional 	int64 gamescore = 5;
 	optional 	int64 playergold = 6;
-		repeated TCPGMSG tcmpmsg = 7; //吃碰杠
-		repeated  int32 handpai = 8;
+	repeated TCPGMSG tcmpmsg = 7; //吃碰杠
+	repeated  int32 handpai = 8;
 	optional 	int32 handpaicount = 9;
-	
 	}
 	repeated 	HU_INFO hu_info = 	9;			
 }

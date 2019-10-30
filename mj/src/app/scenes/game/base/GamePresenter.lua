@@ -147,84 +147,269 @@ function GamePresenter:M2C_PLAYER_ROOM_FREE_SCENE_ACK()
 end
 
 --桌子战斗场景消息
+-- message MSG_M2C_PLAYER_ROOM_PLAYING_SCENE_ACK
+-- {
+-- 	optional int32 messageID = 1;
+
+-- 	optional int32 outtime = 2;			//出牌时间		
+-- 	optional int32 blocktime = 3;		//拦牌思考时间	
+-- 	optional int32 playintcount = 4;		//进行局数
+-- 	optional int32 buycount = 5;			//购买局数
+
+-- 	repeated int32 outpai = 6;  //出牌牌值
+-- 	optional int32 mennums = 7;			//门牌数量
+-- 	optional int32 nowoutstation = 8;	//出牌位置
+-- 	optional int32 laizipi = 9;
+-- 	optional int32 laizi = 10;
+-- 	optional int32 ntstation = 11 ;		//当前操作玩家
+	
+-- 	message CPGMEG
+-- 	{
+-- 	optional 	int32 type = 1;					//吃碰杠类型
+-- 	optional 	int32 station = 2;				//吃碰杠玩家位置
+-- 	optional 	int32 bestation = 3;			//被吃碰杠的玩家位置
+-- 	optional 	int32 outpai = 4; 				//别人出的牌
+-- 	repeated int32 cpgdata = 5;    //吃碰杠数据 
+-- 	}
+
+-- 	message PLAYER_ITEM
+-- 	{
+-- 	optional 	int32 playerid = 1;
+-- 	optional 	int32 chairid = 2;
+-- 	optional 	int32 score = 3;
+-- 	optional 	int32 online = 4;
+--     optional 	USER_STATE state = 5;	//玩家状态
+--     repeated int32 handpai = 6;
+-- 	optional 	int32 handpaicount = 7;
+-- 	repeated CPGMEG cpgmsg  = 8;
+-- 	}
+	
+-- 	repeated PLAYER_ITEM player_item = 12;
+-- 	optional CPGNotify	cpgnotify = 13; //吃碰杠提示
+-- }
 function GamePresenter:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK()
     local data = Message_Def:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK(msgData) 
     dump(data, "--->>> 桌子战斗场景消息")
 end
 
 --玩家状态更新
+-- message MSG_M2C_PLAYER_STATE_UPDATA_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 playerid = 2;
+-- 	optional USER_STATE state = 5;	//玩家状态
+-- }
 function GamePresenter:M2C_PLAYER_STATE_UPDATA_ACK()
     local data = Message_Def:M2C_PLAYER_STATE_UPDATA_ACK(msgData) 
     dump(data, "--->>> 玩家状态更新")
 end
 
 --桌子状态更新
+-- message MSG_M2C_PLAYER_ROOM_STATE_UPDATA_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 roomid = 2;
+-- 	optional ROOM_STATE roomstate = 3;
+-- }
 function GamePresenter:M2C_PLAYER_ROOM_STATE_UPDATA_ACK()
     local data = Message_Def:M2C_PLAYER_ROOM_STATE_UPDATA_ACK(msgData) 
     dump(data, "--->>> 桌子状态更新")
 end
+
 -- 玩家坐下成功
+-- message MSG_M2C_PLAYER_SIT_DOWN_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 errorcode = 2;
+-- 	optional int32 playerid = 3;
+-- 	optional int32 tableposid = 4;
+-- }
 function GamePresenter:M2C_PLAYER_SIT_DOWN_ACK()
     local data = Message_Def:M2C_PLAYER_SIT_DOWN_ACK(msgData) 
     dump(data, "--->>> 玩家坐下成功")
 end
 
 --玩家准备成功
+-- message MSG_M2C_PLAYER_READY_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 errorcode = 2;
+-- 	optional int32 playerid = 3;
+-- }
 function GamePresenter:M2C_PLAYER_READY_ACK()
     local data = Message_Def:M2C_PLAYER_READY_ACK(msgData) 
     dump(data, "--->>> 玩家准备成功")
 end
 
 --玩家离开成功
+-- message MSG_M2C_PLAYER_OP_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 errorcode = 2;
+-- 	optional int32 opcode = 3; //1:离开 2：解散
+-- }
 function GamePresenter:M2C_PLAYER_OP_ACK()
     local data = Message_Def:M2C_PLAYER_OP_ACK(msgData) 
     dump(data, "--->>> 玩家离开成功")
 end
 
 --玩家解散房间成功
+-- message MSG_M2C_PLAYER_DISMISS_ROOM_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 errorcode = 2;
+-- 	optional int32 playerid = 3;
+-- 	optional string name = 4;
+-- 	optional string faceurl = 5;
+-- }
 function GamePresenter:M2C_PLAYER_DISMISS_ROOM_ACK()
     local data = Message_Def:M2C_PLAYER_DISMISS_ROOM_ACK(msgData) 
     dump(data, "--->>> 玩家解散房间成功")
 end
 
 --玩家投票成功
+-- message MSG_M2C_PLAYER_VOTE_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 errorcode = 2;
+-- 	optional int32 vote = 3; //1:同意 2：拒绝
+-- 	optional int32 playerid = 4;
+-- 	optional string name = 5;
+-- 	optional string faceurl = 6;
+-- }
 function GamePresenter:M2C_PLAYER_VOTE_ACK()
     local data = Message_Def:M2C_PLAYER_VOTE_ACK(msgData) 
     dump(data, "--->>> 玩家投票成功")
 end
 
 --游戏开始
+-- message MSG_M2C_PLAYER_GAME_START_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional bool bgang = 2;
+-- 	optional bool bhu = 3;
+-- 	optional int32 bankeruser = 4;								//庄家用户
+-- 	optional int32 currentuser = 5;								//当前用户
+-- 	optional int32 useraction = 6;								//用户动作
+-- 	optional int32 laizipicard = 7;								//癞子皮信息
+-- 	optional int32 laizicard = 8;								//癞子信息
+-- 	repeated int32 isicecount = 9;						//骰子点数	
+-- 	optional int32 imennums = 10;								//门牌数量
+-- 	optional int32 iplayingcount = 11;							//局数
+-- 	optional CPGNotify	 gangdata = 12;						//杠牌信息
+-- 	message HAND_CARD
+-- 	{
+-- 	optional 	int32 chairid = 1;
+-- 	repeated int32 card = 2;
+-- 	optional 	int32 cardcount = 3;
+-- 	}
+-- 	repeated HAND_CARD hand_card = 13;					//手牌信息
+-- }
 function GamePresenter:M2C_PLAYER_GAME_START_ACK()
     local data = Message_Def:M2C_PLAYER_GAME_START_ACK(msgData) 
     dump(data, "--->>> 游戏开始")
 end
 
 --货币更新
+-- message MSG_M2C_PLAYER_MONEY_UPDATA_ACK
+-- {
+-- 	optional int32 messageID = 1;
+
+-- 	message MONEY
+-- 	{
+-- 	optional 	int32 chairid = 1;
+-- 	optional 	MONEY_INFO money_info = 2;
+-- 	}
+-- 	repeated MONEY money = 2;
+-- }
 function GamePresenter:M2C_PLAYER_MONEY_UPDATA_ACK()
     local data = Message_Def:M2C_PLAYER_MONEY_UPDATA_ACK(msgData) 
     dump(data, "--->>> 货币更新")
 end
 
 --操作提示
-
+-- message MSG_M2C_PLAYER_OPERATE_NOTIFY_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 playerid = 2;
+-- 	optional int32 chairid = 3;
+-- 	optional CPGNotify cpgnotify  = 4;
+-- }
 function GamePresenter:M2C_PLAYER_OPERATE_NOTIFY_ACK()
     local data = Message_Def:M2C_PLAYER_OPERATE_NOTIFY_ACK(msgData) 
     dump(data, "--->>> 操作提示")
 end
 
 -- 操作命令
+-- message MSG_M2C_PLAYER_OPERATE_RESULT_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional bool  bclearaction = 2;//清楚动作用
+-- 	optional bool  bzhua = 3;	 //是否抓牌有动作
+-- 	optional int32  type = 4;    //吃碰杠类型
+-- 	optional int32  istation = 5;  //吃碰杠玩家位置
+-- 	optional int32  ibestation = 6;//被吃碰杠玩家位置
+-- 	optional int32  ioutpai = 7;   //别人出的牌
+-- 	repeated int32 data = 8; //吃碰杠牌数据 
+-- 	repeated int32 handcardcount = 9; //手牌数据
+-- 	repeated  int32 outpai = 10; //出牌数据
+-- 	optional int32  cardcount = 11;//手牌数量
+-- 	optional int32 laizicard = 12;	//宝牌
+-- 	repeated int64 userscore = 13; //玩家实时得分
+-- }
 function GamePresenter:M2C_PLAYER_OPERATE_RESULT_ACK()
     local data = Message_Def:M2C_PLAYER_OPERATE_RESULT_ACK(msgData) 
     dump(data, "--->>> 操作命令")
 end
 
 -- 游戏结束
+-- message MSG_M2C_SUB_GAME_END_ACK
+-- {
+-- 	optional int32 messageID = 1;
+
+-- 	optional bool bzimo = 2;				//是否自摸
+-- 	optional bool bisliuju = 3;			//是否流局
+-- 	optional int32 dianpaostation = 4;		//点炮玩家位置
+-- 	optional int32 laizicard = 5;			//宝牌
+-- 	optional int32 hupaistation = 6;		//胡牌玩家位置
+-- 	optional int32 hucard = 7;				//胡的牌
+-- 	optional int32 imennums = 8;			//门牌数量
+
+-- 	message HU_INFO
+-- 	{
+-- 	optional 	int32 chairid = 1;
+-- 	optional 	int32 hutype = 2;
+-- 	optional 	int32 fan = 3;
+-- 	optional 	int32 gangscore = 4;
+-- 	optional 	int64 gamescore = 5;
+-- 	optional 	int64 playergold = 6;
+-- 	repeated TCPGMSG tcmpmsg = 7; //吃碰杠
+-- 	repeated  int32 handpai = 8;
+-- 	optional 	int32 handpaicount = 9;
+-- 	}
+-- 	repeated 	HU_INFO hu_info = 	9;			
+-- }
 function GamePresenter:M2C_SUB_GAME_END_ACK()
     local data = Message_Def:M2C_SUB_GAME_END_ACK(msgData) 
     dump(data, "--->>> 游戏结束")
 end
 
 --所有游戏结束
+-- message MSG_M2C_SUB_GAME_END_ALL_ACK
+-- {
+-- 	optional int32 messageID = 1;
+	
+-- 	message END_ALL
+-- 	{
+-- 	optional 	int64 gamescore = 1;
+-- 	optional 	int32		fan = 2;//番
+-- 	optional 	int32		gangscore = 3;//杠
+-- 	optional 	int32       hucount = 4; //胡牌次数
+-- 	optional 	int32		piaocount = 5;//飘次数
+-- 	optional 	int32 		heimocounts = 6;//黑摸次数
+-- 	}
+-- 	repeated END_ALL end_all = 2;
+-- }
 function GamePresenter:M2C_SUB_GAME_END_ALL_ACK()
     local data = Message_Def:M2C_SUB_GAME_END_ALL_ACK(msgData) 
     dump(data, "--->>> 所有游戏结束")
