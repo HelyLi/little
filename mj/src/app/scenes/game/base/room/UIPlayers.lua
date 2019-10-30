@@ -22,11 +22,9 @@ function UIPlayers:initUser()
     end
 end
 
-
 function UIPlayers:playerEnter(playerInfo)
     
 end
-
 
 function UIPlayers:getPlayerByViewId(viewId)
     for i,v in ipairs(self.m_playersT) do

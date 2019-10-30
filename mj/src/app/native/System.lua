@@ -165,4 +165,40 @@ function System.compressImage( srcPath, dstPath, quality )
     return true
 end
 
+function System.getBatteryValue()
+    local javaMethodSig="()I"
+    local ret = NativeApi.callStaticMethod({
+        className = "System",
+        methodName = "getBatteryValue",
+        ocParames = nil,
+        javaParams = nil,
+        javaMethodSig = javaMethodSig
+    })
+    return ret 
+end
+
+function System.getNetInfo()
+    local ocParames = {}
+    local javaParams = {}
+    local javaMethodSig="()Ljava/lang/String;"
+
+    local ret = NativeApi.callStaticMethod({
+        className = "System",
+        methodName = "getNetInfo",
+        ocParames = nil,
+        javaParams = nil,
+        javaMethodSig = javaMethodSig
+    })
+
+    local netType = 2
+    local netLevel = 2
+    local netJson = json.decode(ret)
+    if netJson ~= nil then
+        netType = netJson.netType
+        netLevel = netJson.netLevel
+    end
+
+    return netType, netLevel
+end
+
 return System

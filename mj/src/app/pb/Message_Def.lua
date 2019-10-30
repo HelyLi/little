@@ -474,33 +474,42 @@ function Message_Def:C2M_PLAYER_TRUSTEE_SYN(btrustee)
     return msg:SerializeToString(), C2M_PLAYER_TRUSTEE_SYN
 end
 
--- ---------------------------------------------------------------------------------------------------------------------------------------
--- --游戏服务器发送给客户端的消息
--- 	M2C_PLAYER_ENTER_GAME_ROOM_SYN							= 22001;			--请求进入游戏房间成功
--- 	M2C_PLAYER_RECONNECT_GAME_ACK							= 22002;			--重连成功
--- 	M2C_PLAYER_BASEINFO_ACK									= 22003;			--玩家的基本信息
--- 	M2C_PLAYER_ROOM_BASEINFO_ACK							= 22004;			--桌子的基本信息
--- 	M2C_PLAYER_ROOM_FREE_SCENE_ACK							= 22005;			--桌子空闲场景消息
--- 	M2C_PLAYER_ROOM_PLAYING_SCENE_ACK						= 22006;			--桌子战斗场景消息
--- 	M2C_PLAYER_STATE_UPDATA_ACK								= 22007;			--玩家状态更新
--- 	M2C_PLAYER_ROOM_STATE_UPDATA_ACK						= 22008;			--桌子状态更新
--- 	M2C_PLAYER_SIT_DOWN_ACK									= 22009;			--玩家坐下成功
--- 	M2C_PLAYER_READY_ACK									= 22010;			--玩家准备成功
--- 	M2C_PLAYER_OPER_LEAVE_ROOM_ACK							= 22011;			--玩家离开成功
--- 	M2C_PLAYER_DISMISS_ROOM_ACK								= 22012;			--玩家解散房间成功
--- 	M2C_PLAYER_VOTE_SYN										= 22013;			--玩家投票成功
--- 	M2C_PLAYER_GAME_START_ACK								= 22014;			--游戏开始
--- 	M2C_PLAYER_MONEY_UPDATA_ACK								= 22015;			--货币更新
--- 	M2C_PLAYER_OPERATE_NOTIFY_ACK							= 22016;			--操作提示
--- 	M2C_PLAYER_OPERATE_RESULT_ACK							= 21017;			--操作命令
--- 	M2C_SUB_GAME_END_ACK									= 21018;			--游戏结束
--- 	M2C_SUB_GAME_END_ALL_ACK								= 21019;			--所有游戏结束
--- ----------------------------------------------------------------------------------------------------------------------------------------
-function Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_SYN(msgData)
-    local msg = Message_pb.MSG_M2C_PLAYER_ENTER_GAME_ROOM_SYN()
+-- //-------------------------------------------------------------------------------------------------------------------------------------
+-- //游戏服务器发送给客户端的消息
+-- 	M2C_PLAYER_ENTER_GAME_ROOM_ACK							= 22001;			//请求进入游戏房间成功
+-- 	M2C_PLAYER_RECONNECT_GAME_ACK							= 22002;			//重连成功
+-- 	M2C_PLAYER_BASEINFO_ACK									= 22003;			//玩家的基本信息
+-- 	M2C_PLAYER_ROOM_BASEINFO_ACK							= 22004;			//桌子的基本信息
+-- 	M2C_TABLE_PLAYER_INFO_NOTIFY							= 22005;			//桌子上玩家信息
+-- 	M2C_PLAYER_ROOM_FREE_SCENE_ACK							= 22006;			//桌子空闲场景消息
+-- 	M2C_PLAYER_ROOM_PLAYING_SCENE_ACK						= 22007;			//桌子战斗场景消息
+-- 	M2C_PLAYER_STATE_UPDATA_ACK								= 22008;			//玩家状态更新
+-- 	M2C_PLAYER_ROOM_STATE_UPDATA_ACK						= 22009;			//桌子状态更新
+-- 	M2C_PLAYER_SIT_DOWN_ACK									= 22010;			//玩家坐下成功
+-- 	M2C_PLAYER_READY_ACK									= 22011;			//玩家准备成功
+-- 	M2C_PLAYER_OP_ACK										= 22012;			//玩家离开或解散成功
+-- 	M2C_PLAYER_DISMISS_ROOM_ACK								= 22013;			//玩家解散房间成功
+-- 	M2C_PLAYER_VOTE_ACK										= 22014;			//玩家投票成功
+-- 	M2C_PLAYER_GAME_START_ACK								= 22015;			//游戏开始
+-- 	M2C_PLAYER_MONEY_UPDATA_ACK								= 22016;			//货币更新
+-- 	M2C_PLAYER_OPERATE_NOTIFY_ACK							= 22017;			//操作提示
+-- 	M2C_PLAYER_OPERATE_RESULT_ACK							= 21018;			//操作命令
+-- 	M2C_SUB_GAME_END_ACK									= 21019;			//游戏结束
+-- 	M2C_SUB_GAME_END_ALL_ACK								= 21020;			//所有游戏结束
+	
+-- 	M2C_PLAYER_VOTE_BEGIN_ACK								= 21030;			//玩家开始投票解散结果
+-- 	M2C_PLAYER_VOTE_NOTIFY									= 21031;			//玩家解散投票结果
+-- 	M2C_PLAYER_VOTE_END_NOTIFY								= 21032;			//房间解散投票结果
+-- 	M2C_PLAYER_LEAVE_FROM_ROOM								= 21033;			//玩家离开
+-- 	M2C_PLAYER_VOTE_BEGIN_NOTIFY							= 21034;			//房间解散投票开始
+-- 	M2C_DISMISS_ROOM_NOTIFY									= 21035;			//房间解散通知
+-- //--------------------------------------------------------------------------------------------------------------------------------------
+function Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_ACK(msgData)
+    local msg = Message_pb.MSG_M2C_PLAYER_ENTER_GAME_ROOM_ACK()
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -509,6 +518,7 @@ function Message_Def:M2C_PLAYER_RECONNECT_GAME_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -517,6 +527,7 @@ function Message_Def:M2C_PLAYER_BASEINFO_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -525,6 +536,16 @@ function Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
+    local msg = Message_pb.MSG_M2C_TABLE_PLAYER_INFO_NOTIFY()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -533,6 +554,7 @@ function Message_Def:M2C_PLAYER_ROOM_FREE_SCENE_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -541,6 +563,7 @@ function Message_Def:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -549,6 +572,7 @@ function Message_Def:M2C_PLAYER_STATE_UPDATA_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -557,6 +581,7 @@ function Message_Def:M2C_PLAYER_ROOM_STATE_UPDATA_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -565,6 +590,7 @@ function Message_Def:M2C_PLAYER_SIT_DOWN_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -573,6 +599,16 @@ function Message_Def:M2C_PLAYER_READY_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:M2C_PLAYER_OP_ACK(msgData)
+    local msg = Message_pb.MSG_M2C_PLAYER_OP_ACK()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -581,6 +617,7 @@ function Message_Def:M2C_PLAYER_OPER_LEAVE_ROOM_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -589,6 +626,16 @@ function Message_Def:M2C_PLAYER_DISMISS_ROOM_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:M2C_PLAYER_VOTE_ACK(msgData)
+    local msg = Message_pb.MSG_M2C_PLAYER_VOTE_ACK()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -597,6 +644,7 @@ function Message_Def:M2C_PLAYER_VOTE_SYN(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -605,6 +653,7 @@ function Message_Def:M2C_PLAYER_GAME_START_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -613,6 +662,7 @@ function Message_Def:M2C_PLAYER_MONEY_UPDATA_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -621,6 +671,7 @@ function Message_Def:M2C_PLAYER_OPERATE_NOTIFY_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -629,6 +680,7 @@ function Message_Def:M2C_PLAYER_OPERATE_RESULT_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -637,6 +689,7 @@ function Message_Def:M2C_SUB_GAME_END_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
@@ -645,31 +698,62 @@ function Message_Def:M2C_SUB_GAME_END_ALL_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
+    self:parseMsg(msg, T)
     return T
 end
 
--- ---------------------------------------------------------------------------------------------------------------------------------------
--- --游戏服务器发送给客户端的消息
--- 	M2C_PLAYER_ENTER_GAME_ROOM_ACK							= 22001;			--请求进入游戏房间成功
--- 	M2C_PLAYER_RECONNECT_GAME_ACK							= 22002;			--重连成功
--- 	M2C_PLAYER_BASEINFO_ACK									= 22003;			--玩家的基本信息
--- 	M2C_PLAYER_ROOM_BASEINFO_ACK							= 22004;			--桌子的基本信息
--- 	M2C_PLAYER_ROOM_FREE_SCENE_ACK							= 22005;			--桌子空闲场景消息
--- 	M2C_PLAYER_ROOM_PLAYING_SCENE_ACK						= 22006;			--桌子战斗场景消息
--- 	M2C_PLAYER_STATE_UPDATA_ACK								= 22007;			--玩家状态更新
--- 	M2C_PLAYER_ROOM_STATE_UPDATA_ACK						= 22008;			--桌子状态更新
--- 	M2C_PLAYER_SIT_DOWN_ACK									= 22009;			--玩家坐下成功
--- 	M2C_PLAYER_READY_ACK									= 22010;			--玩家准备成功
--- 	M2C_PLAYER_OPER_LEAVE_ROOM_ACK							= 22011;			--玩家离开成功
--- 	M2C_PLAYER_DISMISS_ROOM_ACK								= 22012;			--玩家解散房间成功
--- 	M2C_PLAYER_VOTE_SYN										= 22013;			--玩家投票成功
--- 	M2C_PLAYER_GAME_START_ACK								= 22014;			--游戏开始
--- 	M2C_PLAYER_MONEY_UPDATA_ACK								= 22015;			--货币更新
--- 	M2C_PLAYER_OPERATE_NOTIFY_ACK							= 22016;			--操作提示
--- 	M2C_PLAYER_OPERATE_RESULT_ACK							= 21017;			--操作命令
--- 	M2C_SUB_GAME_END_ACK									= 21018;			--游戏结束
--- 	M2C_SUB_GAME_END_ALL_ACK								= 21019;			--所有游戏结束
--- ----------------------------------------------------------------------------------------------------------------------------------------
+function Message_Def:M2C_PLAYER_VOTE_BEGIN_ACK(msgData)
+    local msg = Message_pb.MSG_M2C_PLAYER_VOTE_BEGIN_ACK()
+    msg:ParseFromString(msgData)
 
+    local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:M2C_PLAYER_VOTE_NOTIFY(msgData)
+    local msg = Message_pb.MSG_M2C_PLAYER_VOTE_NOTIFY()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:M2C_PLAYER_VOTE_END_NOTIFY(msgData)
+    local msg = Message_pb.MSG_M2C_PLAYER_VOTE_END_NOTIFY()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:M2C_PLAYER_LEAVE_FROM_ROOM(msgData)
+    local msg = Message_pb.MSG_M2C_PLAYER_LEAVE_FROM_ROOM()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:M2C_PLAYER_VOTE_BEGIN_NOTIFY(msgData)
+    local msg = Message_pb.MSG_M2C_PLAYER_VOTE_BEGIN_NOTIFY()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:M2C_DISMISS_ROOM_NOTIFY(msgData)
+    local msg = Message_pb.MSG_M2C_DISMISS_ROOM_NOTIFY()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    self:parseMsg(msg, T)
+    return T
+end
 
 return Message_Def

@@ -1,20 +1,37 @@
 package org.cocos2dx.platform;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.provider.Settings;
+import android.telephony.PhoneStateListener;
+import android.telephony.SignalStrength;
+import android.util.Log;
 import android.widget.Toast;
+
+import org.cocos2dx.lua.AppActivity;
 
 import www.wan.csmj.com.R;
 
+import static android.content.Context.WIFI_SERVICE;
+//import static org.cocos2dx.lua.AppActivity.getSingnalLevel;
+
 public class System {
 
-    public static Activity mContext = null;
+    public static AppActivity mContext = null;
 
-    public static void init(Activity context){
+
+
+    public static int singnalLevel;
+
+    public static void init(AppActivity context){
         mContext = context;
     }
 
@@ -89,6 +106,15 @@ public class System {
 
     }
 
+    public static String getNetInfo(){
+        return mContext.getNetInfo();
+    }
+
+    public static int getBatteryValue() {
+        return mContext.getBatteryValue();
+    };
+
+    //
 //    static boolean exit;
 //
 //    public static boolean isExit() {
