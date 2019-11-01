@@ -2,6 +2,7 @@ local RemoteSprite = import(".RemoteSprite")
 local WaitingLayer = import(".WaitingLayer")
 local RadioButton = import(".RadioButton")
 local RadioGroup = import(".RadioGroup")
+local ComDialog = import(".Dialog")
 
 comui = {}
 
@@ -304,6 +305,42 @@ function comui.createRadioGroup( options )
         return rg
     end
     return nil
+end
+
+
+--[[--
+comui.showDialog({
+    parent = nil,
+    tag = 0,
+    text = "",
+    callback1 = nil,
+    callback2 = nil,
+    btnFrame1 = nil
+    btnFrame2 = nil})
+]]
+function comui.showDialog(params)
+    local dialog = ComDialog.new()
+    if params.parent == nil then
+        params.parent = display.getRunningScene()
+    end
+    if params.tag ~= nil then
+        params.parent:removeChildByTag(params.tag)
+    end
+    params.tag = params.tag or 8888
+
+    dialog:addTo(params.parent,1000, params.tag):display(params.text)
+
+    if params.callback1 ~= nil and params.callback2 == nil then
+        dialog:setDialogOneBtn(params.callback1)
+    elseif params.callback1 ~= nil and params.callback2 ~= nil then
+        dialog:setDialogTwoBtn(params.callback1, params.callback2, params.btnFrame1, params.btnFrame2)
+    end
+
+    if params.canClose == nil then
+        params.canClose = true
+    end
+    dialog:setCanClose(params.canClose)
+    return dialog
 end
 
 return comui

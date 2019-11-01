@@ -1,7 +1,7 @@
-local ComLayer = import(".ComLayer")
+local SubLayer = import(".SubLayer")
 
 local Dialog = class("Dialog", function()
-    return ComLayer.new()
+    return SubLayer.new()
 end)
 
 function Dialog:ctor()

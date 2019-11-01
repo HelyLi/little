@@ -5,7 +5,7 @@ local GamePresenter = class("GamePresenter",function()
     return Presenter.new()
 end)
 
-function GamePresenter:ctor()
+function GamePresenter:ctor(view)
     Presenter.init(self, view)
     self:initHandlerMsg()
     self:initCardGameSocket()
@@ -63,6 +63,10 @@ end
 function GamePresenter:M2C_PLAYER_ENTER_GAME_ROOM_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_ACK(msgData)
     dump(data, "--->>> 请求进入游戏房间成功")
+    --根据errorcode
+    
+    
+
 end
 
 --重连成功

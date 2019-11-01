@@ -1,6 +1,6 @@
-local ComLayer = import("app.views.ComLayer")
+local SubLayer = import("app.views.SubLayer")
 local SettingLayer = class("SettingLayer", function()
-    return ComLayer.new()
+    return SubLayer.new()
 end)
 
 function SettingLayer:ctor()
