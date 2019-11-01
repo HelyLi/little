@@ -189,13 +189,32 @@ end
 --     optional int32 fengding = 3;  //封顶
 -- }
 
+-- message ROOM_RUlES
+-- {
+-- 	int32 kindid = 1;
+-- 	int32 areaid = 2; //区域id
+-- 	int32 paytype = 3;   //1:房主支付  2：AA支付
+-- 	int32 playernum = 4; //玩家人数
+-- 	int32 ju_num =5;	//局数
+-- 	int32 difen = 6;      //底分
+-- 	string sub_game_rule = 7;//子游戏规则
+-- }
+
+-- message MSG_C2L_PLAYER_CREATE_ROOM_SYN
+-- {
+-- 	int32 messageID = 1;
+
+-- 	ROOM_RUlES room_rules = 2;  //游戏房间规则
+
+-- }
+
 function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
     dump(data, "C2L_PLAYER_CREATE_ROOM_SYN", 8)
 
     local msg = Message_pb.MSG_C2L_PLAYER_CREATE_ROOM_SYN()
     msg.messageID = C2L_PLAYER_CREATE_ROOM_SYN
 
-    local room_rules = msg.room_rules--:add() 
+    local room_rules = msg.room_rules
     room_rules.kindid = data.dwGameId
     room_rules.areaid = data.areaId
     room_rules.paytype = data.payment_default
@@ -210,7 +229,14 @@ function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
     sub_rules.hu_laizinum = data.hu_laizi_num_default
     sub_rules.fengding = data.fengding_default
 
-    msg.sub_game_rule = subgame:SerializeToString()
+    local sub = subgame:SerializeToString()
+    local sub_msg = Subgame_pb.MSG_SUB_ROOM_RULE()
+    sub_msg:ParseFromString(sub)
+
+    local T = {}
+    self:parseMsg(sub_msg, T)
+
+    room_rules.sub_game_rule = json.encode(T)
 
     return msg:SerializeToString(), C2L_PLAYER_CREATE_ROOM_SYN
 end

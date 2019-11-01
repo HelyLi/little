@@ -323,7 +323,7 @@ message ROOM_RUlES
 	int32 playernum = 4; //玩家人数
 	int32 ju_num =5;	//局数
 	int32 difen = 6;      //底分
-	string sub_game_rule = 7;//子游戏规则
+	MSG_SUB_ROOM_RULE sub_game_rule = 7;//子游戏规则
 }
 
 message MSG_C2L_PLAYER_CREATE_ROOM_SYN
