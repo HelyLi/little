@@ -1,6 +1,57 @@
 require("app.pb.Message_ID")
 require("app.pb.Message_pb")
 require("app.pb.Subgame_pb")
+
+-- - "parseMsg" = {
+--     [LUA-print] -     "_cached_byte_size"       = 0
+--     [LUA-print] -     "_cached_byte_size_dirty" = true
+--     [LUA-print] -     "_fields" = {
+--     [LUA-print] -         table: 0x20323d10 = {
+--     [LUA-print] -             1               = 22001
+--     [LUA-print] -             "_listener" = {
+--     [LUA-print] -                 "__mode"          = "v"
+--     [LUA-print] -                 _parent_message = *REF*
+--     [LUA-print] -                 "dirty"           = true
+--     [LUA-print] -             }
+--     [LUA-print] -             "_type_checker" = function: 0x204179e8
+--     [LUA-print] -         }
+--     [LUA-print] -     }
+--     [LUA-print] -     "_is_present_in_parent"   = true
+--     [LUA-print] -     "_listener" = {
+--     [LUA-print] -         "Modified" = function: 0x20301780
+--     [LUA-print] -     }
+--     [LUA-print] -     _listener_for_children  = *REF*
+--     [LUA-print] - }
+
+local function parseMsg(msg, data)
+    dump(msg, "parseMsg", 8)
+    if type(msg) ~= "table" then
+        return
+    end
+    local fields = msg._fields
+    for k1,v1 in pairs(fields) do
+        if type(msg[k1.name]) == "table" then
+            print("k1.name:", k1.name)
+            data[k1.name] = {}
+            dump(msg[k1.name])
+            print(#msg[k1.name])
+            print('----------------')
+            if #msg[k1.name] > 0 then
+                for i2,v2 in ipairs(msg[k1.name]) do
+                    local t = {}
+                    parseMsg(msg[k1.name][i2], t)
+                    data[k1.name][i2] = t
+                end
+            else
+                print('>>>>>>>>>>>>')
+                parseMsg(msg[k1.name], data[k1.name])
+            end
+        else
+            data[k1.name] = msg[k1.name]
+        end
+    end
+end
+
 --消息在此处解析和组合
 Message_Def = Message_Def or {}
 
@@ -234,7 +285,7 @@ function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
     sub_msg:ParseFromString(sub)
 
     local T = {}
-    self:parseMsg(sub_msg, T)
+    parseMsg(sub_msg, T)
 
     room_rules.sub_game_rule = json.encode(T)
 
@@ -254,7 +305,7 @@ function Message_Def:L2C_PLAYER_CREATE_ROOM_SYN(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -278,32 +329,14 @@ end
 -- 	L2C_PLAYER_ENTER_ROOM_ACK							= 11005;						--加入房间成功
 -- 	L2C_PLAYER_MONEY_UPDATA_ACK							= 11006;						--货币更新成功
 -- -------------------------------------------------------------------------------------------------------------------------------------
-function Message_Def:parseMsg(msg, data)
-    local fields = msg._fields
-    for k1,v1 in pairs(fields) do
-        if type(msg[k1.name]) == "table" then
-            data[k1.name] = {}
-            if #msg[k1.name] > 0 then
-                for i2,v2 in ipairs(msg[k1.name]) do
-                    local t = {}
-                    self:parseMsg(msg[k1.name][i2], t)
-                    data[k1.name][i2] = t
-                end
-            else
-                self:parseMsg(msg[k1.name], data[k1.name])
-            end
-        else
-            data[k1.name] = msg[k1.name]
-        end
-    end
-end
+
 
 function Message_Def:L2C_PLAYER_LOGIN_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_LOGIN_ACK()
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -314,7 +347,7 @@ function Message_Def:L2C_PLAYER_BASEINFO_ACK(msgData)
     print("playerInfo:"..#msg.playerInfo)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -327,7 +360,7 @@ function Message_Def:L2C_PLAYER_GAME_ROOM_CONFIG_ACK(msgData)
     print(#msg.room_config)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -336,7 +369,7 @@ function Message_Def:L2C_PLAYER_CREATE_ROOM_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -345,7 +378,7 @@ function Message_Def:L2C_PLAYER_ENTER_ROOM_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -354,7 +387,7 @@ function Message_Def:L2C_PLAYER_MONEY_UPDATA_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -530,12 +563,30 @@ end
 -- 	M2C_PLAYER_VOTE_BEGIN_NOTIFY							= 21034;			//房间解散投票开始
 -- 	M2C_DISMISS_ROOM_NOTIFY									= 21035;			//房间解散通知
 -- //--------------------------------------------------------------------------------------------------------------------------------------
+-- message MSG_M2C_PLAYER_ENTER_GAME_ROOM_ACK
+-- {
+-- 	int32	messageID = 1;
+-- 	int32	errorcode = 2;
+-- 	int32 	roomid = 3;
+-- 	uint64  tokenid = 4;
+-- 	int32   userstate = 5;
+-- 	int32 	playerid = 6;
+-- }
 function Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ENTER_GAME_ROOM_ACK()
     msg:ParseFromString(msgData)
 
+    dump(msg, "M2C_PLAYER_ENTER_GAME_ROOM_ACK", 8)
+
+    print("msg.messageID" .. msg.messageID)
+    print("msg.errorcode"..msg.errorcode)
+    print("msg.roomid"..msg.roomid)
+    print("msg.tokenid"..msg.tokenid)
+    print("msg.userstate"..msg.userstate)
+    print("msg.playerid"..msg.playerid) 
+
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -544,7 +595,7 @@ function Message_Def:M2C_PLAYER_RECONNECT_GAME_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -553,7 +604,7 @@ function Message_Def:M2C_PLAYER_BASEINFO_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -562,7 +613,7 @@ function Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -571,7 +622,7 @@ function Message_Def:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -580,7 +631,7 @@ function Message_Def:M2C_PLAYER_ROOM_FREE_SCENE_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -589,7 +640,7 @@ function Message_Def:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -598,7 +649,7 @@ function Message_Def:M2C_PLAYER_STATE_UPDATA_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -607,7 +658,7 @@ function Message_Def:M2C_PLAYER_ROOM_STATE_UPDATA_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -616,7 +667,7 @@ function Message_Def:M2C_PLAYER_SIT_DOWN_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -625,7 +676,7 @@ function Message_Def:M2C_PLAYER_READY_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -634,7 +685,7 @@ function Message_Def:M2C_PLAYER_OP_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -643,7 +694,7 @@ function Message_Def:M2C_PLAYER_OPER_LEAVE_ROOM_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -652,7 +703,7 @@ function Message_Def:M2C_PLAYER_DISMISS_ROOM_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -661,7 +712,7 @@ function Message_Def:M2C_PLAYER_VOTE_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -670,7 +721,7 @@ function Message_Def:M2C_PLAYER_VOTE_SYN(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -679,7 +730,7 @@ function Message_Def:M2C_PLAYER_GAME_START_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -688,7 +739,7 @@ function Message_Def:M2C_PLAYER_MONEY_UPDATA_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -697,7 +748,7 @@ function Message_Def:M2C_PLAYER_OPERATE_NOTIFY_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -706,7 +757,7 @@ function Message_Def:M2C_PLAYER_OPERATE_RESULT_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -715,7 +766,7 @@ function Message_Def:M2C_SUB_GAME_END_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -724,7 +775,7 @@ function Message_Def:M2C_SUB_GAME_END_ALL_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -733,7 +784,7 @@ function Message_Def:M2C_PLAYER_VOTE_BEGIN_ACK(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -742,7 +793,7 @@ function Message_Def:M2C_PLAYER_VOTE_NOTIFY(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -751,7 +802,7 @@ function Message_Def:M2C_PLAYER_VOTE_END_NOTIFY(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -760,7 +811,7 @@ function Message_Def:M2C_PLAYER_LEAVE_FROM_ROOM(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -769,7 +820,7 @@ function Message_Def:M2C_PLAYER_VOTE_BEGIN_NOTIFY(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 
@@ -778,7 +829,7 @@ function Message_Def:M2C_DISMISS_ROOM_NOTIFY(msgData)
     msg:ParseFromString(msgData)
 
     local T = {}
-    self:parseMsg(msg, T)
+    parseMsg(msg, T)
     return T
 end
 

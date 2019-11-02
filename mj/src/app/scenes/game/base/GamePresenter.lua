@@ -104,7 +104,7 @@ end
 -- 	optional ROOM_RUlES room_baseinfo = 5;
 -- }
 function GamePresenter:M2C_PLAYER_ROOM_BASEINFO_ACK()
-    local data = Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData) 
+    local data = Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     dump(data, "--->>> 桌子的基本信息")
 end
 
