@@ -76,4 +76,29 @@ function ComFunc.HandlingErrorCode(code)
     
 end
 
+--解析proto-buf
+function ComFunc.parseMsg(msg, data)
+    if type(msg) ~= "table" then
+        return
+    end
+    local fields = msg._fields
+    for k1,v1 in pairs(fields) do
+        if type(msg[k1.name]) == "table" then
+            data[k1.name] = {}
+            dump(msg[k1.name])
+            if #msg[k1.name] > 0 then
+                for i2,v2 in ipairs(msg[k1.name]) do
+                    local t = {}
+                    ComFunc.parseMsg(msg[k1.name][i2], t)
+                    data[k1.name][i2] = t
+                end
+            else
+                ComFunc.parseMsg(msg[k1.name], data[k1.name])
+            end
+        else
+            data[k1.name] = msg[k1.name]
+        end
+    end
+end
+
 return ComFunc

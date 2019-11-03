@@ -117,14 +117,14 @@ function GameRoomData:removeRoomPlayer(userId)
     end
 end
 
-function GamePlayingData:getPlayerTable()
+function GameRoomData:getPlayerTable()
     if self.m_roomPlayerTable == nil then
         self.m_roomPlayerTable = {}
     end
     return self.m_roomPlayerTable
 end
 
-function GamePlayingData:getPlayerInfoByViewId(viewid)
+function GameRoomData:getPlayerInfoByViewId(viewid)
     for i, v in ipairs(self.m_roomPlayerTable) do
         if v.viewid == viewid then
             return v

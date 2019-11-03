@@ -35,7 +35,8 @@ local Modules = {
     "app.utils.bitOp",
     "app.native.NativeApi",
     "app.native.System",
-    "app.native.WeChat"
+    "app.native.WeChat",
+    "app.base.ComFunc"
 }
 
 function Game:init()

@@ -1,4 +1,5 @@
-local ByteArray = import("app.utils.ByteArray")
+-- local ByteArray = import("app.utils.ByteArray")
+local Subgame_Def = import("app.pb.Subgame_Def")
 local Presenter = import("app.network.Presenter")
 
 local GamePresenter = class("GamePresenter",function()
@@ -7,7 +8,7 @@ end)
 
 function GamePresenter:ctor(view)
     Presenter.init(self, view)
-    self:initHandlerMsg()
+    self:initRoomHandlerMsg()
     self:initCardGameSocket()
 end
 
@@ -32,7 +33,7 @@ function GamePresenter:getPlayingData()
     return self.m_playingData
 end
 
-function GamePresenter:initHandlerMsg()
+function GamePresenter:initRoomHandlerMsg()
     self.m_handlerTable = {}
 
     self.m_handlerTable[M2C_PLAYER_ENTER_GAME_ROOM_ACK] = handler(self, self.M2C_PLAYER_ENTER_GAME_ROOM_ACK)
