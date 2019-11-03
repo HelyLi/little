@@ -24,6 +24,14 @@ function GamePresenter:onClosed()
     
 end
 
+function GamePresenter:getRoomData()
+    return self.m_roomData
+end
+
+function GamePresenter:getPlayingData()
+    return self.m_playingData
+end
+
 function GamePresenter:initHandlerMsg()
     self.m_handlerTable = {}
 
@@ -63,10 +71,7 @@ end
 function GamePresenter:M2C_PLAYER_ENTER_GAME_ROOM_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_ACK(msgData)
     dump(data, "--->>> 请求进入游戏房间成功")
-    --根据errorcode
-    
-    
-
+    --处理errorcode
 end
 
 --重连成功
@@ -89,9 +94,11 @@ end
 -- 	optional USER_STATE state = 4;	//玩家状态
 -- 	optional PlayerBaseInfo baseinfo =5;
 -- }
-function GamePresenter:M2C_PLAYER_BASEINFO_ACK()
+function GamePresenter:M2C_PLAYER_BASEINFO_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_BASEINFO_ACK(msgData)
     dump(data, "--->>> 玩家的基本信息")
+
+    
 end
 
 --桌子的基本信息
@@ -103,7 +110,7 @@ end
 -- 	optional ROOM_STATE roomstate = 4;
 -- 	optional ROOM_RUlES room_baseinfo = 5;
 -- }
-function GamePresenter:M2C_PLAYER_ROOM_BASEINFO_ACK()
+function GamePresenter:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     dump(data, "--->>> 桌子的基本信息")
 end
@@ -120,7 +127,7 @@ end
 -- 	optional int32 tableposid = 7;
 -- 	optional int32 isonline = 8;
 -- }
-function GamePresenter:M2C_TABLE_PLAYER_INFO_NOTIFY()
+function GamePresenter:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
     local data = Message_Def:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData) 
     dump(data, "--->>> 桌子上玩家信")
 end
@@ -145,7 +152,7 @@ end
 -- 	}
 -- 	repeated PLAYER_INFO item  = 7;
 -- }
-function GamePresenter:M2C_PLAYER_ROOM_FREE_SCENE_ACK()
+function GamePresenter:M2C_PLAYER_ROOM_FREE_SCENE_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_ROOM_FREE_SCENE_ACK(msgData) 
     dump(data, "--->>> 桌子空闲场景消息")
 end
@@ -191,7 +198,7 @@ end
 -- 	repeated PLAYER_ITEM player_item = 12;
 -- 	optional CPGNotify	cpgnotify = 13; //吃碰杠提示
 -- }
-function GamePresenter:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK()
+function GamePresenter:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK(msgData) 
     dump(data, "--->>> 桌子战斗场景消息")
 end
@@ -203,7 +210,7 @@ end
 -- 	optional int32 playerid = 2;
 -- 	optional USER_STATE state = 5;	//玩家状态
 -- }
-function GamePresenter:M2C_PLAYER_STATE_UPDATA_ACK()
+function GamePresenter:M2C_PLAYER_STATE_UPDATA_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_STATE_UPDATA_ACK(msgData) 
     dump(data, "--->>> 玩家状态更新")
 end
@@ -215,7 +222,7 @@ end
 -- 	optional int32 roomid = 2;
 -- 	optional ROOM_STATE roomstate = 3;
 -- }
-function GamePresenter:M2C_PLAYER_ROOM_STATE_UPDATA_ACK()
+function GamePresenter:M2C_PLAYER_ROOM_STATE_UPDATA_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_ROOM_STATE_UPDATA_ACK(msgData) 
     dump(data, "--->>> 桌子状态更新")
 end
@@ -228,7 +235,7 @@ end
 -- 	optional int32 playerid = 3;
 -- 	optional int32 tableposid = 4;
 -- }
-function GamePresenter:M2C_PLAYER_SIT_DOWN_ACK()
+function GamePresenter:M2C_PLAYER_SIT_DOWN_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_SIT_DOWN_ACK(msgData) 
     dump(data, "--->>> 玩家坐下成功")
 end
@@ -240,7 +247,7 @@ end
 -- 	optional int32 errorcode = 2;
 -- 	optional int32 playerid = 3;
 -- }
-function GamePresenter:M2C_PLAYER_READY_ACK()
+function GamePresenter:M2C_PLAYER_READY_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_READY_ACK(msgData) 
     dump(data, "--->>> 玩家准备成功")
 end
@@ -252,7 +259,7 @@ end
 -- 	optional int32 errorcode = 2;
 -- 	optional int32 opcode = 3; //1:离开 2：解散
 -- }
-function GamePresenter:M2C_PLAYER_OP_ACK()
+function GamePresenter:M2C_PLAYER_OP_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_OP_ACK(msgData) 
     dump(data, "--->>> 玩家离开成功")
 end
@@ -266,7 +273,7 @@ end
 -- 	optional string name = 4;
 -- 	optional string faceurl = 5;
 -- }
-function GamePresenter:M2C_PLAYER_DISMISS_ROOM_ACK()
+function GamePresenter:M2C_PLAYER_DISMISS_ROOM_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_DISMISS_ROOM_ACK(msgData) 
     dump(data, "--->>> 玩家解散房间成功")
 end
@@ -281,7 +288,7 @@ end
 -- 	optional string name = 5;
 -- 	optional string faceurl = 6;
 -- }
-function GamePresenter:M2C_PLAYER_VOTE_ACK()
+function GamePresenter:M2C_PLAYER_VOTE_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_VOTE_ACK(msgData) 
     dump(data, "--->>> 玩家投票成功")
 end
@@ -309,7 +316,7 @@ end
 -- 	}
 -- 	repeated HAND_CARD hand_card = 13;					//手牌信息
 -- }
-function GamePresenter:M2C_PLAYER_GAME_START_ACK()
+function GamePresenter:M2C_PLAYER_GAME_START_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_GAME_START_ACK(msgData) 
     dump(data, "--->>> 游戏开始")
 end
@@ -326,7 +333,7 @@ end
 -- 	}
 -- 	repeated MONEY money = 2;
 -- }
-function GamePresenter:M2C_PLAYER_MONEY_UPDATA_ACK()
+function GamePresenter:M2C_PLAYER_MONEY_UPDATA_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_MONEY_UPDATA_ACK(msgData) 
     dump(data, "--->>> 货币更新")
 end
@@ -339,7 +346,7 @@ end
 -- 	optional int32 chairid = 3;
 -- 	optional CPGNotify cpgnotify  = 4;
 -- }
-function GamePresenter:M2C_PLAYER_OPERATE_NOTIFY_ACK()
+function GamePresenter:M2C_PLAYER_OPERATE_NOTIFY_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_OPERATE_NOTIFY_ACK(msgData) 
     dump(data, "--->>> 操作提示")
 end
@@ -361,7 +368,7 @@ end
 -- 	optional int32 laizicard = 12;	//宝牌
 -- 	repeated int64 userscore = 13; //玩家实时得分
 -- }
-function GamePresenter:M2C_PLAYER_OPERATE_RESULT_ACK()
+function GamePresenter:M2C_PLAYER_OPERATE_RESULT_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_OPERATE_RESULT_ACK(msgData) 
     dump(data, "--->>> 操作命令")
 end
@@ -393,7 +400,7 @@ end
 -- 	}
 -- 	repeated 	HU_INFO hu_info = 	9;			
 -- }
-function GamePresenter:M2C_SUB_GAME_END_ACK()
+function GamePresenter:M2C_SUB_GAME_END_ACK(msgData)
     local data = Message_Def:M2C_SUB_GAME_END_ACK(msgData) 
     dump(data, "--->>> 游戏结束")
 end
@@ -414,7 +421,7 @@ end
 -- 	}
 -- 	repeated END_ALL end_all = 2;
 -- }
-function GamePresenter:M2C_SUB_GAME_END_ALL_ACK()
+function GamePresenter:M2C_SUB_GAME_END_ALL_ACK(msgData)
     local data = Message_Def:M2C_SUB_GAME_END_ALL_ACK(msgData) 
     dump(data, "--->>> 所有游戏结束")
 end

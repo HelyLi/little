@@ -18,4 +18,15 @@ function UIRoomId:onExit()
     
 end
 
+function UIRoomId:initView()
+    
+    comui.serialize({
+
+    })
+end
+
+function UIRoomId:display()
+    
+end
+
 return UIRoomId

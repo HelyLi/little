@@ -43,7 +43,6 @@ function LoginPresenter:toLogin()
     -- Game:getEventDispatcher().pushEvent(AppGlobal.EventMsg.SPEAKER_POP_UP, { data = "data" })
     -- WeChat.doLogin()
     -- comui.addWaitingLayer()
-
     local msg = {}
     msg.openid = "1"
     msg.accesstoken = ""

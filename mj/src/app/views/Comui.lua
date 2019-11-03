@@ -58,6 +58,13 @@ end
 comui.VERTICAL = 1
 comui.HORIZONTAL = 2
 
+-- {
+--     nodes = {
+--         node = 
+--     },
+--     maxHeight = 0
+-- }
+
 function comui.serialize( params )
     local orientation = params.orientation or comui.HORIZONTAL
     local nodes = params.nodes

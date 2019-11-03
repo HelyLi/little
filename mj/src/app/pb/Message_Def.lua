@@ -2,40 +2,15 @@ require("app.pb.Message_ID")
 require("app.pb.Message_pb")
 require("app.pb.Subgame_pb")
 
--- - "parseMsg" = {
---     [LUA-print] -     "_cached_byte_size"       = 0
---     [LUA-print] -     "_cached_byte_size_dirty" = true
---     [LUA-print] -     "_fields" = {
---     [LUA-print] -         table: 0x20323d10 = {
---     [LUA-print] -             1               = 22001
---     [LUA-print] -             "_listener" = {
---     [LUA-print] -                 "__mode"          = "v"
---     [LUA-print] -                 _parent_message = *REF*
---     [LUA-print] -                 "dirty"           = true
---     [LUA-print] -             }
---     [LUA-print] -             "_type_checker" = function: 0x204179e8
---     [LUA-print] -         }
---     [LUA-print] -     }
---     [LUA-print] -     "_is_present_in_parent"   = true
---     [LUA-print] -     "_listener" = {
---     [LUA-print] -         "Modified" = function: 0x20301780
---     [LUA-print] -     }
---     [LUA-print] -     _listener_for_children  = *REF*
---     [LUA-print] - }
-
 local function parseMsg(msg, data)
-    dump(msg, "parseMsg", 8)
     if type(msg) ~= "table" then
         return
     end
     local fields = msg._fields
     for k1,v1 in pairs(fields) do
         if type(msg[k1.name]) == "table" then
-            print("k1.name:", k1.name)
             data[k1.name] = {}
             dump(msg[k1.name])
-            print(#msg[k1.name])
-            print('----------------')
             if #msg[k1.name] > 0 then
                 for i2,v2 in ipairs(msg[k1.name]) do
                     local t = {}
@@ -43,7 +18,6 @@ local function parseMsg(msg, data)
                     data[k1.name][i2] = t
                 end
             else
-                print('>>>>>>>>>>>>')
                 parseMsg(msg[k1.name], data[k1.name])
             end
         else
@@ -182,11 +156,14 @@ ERRORCODE = {
 --10001 登入
 function Message_Def:C2L_PLAYER_LOGIN_SYN(data)
     local msg = Message_pb.MSG_C2L_PLAYER_LOGIN_SYN()
+    dump(msg, "C2L_PLAYER_LOGIN_SYN", 8)
     msg.messageID = C2L_PLAYER_LOGIN_SYN
     msg.openid = data.openid
     msg.accesstoken = data.accesstoken
     msg.nickname = data.nickname
     msg.sex = data.sex
+
+    dump(msg, "C2L_PLAYER_LOGIN_SYN.1", 8)
 
     return msg:SerializeToString(), C2L_PLAYER_LOGIN_SYN
 end
@@ -574,6 +551,17 @@ end
 -- }
 function Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ENTER_GAME_ROOM_ACK()
+    dump(msg, "M2C_PLAYER_ENTER_GAME_ROOM_ACK.1", 8) 
+
+    msg.messageID = 122
+    msg.errorcode = 122
+    msg.roomid = 1001
+    msg.tokenid = 1222
+    msg.userstate = 122
+    msg.playerid = 12039
+
+    dump(msg, "M2C_PLAYER_ENTER_GAME_ROOM_ACK.3", 8) 
+
     msg:ParseFromString(msgData)
 
     dump(msg, "M2C_PLAYER_ENTER_GAME_ROOM_ACK", 8)
@@ -609,6 +597,7 @@ function Message_Def:M2C_PLAYER_BASEINFO_ACK(msgData)
 end
 
 function Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
+    print("msgData", msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ROOM_BASEINFO_ACK()
     msg:ParseFromString(msgData)
 
