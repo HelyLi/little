@@ -4,6 +4,81 @@
     <dict>
         <key>frames</key>
         <dict>
+            <key>MJ_shop_buy_card_title.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{129,143}</string>
+                <key>spriteSourceSize</key>
+                <string>{129,143}</string>
+                <key>textureRect</key>
+                <string>{{933,876},{129,143}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>MJ_shop_card_title.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{689,82}</string>
+                <key>spriteSourceSize</key>
+                <string>{689,82}</string>
+                <key>textureRect</key>
+                <string>{{2,754},{689,82}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MJ_shop_gold_buy_card_item_bg.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,-3}</string>
+                <key>spriteSize</key>
+                <string>{292,399}</string>
+                <key>spriteSourceSize</key>
+                <string>{292,405}</string>
+                <key>textureRect</key>
+                <string>{{955,2},{292,399}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MJ_shop_item_bg.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,-3}</string>
+                <key>spriteSize</key>
+                <string>{292,399}</string>
+                <key>spriteSourceSize</key>
+                <string>{292,405}</string>
+                <key>textureRect</key>
+                <string>{{955,403},{292,399}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>MJ_shop_item_discount.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{139,62}</string>
+                <key>spriteSourceSize</key>
+                <string>{139,62}</string>
+                <key>textureRect</key>
+                <string>{{1078,876},{139,62}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
             <key>create_game_item_p.png</key>
             <dict>
                 <key>aliases</key>
@@ -11,11 +86,11 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{52,41}</string>
+                <string>{49,39}</string>
                 <key>spriteSourceSize</key>
-                <string>{52,41}</string>
+                <string>{49,39}</string>
                 <key>textureRect</key>
-                <string>{{955,466},{52,41}}</string>
+                <string>{{455,980},{49,39}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -30,22 +105,7 @@
                 <key>spriteSourceSize</key>
                 <string>{57,45}</string>
                 <key>textureRect</key>
-                <string>{{955,144},{57,45}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>create_game_more_item_p.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{48,36}</string>
-                <key>spriteSourceSize</key>
-                <string>{48,36}</string>
-                <key>textureRect</key>
-                <string>{{464,952},{48,36}}</string>
+                <string>{{1275,946},{57,45}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -60,7 +120,7 @@
                 <key>spriteSourceSize</key>
                 <string>{287,93}</string>
                 <key>textureRect</key>
-                <string>{{627,922},{287,93}}</string>
+                <string>{{333,838},{287,93}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -75,7 +135,7 @@
                 <key>spriteSourceSize</key>
                 <string>{175,45}</string>
                 <key>textureRect</key>
-                <string>{{400,775},{175,45}}</string>
+                <string>{{1249,610},{175,45}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -90,9 +150,9 @@
                 <key>spriteSourceSize</key>
                 <string>{175,45}</string>
                 <key>textureRect</key>
-                <string>{{447,775},{175,45}}</string>
+                <string>{{333,933},{175,45}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_name_bg.png</key>
             <dict>
@@ -105,11 +165,11 @@
                 <key>spriteSourceSize</key>
                 <string>{252,116}</string>
                 <key>textureRect</key>
-                <string>{{290,775},{214,108}}</string>
+                <string>{{622,872},{214,108}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
-            <key>create_room_name_bg_s.png</key>
+            <key>create_room_name_bg_sec.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -120,9 +180,9 @@
                 <key>spriteSourceSize</key>
                 <string>{252,116}</string>
                 <key>textureRect</key>
-                <string>{{2,754},{252,116}}</string>
+                <string>{{693,754},{252,116}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_name_free.png</key>
             <dict>
@@ -135,7 +195,7 @@
                 <key>spriteSourceSize</key>
                 <string>{93,104}</string>
                 <key>textureRect</key>
-                <string>{{494,775},{93,104}}</string>
+                <string>{{838,872},{93,104}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -150,24 +210,24 @@
                 <key>spriteSourceSize</key>
                 <string>{306,86}</string>
                 <key>textureRect</key>
-                <string>{{627,842},{298,78}}</string>
+                <string>{{1249,310},{298,78}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
-            <key>create_room_option_bg_s.png</key>
+            <key>create_room_option_bg_s_2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{246,80}</string>
+                <string>{246,70}</string>
                 <key>spriteSourceSize</key>
-                <string>{246,80}</string>
+                <string>{246,70}</string>
                 <key>textureRect</key>
-                <string>{{208,754},{246,80}}</string>
+                <string>{{947,804},{246,70}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_option_card.png</key>
             <dict>
@@ -180,9 +240,9 @@
                 <key>spriteSourceSize</key>
                 <string>{73,50}</string>
                 <key>textureRect</key>
-                <string>{{955,625},{73,50}}</string>
+                <string>{{510,933},{73,50}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_option_card_select.png</key>
             <dict>
@@ -195,7 +255,7 @@
                 <key>spriteSourceSize</key>
                 <string>{73,50}</string>
                 <key>textureRect</key>
-                <string>{{955,700},{73,50}}</string>
+                <string>{{1196,869},{73,50}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -210,7 +270,7 @@
                 <key>spriteSourceSize</key>
                 <string>{56,56}</string>
                 <key>textureRect</key>
-                <string>{{955,191},{56,56}}</string>
+                <string>{{1217,946},{56,56}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -225,54 +285,9 @@
                 <key>spriteSourceSize</key>
                 <string>{36,34}</string>
                 <key>textureRect</key>
-                <string>{{575,912},{36,34}}</string>
+                <string>{{585,933},{36,34}}</string>
                 <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>create_room_option_dxt_bg.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{59,81}</string>
-                <key>spriteSourceSize</key>
-                <string>{59,81}</string>
-                <key>textureRect</key>
-                <string>{{955,2},{59,81}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>create_room_option_dxt_off.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{56,55}</string>
-                <key>spriteSourceSize</key>
-                <string>{56,55}</string>
-                <key>textureRect</key>
-                <string>{{955,249},{56,55}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>create_room_option_dxt_on.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{56,55}</string>
-                <key>spriteSourceSize</key>
-                <string>{56,55}</string>
-                <key>textureRect</key>
-                <string>{{955,306},{56,55}}</string>
-                <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>create_room_option_free.png</key>
             <dict>
@@ -285,9 +300,9 @@
                 <key>spriteSourceSize</key>
                 <string>{145,8}</string>
                 <key>textureRect</key>
-                <string>{{2,1008},{145,8}}</string>
+                <string>{{1296,610},{145,8}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>create_room_option_line.png</key>
             <dict>
@@ -300,9 +315,9 @@
                 <key>spriteSourceSize</key>
                 <string>{2,66}</string>
                 <key>textureRect</key>
-                <string>{{1009,363},{2,66}}</string>
+                <string>{{585,1020},{2,66}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>create_room_option_m_off.png</key>
             <dict>
@@ -315,39 +330,9 @@
                 <key>spriteSourceSize</key>
                 <string>{79,66}</string>
                 <key>textureRect</key>
-                <string>{{400,952},{63,62}}</string>
+                <string>{{1195,804},{63,62}}</string>
                 <key>textureRotated</key>
                 <true/>
-            </dict>
-            <key>create_room_option_m_off_2.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{58,57}</string>
-                <key>spriteSourceSize</key>
-                <string>{58,57}</string>
-                <key>textureRect</key>
-                <string>{{955,85},{58,57}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>create_room_option_m_off_s.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{-4,0}</string>
-                <key>spriteSize</key>
-                <string>{51,51}</string>
-                <key>spriteSourceSize</key>
-                <string>{61,51}</string>
-                <key>textureRect</key>
-                <string>{{955,572},{51,51}}</string>
-                <key>textureRotated</key>
-                <false/>
             </dict>
             <key>create_room_option_m_on.png</key>
             <dict>
@@ -360,24 +345,9 @@
                 <key>spriteSourceSize</key>
                 <string>{79,66}</string>
                 <key>textureRect</key>
-                <string>{{494,881},{79,66}}</string>
+                <string>{{249,950},{79,66}}</string>
                 <key>textureRotated</key>
                 <false/>
-            </dict>
-            <key>create_room_option_m_on_s.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{61,51}</string>
-                <key>spriteSourceSize</key>
-                <string>{61,51}</string>
-                <key>textureRect</key>
-                <string>{{955,509},{61,51}}</string>
-                <key>textureRotated</key>
-                <true/>
             </dict>
             <key>create_room_option_s_select.png</key>
             <dict>
@@ -386,13 +356,13 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{246,86}</string>
+                <string>{245,72}</string>
                 <key>spriteSourceSize</key>
-                <string>{246,86}</string>
+                <string>{245,72}</string>
                 <key>textureRect</key>
-                <string>{{120,754},{246,86}}</string>
+                <string>{{2,950},{245,72}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_option_select.png</key>
             <dict>
@@ -405,9 +375,9 @@
                 <key>spriteSourceSize</key>
                 <string>{306,86}</string>
                 <key>textureRect</key>
-                <string>{{627,754},{306,86}}</string>
+                <string>{{1249,2},{306,86}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>create_room_top_bg.png</key>
             <dict>
@@ -420,7 +390,7 @@
                 <key>spriteSourceSize</key>
                 <string>{52,101}</string>
                 <key>textureRect</key>
-                <string>{{955,363},{52,101}}</string>
+                <string>{{1142,876},{52,101}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -435,9 +405,9 @@
                 <key>spriteSourceSize</key>
                 <string>{42,44}</string>
                 <key>textureRect</key>
-                <string>{{502,949},{42,44}}</string>
+                <string>{{330,980},{42,44}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>create_room_txt_beishu.png</key>
             <dict>
@@ -450,7 +420,7 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{546,949},{77,36}}</string>
+                <string>{{376,980},{77,36}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -465,9 +435,24 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{589,754},{77,36}}</string>
+                <string>{{1259,787},{77,36}}</string>
                 <key>textureRotated</key>
                 <true/>
+            </dict>
+            <key>create_room_txt_gangfen.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{73,36}</string>
+                <key>spriteSourceSize</key>
+                <string>{77,36}</string>
+                <key>textureRect</key>
+                <string>{{1142,979},{73,36}}</string>
+                <key>textureRotated</key>
+                <false/>
             </dict>
             <key>create_room_txt_hupai.png</key>
             <dict>
@@ -480,9 +465,9 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{927,851},{75,36}}</string>
+                <string>{{1248,869},{75,36}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>create_room_txt_jushu.png</key>
             <dict>
@@ -495,9 +480,9 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{589,833},{77,36}}</string>
+                <string>{{506,985},{77,36}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_txt_people.png</key>
             <dict>
@@ -510,9 +495,9 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{935,775},{77,36}}</string>
+                <string>{{1286,866},{77,36}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>create_room_txt_tese.png</key>
             <dict>
@@ -525,7 +510,7 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{927,889},{75,36}}</string>
+                <string>{{585,982},{75,36}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -540,7 +525,7 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{935,813},{77,36}}</string>
+                <string>{{838,978},{77,36}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -555,24 +540,9 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{916,927},{75,36}}</string>
+                <string>{{662,982},{75,36}}</string>
                 <key>textureRotated</key>
-                <true/>
-            </dict>
-            <key>create_room_txt_zd.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{75,36}</string>
-                <key>spriteSourceSize</key>
-                <string>{77,36}</string>
-                <key>textureRect</key>
-                <string>{{954,927},{75,36}}</string>
-                <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>enter_room_bg.png</key>
             <dict>
@@ -589,18 +559,33 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>room_desk_info_ky.png</key>
+            <key>game_play_end_hu_baiban.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{79,30}</string>
+                <string>{52,27}</string>
                 <key>spriteSourceSize</key>
-                <string>{79,30}</string>
+                <string>{52,27}</string>
                 <key>textureRect</key>
-                <string>{{546,987},{79,30}}</string>
+                <string>{{622,838},{52,27}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>lob_mj_title_1_h.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{329,110}</string>
+                <key>spriteSourceSize</key>
+                <string>{329,110}</string>
+                <key>textureRect</key>
+                <string>{{2,838},{329,110}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -616,9 +601,9 @@
             <key>realTextureFileName</key>
             <string>QzRoomRes.pvr.ccz</string>
             <key>size</key>
-            <string>{1016,1019}</string>
+            <string>{1337,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:915500e82bcfefb3567d871a85e0b96f:1e32e75a7d632c241ad41cee06018fc2:f04816ec0299eb197d1511432e4be07c$</string>
+            <string>$TexturePacker:SmartUpdate:afca22833f9a9f771e6836d202f35594:e6b413d9505ba69ea3ea6e43249171a8:f04816ec0299eb197d1511432e4be07c$</string>
             <key>textureFileName</key>
             <string>QzRoomRes.pvr.ccz</string>
         </dict>

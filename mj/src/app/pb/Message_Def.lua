@@ -3,7 +3,6 @@ require("app.pb.Message_pb")
 require("app.pb.Subgame_pb")
 
 
-
 --消息在此处解析和组合
 Message_Def = Message_Def or {}
 
@@ -239,8 +238,21 @@ function Message_Def:L2C_PLAYER_CREATE_ROOM_SYN(msgData)
     return T
 end
 
-
+--加入房间
+-- message MSG_C2L_PLAYER_ENTER_ROOM_SYN
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 roomid = 2; 
+-- 	optional int32 playerid = 3;
+-- }
 function Message_Def:C2L_PLAYER_ENTER_ROOM_SYN(data)
+    local msg = Message_pb.MSG_C2L_PLAYER_ENTER_ROOM_SYN()
+    msg.messageID = C2L_PLAYER_ENTER_ROOM_SYN
+
+    msg.roomid = data.roomid
+    msg.playerid = data.playerid
+
+    return msg:SerializeToString(), C2L_PLAYER_ENTER_ROOM_SYN
 end
 
 function Message_Def:C2L_PLAYER_MONEY_UPDATA_SYN()
@@ -504,27 +516,7 @@ end
 -- }
 function Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ENTER_GAME_ROOM_ACK()
-    dump(msg, "M2C_PLAYER_ENTER_GAME_ROOM_ACK.1", 8) 
-
-    msg.messageID = 122
-    msg.errorcode = 122
-    msg.roomid = 1001
-    msg.tokenid = 1222
-    msg.userstate = 122
-    msg.playerid = 12039
-
-    dump(msg, "M2C_PLAYER_ENTER_GAME_ROOM_ACK.3", 8) 
-
     msg:ParseFromString(msgData)
-
-    dump(msg, "M2C_PLAYER_ENTER_GAME_ROOM_ACK", 8)
-
-    print("msg.messageID" .. msg.messageID)
-    print("msg.errorcode"..msg.errorcode)
-    print("msg.roomid"..msg.roomid)
-    print("msg.tokenid"..msg.tokenid)
-    print("msg.userstate"..msg.userstate)
-    print("msg.playerid"..msg.playerid) 
 
     local T = {}
     ComFunc.parseMsg(msg, T)

@@ -22,15 +22,20 @@ local UIPlayingCardsC = import("app.scenes.game.base.play.UIPlayingCardsC")
 local UIDeskGoldCard = import("app.scenes.game.base.play.UIDeskGoldCard")
 local UIDeskOutCards = import("app.scenes.game.base.play.UIDeskOutCards")
 local UIGameDirection = import("app.scenes.game.base.play.UIDeskOutCards")
+local UIGameInfo = import("app.scenes.game.base.play.UIGameInfo")
 local GameFlow = import("app.scenes.game.base.play.GameFlow")
 local UISendCardCtr = import("app.scenes.game.base.play.UISendCardCtr")
+local UITipOpResult = import("app.scenes.game.base.play.UITipOpResult")
+local UITipProcess = import("app.scenes.game.base.play.UITipProcess")
+local UIGameHuFlow = import("app.scenes.game.base.play.UIGameHuFlow")
 
 local CardLayer = class("LobbyLayer",function()
     return GameLayer.new()
 end)
 
 function CardLayer:ctor()
-    
+    self:regRoomParts()
+    self:regPlayParts()
 end
 
 function CardLayer:getBgImg()
@@ -128,5 +133,7 @@ function CardLayer:regPlayParts()
     --胡牌流程
     self.m_UIPlayParts[GameConstants.GAME_UI.GameHuFlow] = UIGameHuFlow.new(self, GameConstants.Z_ORDER.GameHuFlow)
 end
+
+
 
 return CardLayer

@@ -15,9 +15,9 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{954,1},{77,36}}</string>
+                <string>{{182,753},{77,36}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_txt_difen.png</key>
             <dict>
@@ -30,9 +30,9 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{954,317},{75,36}}</string>
+                <string>{{498,753},{75,36}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_txt_jushu.png</key>
             <dict>
@@ -45,9 +45,9 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{954,80},{77,36}}</string>
+                <string>{{261,753},{77,36}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_txt_people.png</key>
             <dict>
@@ -60,9 +60,9 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{954,159},{77,36}}</string>
+                <string>{{340,753},{77,36}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>create_room_txt_wanfa.png</key>
             <dict>
@@ -75,9 +75,9 @@
                 <key>spriteSourceSize</key>
                 <string>{77,36}</string>
                 <key>textureRect</key>
-                <string>{{954,238},{77,36}}</string>
+                <string>{{419,753},{77,36}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>enter_room_bg.png</key>
             <dict>
@@ -94,6 +94,21 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>input_num_btn_skin.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{179,94}</string>
+                <key>spriteSourceSize</key>
+                <string>{179,94}</string>
+                <key>textureRect</key>
+                <string>{{1,753},{179,94}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -106,9 +121,9 @@
             <key>realTextureFileName</key>
             <string>GameRoomRes.pvr.ccz</string>
             <key>size</key>
-            <string>{991,752}</string>
+            <string>{953,848}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:1f170944f290a7bdae1c7f0be1d8b091:fa226a0869c32492b397d37a950b754c:0156178a790640d82ec835351d41f7f4$</string>
+            <string>$TexturePacker:SmartUpdate:1259513b5861466e3de870ae64ce0d53:5141642e7f17a7c4bf0a9f7f9b2f1824:0156178a790640d82ec835351d41f7f4$</string>
             <key>textureFileName</key>
             <string>GameRoomRes.pvr.ccz</string>
         </dict>

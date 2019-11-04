@@ -147,9 +147,9 @@ function CreateRoomLayer:menuCreateRoom()
 
     local data, msgId = Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(msg)
 
-    local t = Message_Def:L2C_PLAYER_CREATE_ROOM_SYN(data)
+    -- local t = Message_Def:L2C_PLAYER_CREATE_ROOM_SYN(data)
     
-    dump(t, "TTTTtttttt", 8)
+    -- dump(t, "TTTTtttttt", 8)
 
     Game:getSocketMgr():lobbySocketSend(data, msgId)
 end

@@ -111,9 +111,25 @@ end
 -- 	optional ROOM_STATE roomstate = 4;
 -- 	optional ROOM_RUlES room_baseinfo = 5;
 -- }
+-- "--->>> 桌子的基本信息" = {
+--      "messageID"     = 22004
+--      "room_baseinfo" = {
+--          "areaid"        = 2
+--          "difen"         = 1
+--          "ju_num"        = 8
+--          "kindid"        = 255
+--          "paytype"       = 2
+--          "playernum"     = 4
+--          "sub_game_rule" = "{"gameAreaRule":0,"xgRule":{"piao_prize":1,"fengding":-1,"hu_laizinum":1}}"
+--      }
+--      "roomid"        = 280839
+--      "roomstate"     = 2
+--  }
 function GamePresenter:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     dump(data, "--->>> 桌子的基本信息")
+
+    self.m_view:getUIRoomPart(GameConstants.ROOM_UI.RoomId):display(data.roomid)
 end
 
 -- 桌子上玩家信

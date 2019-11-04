@@ -1,4 +1,5 @@
 local BaseView = import("app.views.BaseView")
+
 local AddRoomLayer = class("AddRoomLayer", function()
     return BaseView.new()
 end)
@@ -32,32 +33,34 @@ end
 
 function AddRoomLayer:initView()
     --zz
-    local zzLayer = display.newColorLayer(cc.c4b(0, 0, 0, 200)):addTo(self,ADD_ROOM_ORDER_GREY)
+    local zzLayer = display.newColorLayer(cc.c4b(0, 0, 0, 200)):addTo(self)
     :setContentSize(display.width,display.height)
-
-    local bg = display.newSprite("#add_room_bg_skin.png"):align(display.CENTER_TOP,display.cx,display.height):addTo(self)
+    --背景
+    local bg = display.newSprite("#enter_room_bg.png"):align(display.CENTER,display.cx,display.cy):addTo(self)
     
-    display.newSprite("#add_room_title_skin.png"):align(display.CENTER, W2(bg), H(bg) - 66):addTo(bg)
+    -- local bg = display.newSprite("#add_room_bg_skin.png"):align(display.CENTER_TOP,display.cx,display.height):addTo(self)
+    
+    -- display.newSprite("#add_room_title_skin.png"):align(display.CENTER, W2(bg), H(bg) - 66):addTo(bg)
 
-    local input_bg = display.newScale9Sprite('#input_num_bg_skin.png', 0, 0, cc.size(580, 110), cc.rect(30, 50, 10, 10))
-    input_bg:align(display.CENTER, W2(bg), H(bg) - 185):addTo(bg)
+    -- local bg = display.newScale9Sprite('#input_num_bg_skin.png', 0, 0, cc.size(580, 110), cc.rect(30, 50, 10, 10))
+    -- bg:align(display.CENTER, W2(bg), H(bg) - 185):addTo(bg)
 
     self._numT = {}
     --房间id数字
     for i=1,6 do
         local labNum = comui.createLabelAtlas({
             stringValue = "",
-            charMapFile = "NumFonts/inout_num_id_num_skin.png",
-            itemWidth = 45,
-            itemHeight = 66,
+            charMapFile = "ImgFont/lob_room_id_num.png",
+            itemWidth = 32,
+            itemHeight = 46,
             startCharMap = '0'
         })
-        labNum:align(display.CENTER,W(input_bg)/12 + (i-1)*W(input_bg)/6, H2(input_bg)):addTo(input_bg, 0, i)
+        labNum:align(display.CENTER,W(bg)/12 + (i-1)*W(bg)/6, H(bg)*5/6):addTo(bg, 0, i)
         table.insert( self._numT, i, labNum)
         --input line
-        if i ~= 6 then
-            display.newSprite("#input_num_line_skin.png"):align(display.CENTER, W(input_bg)*i/6, H2(input_bg)):addTo(input_bg)
-        end
+        -- if i ~= 6 then
+        --     display.newSprite("#input_num_line_skin.png"):align(display.CENTER, W(bg)*i/6, H2(bg)):addTo(bg)
+        -- end
     end
 
     local startPos = cc.p(display.cx-295, display.cy + 120 - 94)
@@ -78,12 +81,12 @@ function AddRoomLayer:initView()
             tag = i,
             callfunc = handler(self, self.menuCallback),
         })
-        btn:align(display.CENTER, start_x + W2(btn), start_y + H2(btn)):addTo(self, 1)
+        btn:align(display.CENTER, start_x + W2(btn), start_y + H2(btn)):addTo(bg, 1)
     end
 
     comui.Button({
-        normal = "com_close_btn_special.png",
-        pos = cc.p(W(bg) - 50, H(bg) - 100),
+        normal = "com_close_btn.png",
+        pos = cc.p(W(bg) - 38, H(bg) - 38),
         anchor = display.CENTER_TOP,
         parent = bg,
         callfunc = handler(self, self.dismiss)
@@ -92,6 +95,7 @@ function AddRoomLayer:initView()
 end
 
 function AddRoomLayer:menuCallback(keyIndx)
+    print("menuCallback:", keyIndx)
     local keyTag = TAG.KEY_BOARD_NUM_BASE + keyIndx
     if keyTag >= TAG.KEY_BOARD_NUM_1 and keyTag <= TAG.KEY_BOARD_NUM_9 then
         if self:getCurInputNumIndx() <= 5 then
@@ -129,15 +133,38 @@ function AddRoomLayer:menuCallback(keyIndx)
     
     if self:getCurInputNumIndx() == 6 then
         -- comui.addWaitingLayer({touchProhibit = true})
-        -- self:performWithDelay(function() self:roomExistConnect() end, 0.3)
+        self:sendAddRoomMsg()
     end
 end
 
+function AddRoomLayer:sendAddRoomMsg()
+    local msg = {}
+    msg.roomid = self:getRoomIdNum()
+    msg.playerid = Game:getUserData():getUserId()
+
+    local data, msgId = Message_Def:C2L_PLAYER_ENTER_ROOM_SYN(msg)
+
+    Game:getSocketMgr():lobbySocketSend(data, msgId)
+end
+
 function AddRoomLayer:setRoomIdNum(index,num)
+    print("setRoomIdNum.index:", index, ",num:", num)
     local text = self._numT[index]--self:getChildByTag(KEY_SCREEN_LABEL_1 + index)
     if text ~= nil then
         text:setString(num)
     end
+end
+
+function AddRoomLayer:getRoomIdNum()
+    local numString = ""
+    for i=1,6 do
+        local text = self._numT[i]
+        if text then
+            numString = numString..text:getString()
+        end
+    end
+    local number = tonumber(numString)
+    return number
 end
 
 function AddRoomLayer:clearRoomIdNum()

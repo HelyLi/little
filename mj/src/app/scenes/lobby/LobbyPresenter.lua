@@ -74,6 +74,8 @@ function LobbyPresenter:initHandlerMsg()
     -- self.m_handlerTable[L2C_PLAYER_GAME_ROOM_CONFIG_ACK] = handler(self, self.l2c_player_game_room_config_ack)
     self.m_handlerTable[D2L_PLAYER_PLAYER_TOTALINFO_ACK] = handler(self, self.d2l_player_player_totalinfo_ack)
     self.m_handlerTable[L2C_PLAYER_CREATE_ROOM_ACK] = handler(self, self.l2c_player_create_room_ack)
+    self.m_handlerTable[L2C_PLAYER_ENTER_ROOM_ACK] = handler(self, self.L2C_PLAYER_ENTER_ROOM_ACK)
+    
 end
 
 
@@ -168,6 +170,17 @@ function LobbyPresenter:l2c_player_create_room_ack(msgData)
     --     Game:getGameData():setCreateRoomAck(data)
     --     self.m_enterRoom = true
     
+end
+
+function LobbyPresenter:L2C_PLAYER_ENTER_ROOM_ACK(msgData)
+    local data = Message_Def:L2C_PLAYER_ENTER_ROOM_ACK(msgData)
+    dump(data, "加入房间", 8)
+
+    if data.errorcode == nil then
+        Game:getSocketMgr():lobbySocketClose()
+        Game:getGameData():setCreateRoomAck(data)
+        self.m_enterRoom = true
+    end
 end
 
 return LobbyPresenter

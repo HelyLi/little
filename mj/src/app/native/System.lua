@@ -174,7 +174,7 @@ function System.getBatteryValue()
         javaParams = nil,
         javaMethodSig = javaMethodSig
     })
-    return ret 
+    return 10--ret 
 end
 
 function System.getNetInfo()

@@ -12,7 +12,7 @@ local Left_X = {
 function UIPhoneInfo:ctor(container, order, tag, roomType)
     self.m_container = container
     self.m_roomType = roomType
-    self:initView()
+    -- self:initView()
     self:addTo(container, order, tag)
 end
 
@@ -27,7 +27,7 @@ end
 function UIPhoneInfo:initView()
     --背景
     local pBG = display.newNode()--display.newScale9Sprite("#".."mj_user_head_bg.png", 0,0, cc.size(200,45), cc.rect(12,12,20,20))
-    pBG:getContentSize(cc.size(200, 45))
+    pBG:setContentSize(cc.size(200, 45))
     pBG:align(display.LEFT_CENTER, Left_X[self.m_roomType] +UIAdapter.paddingL , display.height - 34.5):addTo(self)
     --时间
     self._pTimeNum = cc.LabelAtlas:_create(os.date("%H/%M"), "ImgFont/mj_game_room_num.png", 17, 26, string.byte("/"))

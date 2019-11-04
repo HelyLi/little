@@ -30,7 +30,7 @@ function LoginPresenter:initLoginSocket()
 end
 
 function LoginPresenter:onConnected()
-    self:toLogin()
+    -- self:toLogin()
 end
 
 function LoginPresenter:onClosed()
@@ -47,6 +47,22 @@ function LoginPresenter:toLogin()
     msg.openid = "1"
     msg.accesstoken = ""
     msg.nickname = "test1"
+    msg.sex = 0
+    
+    local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
+
+    Game:getSocketMgr():loginSocketSend(data, msgId)
+end
+
+function LoginPresenter:toLogin1()
+    -- pushEvent
+    -- Game:getEventDispatcher().pushEvent(AppGlobal.EventMsg.SPEAKER_POP_UP, { data = "data" })
+    -- WeChat.doLogin()
+    -- comui.addWaitingLayer()
+    local msg = {}
+    msg.openid = "3"
+    msg.accesstoken = ""
+    msg.nickname = "test3"
     msg.sex = 0
     
     local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
