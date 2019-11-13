@@ -88,12 +88,12 @@ function WeChat.saveLoginData(data)
 	-- cc.UserDefault:getInstance():setDoubleForKey(LOGIN_TIMER_NKEY,os.time())
 	
 	-- cc.UserDefault:getInstance():setStringForKey(WeChat.AccessTokenKey, access_token)
-	cc.UserDefault:getInstance():flush()
+	ComFunc.flush()
 end
 
 function WeChat.doLoginOut()
     cc.UserDefault:getInstance():setStringForKey(WeChat.AccountKey, json.encode(account))
-    cc.UserDefault:getInstance():flush()
+    ComFunc.flush()
 end
 
 function WeChat.doLogin(regcallback)

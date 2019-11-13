@@ -9,7 +9,8 @@ local SubLayer = class("SubLayer", function() return BaseView.new() end)
 local ORDER = {
     bg = 0,
     bg2 = 1,
-    menu_bg = 2
+    menu_bg = 2,
+    close_btn = 3
 }
 
 local TAG = {
@@ -43,14 +44,11 @@ function SubLayer:initSubView()
         comui.Button({
             normal = "com_close_btn.png",
             pos = cc.p(self.m_size.width - 12, self.m_size.height - 12),
-            callfunc = handler(self, self.close),
+            callfunc = handler(self, self.dismiss),
+            order = ORDER.close_btn,
             parent = self.v_bg
         })
     end
-end
-
-function SubLayer:close()
-    
 end
 
 function SubLayer:getBg()

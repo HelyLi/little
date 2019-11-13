@@ -25,7 +25,7 @@ end
 ----------------房间状态标志-------------
 --观看录像
 function GameLayer:isGameReplay()
-    return self.b_gameReplay
+    return self.b_gameReplay or false
 end
 
 function GameLayer:setGameReplay(replay)

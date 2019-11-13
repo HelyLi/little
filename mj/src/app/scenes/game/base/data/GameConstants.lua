@@ -45,6 +45,7 @@ GameConstants.Z_ORDER = {
     Players = 15,
     DeskMenu = 20,
     WaitMenu = 25,
+    Setting = 30,
     ShareScreen = 30,
     Speaker = 35,
     MyPlayingCards = 1,

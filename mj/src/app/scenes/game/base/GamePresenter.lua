@@ -95,10 +95,31 @@ end
 -- 	optional USER_STATE state = 4;	//玩家状态
 -- 	optional PlayerBaseInfo baseinfo =5;
 -- }
+
+-- message PlayerBaseInfo 
+-- {
+-- 	optional uint64  player_id = 1;
+-- 	optional string name = 2;
+-- 	optional uint32  level = 3;
+-- 	optional uint32  exp = 4;
+-- 	optional string accountId = 5;
+-- 	optional uint32	goldCoin = 6;
+-- 	optional uint32	diamond = 7;
+-- 	optional uint32	vip = 8;
+-- 	optional int64	registerDate = 9;
+-- 	optional string password = 10;
+-- 	optional uint32 sex = 11;
+-- }
+
 function GamePresenter:M2C_PLAYER_BASEINFO_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_BASEINFO_ACK(msgData)
     dump(data, "--->>> 玩家的基本信息")
+    if data.infotype == 1 then--
+        --todo
+        -- setMyBaseInfo
+    else
 
+    end
     
 end
 
@@ -129,10 +150,14 @@ function GamePresenter:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     dump(data, "--->>> 桌子的基本信息")
 
+    self.m_roomData:enterRoomData(data)
+
+    
+    --ui
     self.m_view:getUIRoomPart(GameConstants.ROOM_UI.RoomId):display(data.roomid)
 end
 
--- 桌子上玩家信
+-- 桌子上玩家信息
 -- message MSG_M2C_TABLE_PLAYER_INFO_NOTIFY
 -- {
 -- 	optional int32 messageID = 1;
@@ -144,9 +169,25 @@ end
 -- 	optional int32 tableposid = 7;
 -- 	optional int32 isonline = 8;
 -- }
+
 function GamePresenter:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
-    local data = Message_Def:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData) 
-    dump(data, "--->>> 桌子上玩家信")
+    local data = Message_Def:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
+    dump(data, "--->>> 桌子上玩家信息")
+
+    local playerInfo = {}
+    playerInfo.userId = data.player_id
+    playerInfo.name = data.name
+    playerInfo.sex = data.sex
+    playerInfo.registerdate = data.registerdate
+    playerInfo.userstate = data.userstate
+    playerInfo.chairId = data.tableposid
+    playerInfo.score = 0
+
+    self.m_roomData:addRoomPlayer(playerInfo)
+
+    --ui
+    -- self:getContainer():getUIRoomPart(GameConstants.UI_PLAYERS):playerEntry(playerInfo)
+    self.m_view:getUIRoomPart(GameConstants.ROOM_UI.Players):
 end
 
 -- 桌子空闲场景消息

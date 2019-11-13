@@ -24,6 +24,10 @@ function ComFunc.setBoolForKey(key, value)
     cc.UserDefault:getInstance():setBoolForKey(key, value)
 end
 
+function ComFunc.flush()
+    cc.UserDefault:getInstance():flush()
+end
+
 --统一的动态光晕
 function ComFunc.setBlendFuncBase(node)
     if node ~= nil then

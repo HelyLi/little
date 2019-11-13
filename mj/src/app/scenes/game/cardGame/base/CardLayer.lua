@@ -29,6 +29,8 @@ local UITipOpResult = import("app.scenes.game.base.play.UITipOpResult")
 local UITipProcess = import("app.scenes.game.base.play.UITipProcess")
 local UIGameHuFlow = import("app.scenes.game.base.play.UIGameHuFlow")
 
+local SettingLayer = import("app.scenes.lobby.subLayer.SettingLayer")
+
 local CardLayer = class("LobbyLayer",function()
     return GameLayer.new()
 end)
@@ -134,6 +136,8 @@ function CardLayer:regPlayParts()
     self.m_UIPlayParts[GameConstants.GAME_UI.GameHuFlow] = UIGameHuFlow.new(self, GameConstants.Z_ORDER.GameHuFlow)
 end
 
-
+function CardLayer:displaySetting()
+    local settingLayer = SettingLayer.new(AppGlobal.SettingType.CARD):addTo(self, GameConstants.Z_ORDER.Setting)
+end
 
 return CardLayer

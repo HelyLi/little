@@ -24,23 +24,23 @@ function CreateRoomInfo:clear()
             playernum = {},
 			playernum_default = 0
         },
-        -- [QJMJ_CARD_GAME_ID] = {
-		-- 	name = "泉州麻将",
-		-- 	dwGameId = QJMJ_CARD_GAME_ID,
-		-- 	isEnable = false,
-		-- 	isFree = 0,
-		-- 	-- 排序
-        --     order = 0,
-        --     difen = {},
-        --     fengding = {},
-        --     hu_laizi_num = {},
-        --     jushu = {},
-        --     piao_laizi_prize = {},
+        [QJMJ_CARD_GAME_ID] = {
+			name = "泉州麻将",
+			dwGameId = QJMJ_CARD_GAME_ID,
+			isEnable = false,
+			isFree = 0,
+			-- 排序
+            order = 0,
+            difen = {},
+            fengding = {},
+            hu_laizi_num = {},
+            jushu = {},
+            piao_laizi_prize = {},
 
-        --     playerJuInfos = {},
-        --     playernum = {},
-		-- 	playernum_default = 0
-        -- },
+            playerJuInfos = {},
+            playernum = {},
+			playernum_default = 0
+        },
     }
 end
 

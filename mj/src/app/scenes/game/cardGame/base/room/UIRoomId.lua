@@ -31,7 +31,7 @@ function UIRoomId:display(roomid)
         text = tostring(roomid),
         size = 30,
         align = cc.TEXT_ALIGNMENT_CENTER -- 文字内部居中对齐
-    }):align(display.CENTER_RIGHT, display.width - 50 - UIAdapter.paddingR, display.height - 50):addTo(self)
+    }):align(display.CENTER_RIGHT, display.width - 100 - UIAdapter.paddingR, display.height - 50):addTo(self)
 
 end
 

@@ -79,4 +79,14 @@ AppGlobal.RoomOptonStyle = {
     BIG = 3
 }
 
+AppGlobal.SettingType = {
+    LOBBY = 1,
+    CARD = 2,
+    GOLD = 3
+}
+
+-- SETTING_TYPE_LOBBY = 0
+-- SETTING_TYPE_CARD_GAME = 1
+-- SETTING_TYPE_GOLD_GAME = 2
+
 return AppGlobal

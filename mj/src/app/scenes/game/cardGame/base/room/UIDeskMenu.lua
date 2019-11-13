@@ -24,9 +24,9 @@ function UIDeskMenu:initMenu()
         normal = "mj_bt_setting.png",
         pos = cc.p(display.width - 8 - UIAdapter.paddingR, display.height - 8),
         callfunc = function ()
-            
+            self.m_container:displaySetting()
         end,
-        anchor = display.TOP_LEFT,
+        anchor = display.TOP_RIGHT,
         parent = self
     })
 
@@ -37,7 +37,7 @@ function UIDeskMenu:initMenu()
         callfunc = function ()
             
         end,
-        anchor = display.TOP_RIGHT,
+        anchor = display.TOP_LEFT,
         parent = self
     })
 end

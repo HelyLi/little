@@ -1,18 +1,32 @@
 local UIParent = import("app.scenes.game.base.UIParent")
 local UIPlayersItem = import(".UIPlayersItem")
 
+local FourPlayerPos = {
+    cc.p(UIAdapter.adCX(9), display.cy - 222),
+    cc.p(UIAdapter.adCX(1253), display.cy + 54),
+    cc.p(UIAdapter.adCX(960), display.cy + 244),
+    cc.p(UIAdapter.adCX(9), display.cy + 54)
+}
+
+local FourPlayerMidPos = {
+    cc.p(UIAdapter.adCX(636), display.cy - 246),
+    cc.p(UIAdapter.adCX(987), display.cy + 32),
+    cc.p(UIAdapter.adCX(636), display.cy + 244),
+    cc.p(UIAdapter.adCX(276), display.cy + 32)
+}
+
 local UIPlayers = class("UIPlayers", function ()
     return UIParent.new()
 end)
 
-function UIPlayers:ctor(presenter, order, tag, roomType)
-    self.m_presenter = presenter
+function UIPlayers:ctor(container, order, tag, roomType)
+    self.m_container = container
 
     self.m_roomType = roomType
     self.m_playersT = {}
 
     self:initUser()
-    self:addTo(presenter, order, tag)
+    self:addTo(container, order, tag)
 end
 
 function UIPlayers:initUser()

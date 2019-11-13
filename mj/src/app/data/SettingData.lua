@@ -26,7 +26,7 @@ end
 function SettingData:setVoiceOn(isOn)
 	self.m_voiceOn = isOn
 	cc.UserDefault:getInstance():setBoolForKey(SettingKey.voiceOn,self.m_voiceOn)
-	cc.UserDefault:getInstance():flush()
+	ComFunc.flush()
 end
 
 function SettingData:isVoiceOn()
@@ -37,7 +37,7 @@ end
 function SettingData:setMusicOn(isOn)
 	self.m_musicOn = isOn
 	cc.UserDefault:getInstance():setBoolForKey(SettingKey.musicOn,self.m_musicOn)
-	cc.UserDefault:getInstance():flush()
+	ComFunc.flush()
 end
 
 function SettingData:isMusicOn()
@@ -48,7 +48,7 @@ end
 function SettingData:setUserId(id)
 	self.m_userId = id
 	cc.UserDefault:getInstance():setIntegerForKey(SettingKey.userId,self.m_userId)
-	cc.UserDefault:getInstance():flush()
+	ComFunc.flush()
 end
 
 function SettingData:getUserId()
@@ -59,7 +59,7 @@ end
 function SettingData:setResVersion(version)
 	self.m_resVersion = version
     cc.UserDefault:getInstance():setStringForKey(SettingKey.resVersion,self.m_resVersion)
-	cc.UserDefault:getInstance():flush()
+	ComFunc.flush()
 end
 
 function SettingData:getResVersion()

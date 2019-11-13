@@ -12,6 +12,13 @@ function UIAdapter.adCX( _posValue )
     end
 end
 
+-- display.cy
+function UIAdapter.adCY( _posValue )
+    if _posValue then
+        return display.cx - ( 755/2 - _posValue )
+    end
+end
+
 -- 按比例适配 左下角
 function UIAdapter.adRatioX( _posValue )
     if _posValue then
@@ -37,3 +44,5 @@ function UIAdapter.adUIRatioY(_posValue)
         return display.height * (750 - _posValue) / 750
     end
 end
+
+return UIAdapter
