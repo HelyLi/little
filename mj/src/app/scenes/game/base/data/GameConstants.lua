@@ -1,4 +1,4 @@
-GameConstants = GameConstants or {}
+GameConstants = {}
 
 GameConstants.ROOM_UI = {
     PhoneInfo = 1,

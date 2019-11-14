@@ -126,6 +126,7 @@ function UIPlayersItem:updatePlayerInfo()
         end
         score:setString(str)
     end
+    self:addUserHead()
 end
 
 --显示头像
@@ -135,9 +136,14 @@ function UIPlayersItem:addUserHead()
     local headNode = comui.displayHead({
         size = cc.size(PLAYER_SIZE_WIDTH, PLAYER_SIZE_WIDTH),
         gender = self.m_gender,
-
+        userId = self.m_userId
     })
+    headNode:align(display.CENTER_TOP, W2(self), H(self)):addTo(self, 0, TAG.Head)
+end
 
+--玩家状态
+function UIPlayersItem:setDeskStatus(status, action)
+    
 end
 
 return UIPlayersItem
