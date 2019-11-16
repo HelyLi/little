@@ -262,6 +262,47 @@ function Message_Def:C2L_PLAYER_MONEY_UPDATA_SYN()
     return msg:SerializeToString()
 end
 
+----
+-- G2M_CONN_CLOSE = 1;
+-- M2G_PLAYER_KICK = 2;
+-- G2C_PLAYER_KICK = 3;
+-- REGISTER_SERVER = 4;
+function Message_Def:G2M_CONN_CLOSE(msgData)
+    local msg = Message_pb.MSG_G2M_CONN_CLOSE()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    ComFunc.parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:M2G_PLAYER_KICK(msgData)
+    local msg = Message_pb.MSG_M2G_PLAYER_KICK()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    ComFunc.parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:G2C_PLAYER_KICK(msgData)
+    local msg = Message_pb.MSG_G2C_PLAYER_KICK()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    ComFunc.parseMsg(msg, T)
+    return T
+end
+
+function Message_Def:REGISTER_SERVER(msgData)
+    local msg = Message_pb.MSG_REGISTER_SERVER()
+    msg:ParseFromString(msgData)
+
+    local T = {}
+    ComFunc.parseMsg(msg, T)
+    return T
+end
+
 -- -------------------------------------------------------------------------------------------------------------------------------------
 -- --大厅发送给客户端消息
 -- 	L2C_PLAYER_LOGIN_ACK 								= 11001;   						--登入成功

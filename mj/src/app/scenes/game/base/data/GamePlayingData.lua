@@ -164,7 +164,7 @@ end
 
 --手牌数据排序
 function GamePlayingData:sortPlayerHandCardDatas(viewId)
-    if self.m_playerCardDisplayMode[viewid] == GameConstants.HANDCARD_MODE.DISPLAY then
+    if self.m_playerCardDisplayMode[viewId] == GameConstants.HANDCARD_MODE.DISPLAY then
         table.sort(self.m_byHandCardData[viewId], function(card1, card2)
             return self:handCardCompare(card1, card2)            
         end)

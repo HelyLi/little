@@ -32,9 +32,12 @@ end
 function GamePresenter:getPlayingData()
     return self.m_playingData
 end
-
+-- G2M_CONN_CLOSE = 1;
+-- M2G_PLAYER_KICK = 2;
+-- G2C_PLAYER_KICK = 3;
+-- REGISTER_SERVER = 4;
 function GamePresenter:initRoomHandlerMsg()
-    self.m_handlerTable = {}
+    -- self.m_handlerTable = {}
 
     self.m_handlerTable[M2C_PLAYER_ENTER_GAME_ROOM_ACK] = handler(self, self.M2C_PLAYER_ENTER_GAME_ROOM_ACK)
     self.m_handlerTable[M2C_PLAYER_RECONNECT_GAME_ACK] = handler(self, self.M2C_PLAYER_RECONNECT_GAME_ACK)
@@ -111,16 +114,39 @@ end
 -- 	optional uint32 sex = 11;
 -- }
 
+-- - "--->>> 玩家的基本信息" = {
+--      "baseinfo" = {
+--          "accountId"    = "1"
+--          "diamond"      = 100
+--          "goldCoin"     = 1000
+--          "level"        = 1
+--          "name"         = "test1"
+--          "password"     = "1"
+--          "player_id"    = 10001
+--          "registerDate" = 1565272816
+--      }
+--      "messageID" = 22003
+--      "state"     = 4
+--  }
+
 function GamePresenter:M2C_PLAYER_BASEINFO_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_BASEINFO_ACK(msgData)
     dump(data, "--->>> 玩家的基本信息")
-    if data.infotype == 1 then--
-        --todo
-        -- setMyBaseInfo
-    else
-
-    end
     
+    local playerInfo = {}
+    playerInfo.userId = data.baseinfo.player_id
+    playerInfo.name = data.baseinfo.name
+    -- playerInfo.sex = data.sex
+    playerInfo.registerDate = data.baseinfo.registerDate
+    -- playerInfo.userstate = data.userstate
+    playerInfo.chairId = 0--data.tableposid
+    playerInfo.score = 0
+
+    self.m_roomData:addRoomPlayer(playerInfo)
+
+    --ui
+    -- self:getContainer():getUIRoomPart(GameConstants.UI_PLAYERS):playerEntry(playerInfo)
+    self.m_view:getUIRoomPart(GameConstants.ROOM_UI.Players):playerEnter(playerInfo)
 end
 
 --桌子的基本信息
@@ -187,7 +213,7 @@ function GamePresenter:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
 
     --ui
     -- self:getContainer():getUIRoomPart(GameConstants.UI_PLAYERS):playerEntry(playerInfo)
-    self.m_view:getUIRoomPart(GameConstants.ROOM_UI.Players):
+    self.m_view:getUIRoomPart(GameConstants.ROOM_UI.Players):playerEnter(playerInfo)
 end
 
 -- 桌子空闲场景消息

@@ -25,12 +25,12 @@ function UIPlayersItem:ctor(parent, viewId, roomType)
     self:initBaseInfo()
     self:addTo(parent)
     self:setVisible(false)
-    self:setTouchEnabled(true)
 end
 
 function UIPlayersItem:setClickCallback(callback)
     if callback then
-        self:addOnClick(callback)
+        self:addOnClick(function() callback(self.m_viewId) end)
+        self:setTouchEnabled(true)
     end
 end
 
@@ -45,7 +45,7 @@ function UIPlayersItem:initBaseInfo()
         align = cc.TEXT_ALIGNMENT_CENTER
     }):align(display.CENTER, W2(self), 28):addTo(self, 0, TAG.Name)
 
-    local scoreBg = display.newSprite(""):align(display.CENTER_BOTTOM, W2(self), 0):addTo(self)
+    local scoreBg = display.newSprite("#com_score_bg.png"):align(display.CENTER_BOTTOM, W2(self), 0):addTo(self)
     if self.m_roomType == GameConstants.ROOM_TYPE.GOLD then
         display.newSprite("#com_gold_icon.png"):align(display.CENTER_LEFT, 0, H2(scoreBg)):addTo(scoreBg)
     end
@@ -98,6 +98,7 @@ function UIPlayersItem:getUserScore()
 end
 
 function UIPlayersItem:playerEnter(playerInfo)
+    dump(playerInfo, "playerEnter")
     self:setUserId(playerInfo.userId)
     self:setChairId(playerInfo.chairId)
     self:setUserName(playerInfo.name)
@@ -141,8 +142,39 @@ function UIPlayersItem:addUserHead()
     headNode:align(display.CENTER_TOP, W2(self), H(self)):addTo(self, 0, TAG.Head)
 end
 
+-- USER_STATE =
+-- {
+-- 	USER_STATE_INIT = 0;
+-- 	USER_STATE_IN_LOBBY = 1;
+-- 	USER_STATE_WAIT_CREATE_ROOM = 2;
+-- 	USER_STATE_WAIT_IN_GAME = 3;
+-- 	USER_STATE_IN_GAME = 4;
+-- 	USER_STATE_SIT_DOWN = 5;
+-- 	USER_STATE_PLAYING = 6;
+-- 	USER_STATE_WAIT_LEAVE_GAME = 7;
+-- };
+
 --玩家状态
 function UIPlayersItem:setDeskStatus(status, action)
+    
+end
+
+--准备
+function UIPlayersItem:setReadyStatus()
+    
+end
+
+--离线
+function UIPlayersItem:setOfflineStatus()
+    
+end
+
+--超时
+function UIPlayersItem:setTimeOutStatus()
+    
+end
+
+function UIPlayersItem:clear()
     
 end
 

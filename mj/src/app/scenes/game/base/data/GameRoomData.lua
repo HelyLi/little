@@ -36,8 +36,8 @@ function GameRoomData:setMyBaseInfo(data)
     self.m_myBaseInfo.gender = data.Gender
     self.m_myBaseInfo.card = data.Card
     self.m_myBaseInfo.gold = data.Gold
-    self.m_myBaseInfo.chairid = -1
-    self.m_myBaseInfo.viewid = 1
+    self.m_myBaseInfo.chairId = -1
+    self.m_myBaseInfo.viewId = 1
 end
 
 function GameRoomData:getMyViewId()
@@ -49,11 +49,11 @@ function GameRoomData:getMyBaseInfo()
 end
 
 function GameRoomData:setMyChairId(chairId)
-    self.m_myBaseInfo.chairid = chairId
+    self.m_myBaseInfo.chairId = chairId
 end
 
 function GameRoomData:getMyChairId()
-    return self.m_myBaseInfo.chairid
+    return self.m_myBaseInfo.chairId
 end
 
 function GameRoomData:setPlayersNum(num)
@@ -100,10 +100,10 @@ function GameRoomData:addRoomPlayer(playerInfo)
     self:removeRoomPlayer(playerInfo.userId)
 
     if playerInfo.userId == self:getMyBaseInfo().userId then
-        playerInfo.viewid = self:getMyViewId()
-        self:setMyChairId(playerInfo.chairid)
+        playerInfo.viewId = self:getMyViewId()
+        self:setMyChairId(playerInfo.chairId)
     else
-        playerInfo.viewid = self:getViewIdByChairId(playerInfo.chairid)
+        playerInfo.viewId = self:getViewIdByChairId(playerInfo.chairId)
     end
     table.insert(self.m_roomPlayerTable, playerInfo)
 end
@@ -124,9 +124,9 @@ function GameRoomData:getPlayerTable()
     return self.m_roomPlayerTable
 end
 
-function GameRoomData:getPlayerInfoByViewId(viewid)
+function GameRoomData:getPlayerInfoByViewId(viewId)
     for i, v in ipairs(self.m_roomPlayerTable) do
-        if v.viewid == viewid then
+        if v.viewId == viewId then
             return v
         end
     end
@@ -142,9 +142,9 @@ function GameRoomData:getPlayerInfoByUserId(userId)
     return nil
 end
 
-function GameRoomData:getPlayerInfoByChairId(chairid)
+function GameRoomData:getPlayerInfoByChairId(chairId)
     for i, v in ipairs(self.m_roomPlayerTable) do
-        if v.chairid == chairid then
+        if v.chairId == chairId then
             return v
         end
     end
@@ -154,7 +154,7 @@ end
 function GameRoomData:getViewIdByUserId(userId)
     for i, v in ipairs(self.m_roomPlayerTable) do
         if v.userId == userId then
-            return v.viewid
+            return v.viewId
         end
     end
     return 0

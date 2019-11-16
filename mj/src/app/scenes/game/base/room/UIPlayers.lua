@@ -32,12 +32,26 @@ end
 function UIPlayers:initUser()
     for i=1,4 do
         local playerItem = UIPlayersItem.new(self, i, self.m_roomType)
+        playerItem:align(display.BOTTOM_LEFT, FourPlayerMidPos[i].x, FourPlayerMidPos[i].y)
+        playerItem:setClickCallback(handler(self, self.displayUserInfo))
         table.insert(self.m_playersT, playerItem)
     end
 end
 
 function UIPlayers:playerEnter(playerInfo)
-    
+    -- local
+
+    local player = self:getPlayerByUserId(playerInfo.userId)
+    if player then
+        player:clear()
+    end
+
+    player = self:getPlayerByViewId(playerInfo.viewId)
+    if player then
+        player:playerEnter(playerInfo)
+    end
+
+    --Game:getAudioMgr():playEffect(AUDIO_GAME_EFFECT.SITDOWN)
 end
 
 function UIPlayers:getPlayerByViewId(viewId)
@@ -74,6 +88,10 @@ function UIPlayers:refreshUserScore()
 end
 
 function UIPlayers:userToMiddle(isMove)
+    
+end
+
+function UIPlayers:displayUserInfo(viewId)
     
 end
 

@@ -4,6 +4,66 @@
     <dict>
         <key>frames</key>
         <dict>
+            <key>create_room_option_dxt_off.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{56,55}</string>
+                <key>spriteSourceSize</key>
+                <string>{56,55}</string>
+                <key>textureRect</key>
+                <string>{{638,753},{56,55}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>create_room_option_dxt_on.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{56,55}</string>
+                <key>spriteSourceSize</key>
+                <string>{56,55}</string>
+                <key>textureRect</key>
+                <string>{{696,753},{56,55}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>create_room_option_m_off_s.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{-4,0}</string>
+                <key>spriteSize</key>
+                <string>{51,51}</string>
+                <key>spriteSourceSize</key>
+                <string>{61,51}</string>
+                <key>textureRect</key>
+                <string>{{754,753},{51,51}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>create_room_option_m_on_s.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{61,51}</string>
+                <key>spriteSourceSize</key>
+                <string>{61,51}</string>
+                <key>textureRect</key>
+                <string>{{575,753},{61,51}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
             <key>create_room_txt_beishu.png</key>
             <dict>
                 <key>aliases</key>
@@ -123,7 +183,7 @@
             <key>size</key>
             <string>{953,848}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:1259513b5861466e3de870ae64ce0d53:5141642e7f17a7c4bf0a9f7f9b2f1824:0156178a790640d82ec835351d41f7f4$</string>
+            <string>$TexturePacker:SmartUpdate:1758fca7f3f4c3c4b42af629defff814:4037ca41ab912db81734818920482d2a:0156178a790640d82ec835351d41f7f4$</string>
             <key>textureFileName</key>
             <string>GameRoomRes.pvr.ccz</string>
         </dict>

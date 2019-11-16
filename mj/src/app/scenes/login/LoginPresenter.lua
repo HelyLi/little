@@ -115,8 +115,6 @@ function LoginPresenter:preloadResAsync()
     --异步回调
     local callback = function ()
         curNum =  curNum + 1
-        print("加载"..AsyncRes[curNum]..".pvr.ccz")
-        display.addSpriteFrames(AsyncRes[curNum]..".plist",AsyncRes[curNum]..".pvr.ccz")
         if curNum == resNum and self then
             print("异步图片加载完成")
             if comui.isWaiting() then
@@ -130,7 +128,7 @@ function LoginPresenter:preloadResAsync()
     end
 
     for i,v in ipairs(AsyncRes) do
-        display.addImageAsync(v..".pvr.ccz",callback)
+        display.addSpriteFrames(v..".plist",v..".pvr.ccz", callback)
     end
 end
 
@@ -174,12 +172,7 @@ function LoginPresenter:handlingLogin(data)
     if data.errorcode == nil then
         print(string.format("token:%u", data.clienttoken))
         Game:getUserData():setToken(data.clienttoken)
-        
-        if device.platform == 'ios' then
-            self:preloadRes()
-        elseif device.platform == 'android' then
-            self:preloadResAsync()
-        end
+        self:preloadResAsync()
     end
 end
 

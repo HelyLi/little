@@ -33,9 +33,9 @@ function CardPresenter:onConnected()
     local data = {}
     data.roomId = ack.roomid
     data.token = Game:getUserData():getToken()
-    data.userId = ack.ownerid
+    data.userId = Game:getUserData():getUserId()
 
-    dump(data, "onConnected")
+    dump(data, "C2M_PLAYER_ENTER_GAME_ROOM_SYN")
 
     local msg, msgId = Message_Def:C2M_PLAYER_ENTER_GAME_ROOM_SYN(data)
     Game:getSocketMgr():cardGameSocketSend(msg, msgId)

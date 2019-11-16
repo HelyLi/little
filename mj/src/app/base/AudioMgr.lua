@@ -32,7 +32,7 @@ function AudioMgr:ctor()
 
     self.m_effectFullPath = "audio/effect/%s.ogg"--AUDIO_EFFECT_FULL_PATH[device.platform]
 
-    self:preloadfile()
+    --self:preloadfile()
 end
 
 function AudioMgr:preloadfile()
@@ -49,7 +49,7 @@ function AudioMgr:preloadfile()
 end
 
 function AudioMgr:isEffectEnabled()
-    return Game:getSettingData():isEffectOn()
+    return Game:getSettingData():isVoiceOn()
 end
 
 function AudioMgr:isMusicEnabled()
