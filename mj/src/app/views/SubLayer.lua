@@ -16,7 +16,8 @@ local ORDER = {
 local TAG = {
     bg = 100,
     bg2 = 101,
-    menu_bg = 102
+    menu_bg = 102,
+    title = 103
 }
 
 function SubLayer:ctor()
@@ -75,6 +76,12 @@ function SubLayer:addMenuBg()
         end
         return menu_bg
     end
+end
+
+function SubLayer:addTitle(filename)
+    self.v_bg:removeChildByTag(TAG.title)
+    local titleBg = display.newSprite("#com_dialog_title.png"):align(display.CENTER_BOTTOM,W2(self.v_bg),H(self.v_bg)-3):addTo(self.v_bg,0,TAG.title)
+    display.newSprite("#"..filename):align(display.CENTER,W2(titleBg),31):addTo(titleBg)
 end
 
 function SubLayer:onEnter()

@@ -141,12 +141,20 @@ function GamePresenter:M2C_PLAYER_BASEINFO_ACK(msgData)
     -- playerInfo.userstate = data.userstate
     playerInfo.chairId = 0--data.tableposid
     playerInfo.score = 0
+    playerInfo.card = data.baseinfo.diamond
+    playerInfo.gold = data.baseinfo.goldCoin
 
-    self.m_roomData:addRoomPlayer(playerInfo)
+    self.m_roomData:setMyBaseInfo(playerInfo)
+
+    -- self.m_roomData:addRoomPlayer(playerInfo)
 
     --ui
     -- self:getContainer():getUIRoomPart(GameConstants.UI_PLAYERS):playerEntry(playerInfo)
-    self.m_view:getUIRoomPart(GameConstants.ROOM_UI.Players):playerEnter(playerInfo)
+    -- self.m_view:getUIRoomPart(GameConstants.ROOM_UI.Players):playerEnter(playerInfo)
+
+    -- Message_Def:C2M_PLAYER_SIT_DOWN_SYN()
+    local msg, msgId = Message_Def:C2M_PLAYER_SIT_DOWN_SYN()
+    Game:getSocketMgr():cardGameSocketSend(msg, msgId)
 end
 
 --桌子的基本信息

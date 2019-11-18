@@ -31,9 +31,9 @@ end
 
 function GameRoomData:setMyBaseInfo(data)
     self.m_myBaseInfo = {}
-    self.m_myBaseInfo.userId = data.UserId
-    self.m_myBaseInfo.nickname = data.NickName
-    self.m_myBaseInfo.gender = data.Gender
+    self.m_myBaseInfo.userId = data.userId
+    self.m_myBaseInfo.nickname = data.name
+    self.m_myBaseInfo.gender = data.gender
     self.m_myBaseInfo.card = data.Card
     self.m_myBaseInfo.gold = data.Gold
     self.m_myBaseInfo.chairId = -1

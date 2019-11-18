@@ -1,21 +1,49 @@
 local UIParent = import("app.scenes.game.base.UIParent")
 
-local UIDeskMenu = class("UIDeskMenu", function()
+local UIWaitMenu = class("UIWaitMenu", function()
     return UIParent.new()
 end)
 
-function UIDeskMenu:ctor(container, order, tag)
+function UIWaitMenu:ctor(container, order, tag)
     self.m_container = container
-
+    self:initMenu()
     self:addTo(container, order, tag)
 end
 
-function UIDeskMenu:onEnter()
+function UIWaitMenu:onEnter()
     
 end
 
-function UIDeskMenu:onExit()
+function UIWaitMenu:onExit()
     
 end
 
-return UIDeskMenu
+function UIWaitMenu:initMenu()
+    --解散房间
+    comui.Button({
+        normal = "com_red_btn.png",
+        text = "解散房间",
+        fontSize = 35,
+        pos = cc.p(display.width - 34 - UIAdapter.paddingR, UIAdapter.adRatioY(109)),
+        callfunc = function ()
+            
+        end,
+        anchor = display.TOP_RIGHT,
+        parent = self
+    })
+
+    --返回大厅
+    comui.Button({
+        normal = "com_green_btn.png",
+        text = "返回大厅",
+        fontSize = 35,
+        pos = cc.p(34 + UIAdapter.paddingL, UIAdapter.adRatioY(109)),
+        callfunc = function ()
+            
+        end,
+        anchor = display.TOP_LEFT,
+        parent = self
+    })
+end
+
+return UIWaitMenu

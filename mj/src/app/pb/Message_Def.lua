@@ -422,7 +422,7 @@ function Message_Def:C2M_PLAYER_RECONNECT_GAME_SYN(data)
     return msg:SerializeToString(), C2M_PLAYER_RECONNECT_GAME_SYN
 end
 
-function Message_Def:C2M_PLAYER_SIT_DOWN_SYN(data)
+function Message_Def:C2M_PLAYER_SIT_DOWN_SYN()
     local msg = Message_pb.MSG_C2M_PLAYER_SIT_DOWN_SYN()
     msg.messageID = C2M_PLAYER_SIT_DOWN_SYN
 
