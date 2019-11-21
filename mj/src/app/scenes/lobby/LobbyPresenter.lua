@@ -23,7 +23,7 @@ end
 
 function LobbyPresenter:onConnected()
     print("onConnected")
-    -- self:toLogin()
+    self:reconnect()
 end
 
 function LobbyPresenter:onClosed()
@@ -181,6 +181,22 @@ function LobbyPresenter:L2C_PLAYER_ENTER_ROOM_ACK(msgData)
         Game:getGameData():setCreateRoomAck(data)
         self.m_enterRoom = true
     end
+end
+
+-- message MSG_C2L_PLAYER_RECONNECT_LOBBY_SYN
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional uint64 playerid = 2;
+-- 	optional uint64 clienttoken = 3;
+-- }
+--断线重连
+function LobbyPresenter:reconnect()
+    local data = {}
+    data.userId = Game:getUserData():getUserId()
+    data.token = Game:getUserData():getToken()
+
+    local msg, msgId = Message_Def:C2L_PLAYER_RECONNECT_LOBBY_SYN(data)
+    Game:getSocketMgr():lobbySocketSend(msg, msgId)
 end
 
 return LobbyPresenter

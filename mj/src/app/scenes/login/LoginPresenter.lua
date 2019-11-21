@@ -60,9 +60,41 @@ function LoginPresenter:toLogin1()
     -- WeChat.doLogin()
     -- comui.addWaitingLayer()
     local msg = {}
+    msg.openid = "2"
+    msg.accesstoken = ""
+    msg.nickname = "test2"
+    msg.sex = 0
+    
+    local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
+
+    Game:getSocketMgr():loginSocketSend(data, msgId)
+end
+
+function LoginPresenter:toLogin2()
+    -- pushEvent
+    -- Game:getEventDispatcher().pushEvent(AppGlobal.EventMsg.SPEAKER_POP_UP, { data = "data" })
+    -- WeChat.doLogin()
+    -- comui.addWaitingLayer()
+    local msg = {}
     msg.openid = "3"
     msg.accesstoken = ""
     msg.nickname = "test3"
+    msg.sex = 0
+    
+    local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)
+
+    Game:getSocketMgr():loginSocketSend(data, msgId)
+end
+
+function LoginPresenter:toLogin3()
+    -- pushEvent
+    -- Game:getEventDispatcher().pushEvent(AppGlobal.EventMsg.SPEAKER_POP_UP, { data = "data" })
+    -- WeChat.doLogin()
+    -- comui.addWaitingLayer()
+    local msg = {}
+    msg.openid = "4"
+    msg.accesstoken = ""
+    msg.nickname = "test4"
     msg.sex = 0
     
     local data, msgId = Message_Def:C2L_PLAYER_LOGIN_SYN(msg)

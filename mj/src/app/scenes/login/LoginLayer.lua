@@ -15,15 +15,29 @@ function LoginLayer:initView()
 
     comui.Button({
         normal = "login_btn_wx.png",
-        pos = cc.p(display.cx - 200, display.cy-135),
+        pos = cc.p(display.cx - 200, display.cy + 135),
         callfunc = handler(self.m_presenter, self.m_presenter.toLogin),
         parent = self
     })
 
     comui.Button({
         normal = "login_btn_wx.png",
-        pos = cc.p(display.cx + 200, display.cy-135),
+        pos = cc.p(display.cx + 200, display.cy + 135),
         callfunc = handler(self.m_presenter, self.m_presenter.toLogin1),
+        parent = self
+    })
+
+    comui.Button({
+        normal = "login_btn_wx.png",
+        pos = cc.p(display.cx - 200, display.cy-135),
+        callfunc = handler(self.m_presenter, self.m_presenter.toLogin2),
+        parent = self
+    })
+
+    comui.Button({
+        normal = "login_btn_wx.png",
+        pos = cc.p(display.cx + 200, display.cy-135),
+        callfunc = handler(self.m_presenter, self.m_presenter.toLogin3),
         parent = self
     })
 

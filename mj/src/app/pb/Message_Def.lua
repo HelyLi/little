@@ -114,7 +114,6 @@ ERRORCODE_DESCRIBE = {
 -- -------------------------------------------------------------------------------------------------------------------------------------
 function Message_Def:C2L_PLAYER_LOGIN_SYN(data)
     local msg = Message_pb.MSG_C2L_PLAYER_LOGIN_SYN()
-    dump(msg, "C2L_PLAYER_LOGIN_SYN", 8)
     msg.messageID = C2L_PLAYER_LOGIN_SYN
     msg.openid = data.openid
     msg.accesstoken = data.accesstoken

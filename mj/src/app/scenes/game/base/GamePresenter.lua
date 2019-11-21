@@ -268,6 +268,12 @@ function GamePresenter:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
     end
 
     self.m_roomData:addRoomPlayer(playerInfo)
+    local playerT = self.m_roomData:getPlayerTable()
+    if #playerT == self.m_roomData:getPlayersNum() then
+        print("C2M_PLAYER_READY_SYN")
+        local msg, msgId = Message_Def:C2M_PLAYER_READY_SYN()
+        Game:getSocketMgr():cardGameSocketSend(msg, msgId)
+    end
 
     --ui
     -- self:getContainer():getUIRoomPart(GameConstants.UI_PLAYERS):playerEntry(playerInfo)
