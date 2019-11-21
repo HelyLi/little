@@ -2,7 +2,7 @@ local RemoteSprite = import(".RemoteSprite")
 local WaitingLayer = import(".WaitingLayer")
 local RadioButton = import(".RadioButton")
 local RadioGroup = import(".RadioGroup")
-local ComDialog = import(".Dialog")
+local ComDialog = import(".ComDialog")
 
 comui = {}
 
@@ -190,7 +190,7 @@ function comui.displayHead(options)
     head:setContentSize(size)
 
     local deaultHead = RemoteSprite.new({
-        defaultImg = string.format("com_head_%d.png", gender),
+        defaultImg = string.format("com_head_%d.png", gender + 1),
         size = size,
         userId = options.userId
     }):align(display.CENTER, size.width/2, size.height/2)
@@ -214,7 +214,7 @@ function comui.displayHead(options)
     clip:align(display.BOTTOM_LEFT, 0, 0):addTo(head)
 
     if options.showSex then
-        display.newSprite(string.format("#com_sex_icon_%d.png", gender)):align(display.CENTER, W(head), H(head)):addTo(head):setScale(size.width/W(stencil), size.height/H(stencil))
+        display.newSprite(string.format("#com_sex_icon_%d.png", gender + 1)):align(display.CENTER, W(head), H(head)):addTo(head):setScale(size.width/W(stencil), size.height/H(stencil))
     end
 
     return head
@@ -320,22 +320,21 @@ comui.showDialog({
     parent = nil,
     tag = 0,
     text = "",
+    canClose = true,
     callback1 = nil,
     callback2 = nil,
     btnFrame1 = nil
     btnFrame2 = nil})
 ]]
 function comui.showDialog(params)
-    local dialog = ComDialog.new()
+    local dialog = ComDialog.new(params)
     if params.parent == nil then
         params.parent = display.getRunningScene()
     end
-    if params.tag ~= nil then
-        params.parent:removeChildByTag(params.tag)
-    end
     params.tag = params.tag or 8888
-
-    dialog:addTo(params.parent,1000, params.tag):display(params.text)
+    params.parent:removeChildByTag(params.tag)
+    
+    dialog:addTo(params.parent,1000, params.tag)
 
     if params.callback1 ~= nil and params.callback2 == nil then
         dialog:setDialogOneBtn(params.callback1)
@@ -343,10 +342,10 @@ function comui.showDialog(params)
         dialog:setDialogTwoBtn(params.callback1, params.callback2, params.btnFrame1, params.btnFrame2)
     end
 
-    if params.canClose == nil then
-        params.canClose = true
-    end
-    dialog:setCanClose(params.canClose)
+    -- if params.canClose == nil then
+    --     params.canClose = true
+    -- end
+    -- dialog:setCanClose(params.canClose)
     return dialog
 end
 

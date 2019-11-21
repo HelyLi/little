@@ -88,7 +88,7 @@ function ComFunc.parseMsg(msg, data)
     local fields = msg._fields
     for k1,v1 in pairs(fields) do
         if type(msg[k1.name]) == "table" then
-            data[k1.name] = {}
+            data[k1.name] = data[k1.name] or {}
             if #msg[k1.name] > 0 then
                 for i2,v2 in ipairs(msg[k1.name]) do
                     local t = {}

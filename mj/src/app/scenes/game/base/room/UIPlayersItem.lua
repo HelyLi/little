@@ -112,7 +112,7 @@ function UIPlayersItem:playerEnter(playerInfo)
 end
 
 function UIPlayersItem:updatePlayerInfo()
-    local name = self:getChildByTag(TAG.Head)
+    local name = self:getChildByTag(TAG.Name)
     if name then
         name:setString(self:getUserName())
     end

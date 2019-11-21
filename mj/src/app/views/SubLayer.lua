@@ -69,9 +69,9 @@ end
 function SubLayer:addMenuBg()
     local bg2 = self.v_bg:getChildByTag(TAG.bg2)
     if bg2 then
-        local menu_bg = bg:getChildByTag(TAG.menu_bg)
+        local menu_bg = bg2:getChildByTag(TAG.menu_bg)
         if menu_bg == nil then
-            menu_bg = display.newScale9Sprite("#com_dialog_bg_2.png", 0, 0, cc.size(W2(bg2) -4, 122), cc.rect(18,0,80,30))
+            menu_bg = display.newScale9Sprite("#com_dialog_bg_2.png", 0, 0, cc.size(W(bg2) -4, 122), cc.rect(18,0,80,30))
             menu_bg:align(display.CENTER_BOTTOM, W2(bg2), 12):addTo(bg2)
         end
         return menu_bg
@@ -80,7 +80,7 @@ end
 
 function SubLayer:addTitle(filename)
     self.v_bg:removeChildByTag(TAG.title)
-    local titleBg = display.newSprite("#com_dialog_title.png"):align(display.CENTER_BOTTOM,W2(self.v_bg),H(self.v_bg)-3):addTo(self.v_bg,0,TAG.title)
+    local titleBg = display.newSprite("#com_dialog_title_bg.png"):align(display.CENTER_BOTTOM,W2(self.v_bg),H(self.v_bg)-3):addTo(self.v_bg,0,TAG.title)
     display.newSprite("#"..filename):align(display.CENTER,W2(titleBg),31):addTo(titleBg)
 end
 

@@ -169,7 +169,7 @@ function LoginPresenter:startLoadResTimeout()
 end
 
 function LoginPresenter:handlingLogin(data)
-    if data.errorcode == nil then
+    if data.errorcode == 0 then
         print(string.format("token:%u", data.clienttoken))
         Game:getUserData():setToken(data.clienttoken)
         self:preloadResAsync()

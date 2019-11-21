@@ -152,7 +152,7 @@ function LobbyPresenter:l2c_player_create_room_ack(msgData)
     local data = Message_Def:L2C_PLAYER_CREATE_ROOM_ACK(msgData)
     dump(data, "L2C_PLAYER_CREATE_ROOM_ACK")
 
-    if data.errorcode == nil then
+    if data.errorcode == 0 then
         Game:getSocketMgr():lobbySocketClose()
         Game:getGameData():setCreateRoomAck(data)
         self.m_enterRoom = true
@@ -176,7 +176,7 @@ function LobbyPresenter:L2C_PLAYER_ENTER_ROOM_ACK(msgData)
     local data = Message_Def:L2C_PLAYER_ENTER_ROOM_ACK(msgData)
     dump(data, "加入房间", 8)
 
-    if data.errorcode == nil then
+    if data.errorcode == 0 then
         Game:getSocketMgr():lobbySocketClose()
         Game:getGameData():setCreateRoomAck(data)
         self.m_enterRoom = true

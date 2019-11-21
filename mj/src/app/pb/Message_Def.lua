@@ -95,16 +95,6 @@ ERRORCODE = {
 -- 	C2L_PLAYER_ENTER_ROOM_SYN							= 10003;						--加入房间
 -- 	C2L_PLAYER_MONEY_UPDATA_SYN							= 10004;						--玩家货币更新
 -- -------------------------------------------------------------------------------------------------------------------------------------
-
--- message MSG_C2L_PLAYER_LOGIN_SYN
--- {
--- 	required int32 messageID = 1;
--- 	required string openid = 2;
--- 	required string accesstoken = 3;
--- 	required string nickname = 4;
--- 	required int32 sex = 5;
--- }
-
 --10001 登入
 function Message_Def:C2L_PLAYER_LOGIN_SYN(data)
     local msg = Message_pb.MSG_C2L_PLAYER_LOGIN_SYN()
@@ -119,74 +109,6 @@ function Message_Def:C2L_PLAYER_LOGIN_SYN(data)
 
     return msg:SerializeToString(), C2L_PLAYER_LOGIN_SYN
 end
-
--- message MSG_C2L_PLAYER_CREATE_ROOM_SYN
--- {
--- 	required int32 messageID = 1;
--- 	required ROOM_RUlES room_rules = 2;
--- }
---
-
--- message ROOM_RUlES
--- {
--- 	required int32 kindid = 1;
--- 	required int32 paytype = 2;   --1:房主支付  2：AA支付
--- 	required int32 playernum = 3; --玩家人数
--- 	required int32 ju_num =4;	--局数
--- 	required int32 difen = 5;      --底分
--- 	required int32 fengding = 6;  --封顶
--- 	message XTHH_RULES
--- 	{
--- 	required 	int32 piao_prize =1; --1:飘癞子没奖 2：飘癞子有奖
--- 	required 	int32 hu_laizinum = 2; --1：最多一个癞子胡牌 2：任意癞子胡牌
--- 	}
--- 	required XTHH_RULES xthh_rules = 7;
--- }
-
--- message ROOM_RUlES
--- {
--- 	optional int32 kindid = 1;
--- 	optional int32 areaid = 2; //区域id
--- 	optional int32 paytype = 3;   //1:房主支付  2：AA支付
--- 	optional int32 playernum = 4; //玩家人数
--- 	optional int32 ju_num =5;	//局数
--- 	optional int32 difen = 6;      //底分
--- }
-
--- message MSG_C2L_PLAYER_CREATE_ROOM_SYN
--- {
--- 	optional int32 messageID = 1;
-
--- 	optional ROOM_RUlES room_rules = 2;  //游戏房间通用规则
-
--- 	optional string sub_game_rule = 3;//子游戏规则
--- }
-
--- message XTHH_RULES
--- {
--- 	optional int32 piao_prize =1; //1:飘癞子没奖 2：飘癞子有奖
--- 	optional int32 hu_laizinum = 2; //1：最多一个癞子胡牌 2：任意癞子胡牌
---     optional int32 fengding = 3;  //封顶
--- }
-
--- message ROOM_RUlES
--- {
--- 	int32 kindid = 1;
--- 	int32 areaid = 2; //区域id
--- 	int32 paytype = 3;   //1:房主支付  2：AA支付
--- 	int32 playernum = 4; //玩家人数
--- 	int32 ju_num =5;	//局数
--- 	int32 difen = 6;      //底分
--- 	string sub_game_rule = 7;//子游戏规则
--- }
-
--- message MSG_C2L_PLAYER_CREATE_ROOM_SYN
--- {
--- 	int32 messageID = 1;
-
--- 	ROOM_RUlES room_rules = 2;  //游戏房间规则
-
--- }
 
 function Message_Def:C2L_PLAYER_CREATE_ROOM_SYN(data)
     dump(data, "C2L_PLAYER_CREATE_ROOM_SYN", 8)
@@ -233,7 +155,18 @@ function Message_Def:L2C_PLAYER_CREATE_ROOM_SYN(msgData)
     local msg = Message_pb.MSG_C2L_PLAYER_CREATE_ROOM_SYN()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        room_rules = {
+            kindid = 0, 
+            areaid = 0, 
+            paytype = 0, 
+            playernum = 0, 
+            ju_num = 0, 
+            difen = 0, 
+            sub_game_rule ='', 
+        }
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -259,7 +192,7 @@ function Message_Def:C2L_PLAYER_MONEY_UPDATA_SYN()
     local msg = Message_pb.MSG_C2L_PLAYER_MONEY_UPDATA_SYN()
     msg.messageID = C2L_PLAYER_MONEY_UPDATA_SYN
 
-    return msg:SerializeToString()
+    return msg:SerializeToString(), C2L_PLAYER_MONEY_UPDATA_SYN
 end
 
 ----
@@ -313,12 +246,15 @@ end
 -- 	L2C_PLAYER_MONEY_UPDATA_ACK							= 11006;						--货币更新成功
 -- -------------------------------------------------------------------------------------------------------------------------------------
 
-
 function Message_Def:L2C_PLAYER_LOGIN_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_LOGIN_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+        clienttoken = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -327,9 +263,23 @@ function Message_Def:L2C_PLAYER_BASEINFO_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_BASEINFO_ACK()
     msg:ParseFromString(msgData)
 
-    print("playerInfo:"..#msg.playerInfo)
-
-    local T = {}
+    local T = {
+        messageID = 0, 
+        playerInfo = {
+            player_id = 0, 
+            name ='', 
+            level = 0, 
+            exp = 0, 
+            accountId ='', 
+            goldCoin = 0, 
+            diamond = 0, 
+            vip = 0, 
+            registerDate = 0, 
+            password ='', 
+            sex = 0, 
+        },
+        userstate = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -338,11 +288,16 @@ function Message_Def:L2C_PLAYER_GAME_ROOM_CONFIG_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_GAME_ROOM_CONFIG_ACK()
     msg:ParseFromString(msgData)
 
-    dump(msg, "L2C_PLAYER_GAME_ROOM_CONFIG_ACK", 8)
-
-    print(#msg.room_config)
-
-    local T = {}
+    local T = {
+        messageID = 0, 
+        room_config = {
+            kindid = 0, 
+            name ='', 
+            config ='', 
+            free = 0, 
+            areaid = 0, 
+        }
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -351,7 +306,15 @@ function Message_Def:L2C_PLAYER_CREATE_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_CREATE_ROOM_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+        gameip ='', 
+        gameport = 0, 
+        roomid = 0, 
+        ownerid = 0, 
+        kindid = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -360,7 +323,14 @@ function Message_Def:L2C_PLAYER_ENTER_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_ENTER_ROOM_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+        gameip ='', 
+        gameport = 0, 
+        roomid = 0, 
+        ownerid = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -369,7 +339,11 @@ function Message_Def:L2C_PLAYER_MONEY_UPDATA_ACK(msgData)
     local msg = Message_pb.MSG_L2C_PLAYER_MONEY_UPDATA_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        gold_amuont = 0, 
+        diamond_amunt = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -559,7 +533,13 @@ function Message_Def:M2C_PLAYER_ENTER_GAME_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ENTER_GAME_ROOM_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+        roomid = 0, 
+        tokenid = 0, 
+        playerid = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -568,26 +548,66 @@ function Message_Def:M2C_PLAYER_RECONNECT_GAME_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_RECONNECT_GAME_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
 
+-- message MSG_M2C_PLAYER_BASEINFO_ACK
+-- {
+-- 	optional int32 messageID = 1;
+-- 	optional int32 infotype = 2; //1:自己的信息   2：其他玩家
+-- 	optional bool online = 3;	//玩家是否在线
+-- 	optional int32 state = 4;	//玩家状态
+-- 	optional PlayerBaseInfo baseinfo =5;
+-- }
 function Message_Def:M2C_PLAYER_BASEINFO_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_BASEINFO_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        state = 0, 
+        baseinfo = {
+            player_id = 0, 
+            name ='', 
+            level = 0, 
+            exp = 0, 
+            accountId ='', 
+            goldCoin = 0, 
+            diamond = 0, 
+            vip = 0, 
+            registerDate = 0, 
+            password ='', 
+            sex = 0, 
+        }
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
 
 function Message_Def:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
-    print("msgData", msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ROOM_BASEINFO_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        roomid = 0, 
+        gamecurcount = 0, 
+        roomstate = 0, 
+        room_baseinfo = {
+            kindid = 0, 
+            areaid = 0, 
+            paytype = 0, 
+            playernum = 0, 
+            ju_num = 0, 
+            difen = 0, 
+            sub_game_rule ='', 
+        }
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -596,7 +616,16 @@ function Message_Def:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
     local msg = Message_pb.MSG_M2C_TABLE_PLAYER_INFO_NOTIFY()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        name ='', 
+        player_id = 0, 
+        sex = 0, 
+        registerdate = 0, 
+        userstate = 0, 
+        tableposid = 0, 
+        isonline = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -605,7 +634,15 @@ function Message_Def:M2C_PLAYER_ROOM_FREE_SCENE_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ROOM_FREE_SCENE_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        roomstate = 0,
+        outtime = 0, 
+        blocktime = 0, 
+        Playintcount = 0, 
+        buycount = 0, 
+        item = {}
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -614,7 +651,34 @@ function Message_Def:M2C_PLAYER_ROOM_PLAYING_SCENE_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ROOM_PLAYING_SCENE_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        outtime = 0, 
+        blocktime = 0, 
+        playintcount = 0, 
+        buycount = 0, 
+        outpai = 0,
+        mennums = 0, 
+        nowoutstation = 0, 
+        laizipi = 0, 
+        laizi = 0, 
+        ntstation = 0, 
+        player_item = {},
+        cpgnotify = {
+            bzhuapai = false, 
+            bchi = false, 
+            bpeng = false, 
+            bgang = false, 
+            bhu = false, 
+            bispiaolai = false, 
+            bCanAction = false, 
+            outpaistation = 0, 
+            outpaival = 0, 
+            chi = {},
+            pengpai = 0, 
+            gang = {}
+        }
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -623,7 +687,11 @@ function Message_Def:M2C_PLAYER_STATE_UPDATA_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_STATE_UPDATA_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        playerid = 0, 
+        state = 0 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -632,7 +700,11 @@ function Message_Def:M2C_PLAYER_ROOM_STATE_UPDATA_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_ROOM_STATE_UPDATA_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        roomid = 0, 
+        roomstate = 0 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -641,7 +713,12 @@ function Message_Def:M2C_PLAYER_SIT_DOWN_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_SIT_DOWN_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+        playerid = 0, 
+        tableposid = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -650,7 +727,11 @@ function Message_Def:M2C_PLAYER_READY_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_READY_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+        playerid = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -659,25 +740,35 @@ function Message_Def:M2C_PLAYER_OP_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_OP_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+        opcode = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
 
-function Message_Def:M2C_PLAYER_OPER_LEAVE_ROOM_ACK(msgData)
-    local msg = Message_pb.MSG_M2C_PLAYER_OPER_LEAVE_ROOM_ACK()
-    msg:ParseFromString(msgData)
+-- function Message_Def:M2C_PLAYER_OPER_LEAVE_ROOM_ACK(msgData)
+--     local msg = Message_pb.MSG_M2C_PLAYER_OPER_LEAVE_ROOM_ACK()
+--     msg:ParseFromString(msgData)
 
-    local T = {}
-    ComFunc.parseMsg(msg, T)
-    return T
-end
+--     local T = {}
+--     ComFunc.parseMsg(msg, T)
+--     return T
+-- end
 
 function Message_Def:M2C_PLAYER_DISMISS_ROOM_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_DISMISS_ROOM_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+        playerid = 0, 
+        name ='', 
+        faceurl ='', 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -686,25 +777,59 @@ function Message_Def:M2C_PLAYER_VOTE_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_VOTE_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+        vote = 0, 
+        playerid = 0, 
+        name ='', 
+        faceurl ='', 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
 
-function Message_Def:M2C_PLAYER_VOTE_SYN(msgData)
-    local msg = Message_pb.MSG_M2C_PLAYER_VOTE_SYN()
-    msg:ParseFromString(msgData)
+-- function Message_Def:M2C_PLAYER_VOTE_SYN(msgData)
+--     local msg = Message_pb.MSG_M2C_PLAYER_VOTE_SYN()
+--     msg:ParseFromString(msgData)
 
-    local T = {}
-    ComFunc.parseMsg(msg, T)
-    return T
-end
+--     local T = {}
+--     ComFunc.parseMsg(msg, T)
+--     return T
+-- end
 
 function Message_Def:M2C_PLAYER_GAME_START_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_GAME_START_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        bgang = false, 
+        bhu = false, 
+        bankeruser = 0, 
+        currentuser = 0, 
+        useraction = 0, 
+        laizipicard = 0, 
+        laizicard = 0, 
+        isicecount = 0,
+        imennums = 0, 
+        iplayingcount = 0, 
+        gangdata = {
+            bzhuapai = false, 
+            bchi = false, 
+            bpeng = false, 
+            bgang = false, 
+            bhu = false, 
+            bispiaolai = false, 
+            bCanAction = false, 
+            outpaistation = 0, 
+            outpaival = 0, 
+            chi = {},
+            pengpai = 0, 
+            gang = {},
+        },
+        hand_card = {}
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -713,7 +838,10 @@ function Message_Def:M2C_PLAYER_MONEY_UPDATA_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_MONEY_UPDATA_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        money = {}
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -722,7 +850,25 @@ function Message_Def:M2C_PLAYER_OPERATE_NOTIFY_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_OPERATE_NOTIFY_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        playerid = 0, 
+        chairid = 0, 
+        cpgnotify = {
+            bzhuapai = false, 
+            bchi = false, 
+            bpeng = false, 
+            bgang = false, 
+            bhu = false, 
+            bispiaolai = false, 
+            bCanAction = false, 
+            outpaistation = 0, 
+            outpaival = 0, 
+            chi = {},
+            pengpai = 0, 
+            gang = {}
+        }
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -731,7 +877,21 @@ function Message_Def:M2C_PLAYER_OPERATE_RESULT_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_OPERATE_RESULT_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        bclearaction = false, 
+        bzhua = false, 
+        type = 0, 
+        istation = 0, 
+        ibestation = 0, 
+        ioutpai = 0, 
+        data = 0,
+        handcardcount = 0,
+        outpai = 0,
+        cardcount = 0, 
+        laizicard = 0, 
+        userscore = 0,
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -740,7 +900,17 @@ function Message_Def:M2C_SUB_GAME_END_ACK(msgData)
     local msg = Message_pb.MSG_M2C_SUB_GAME_END_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        bzimo = false, 
+        bisliuju = false, 
+        dianpaostation = 0, 
+        laizicard = 0, 
+        hupaistation = 0, 
+        hucard = 0, 
+        imennums = 0, 
+        hu_info = {}
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -749,7 +919,10 @@ function Message_Def:M2C_SUB_GAME_END_ALL_ACK(msgData)
     local msg = Message_pb.MSG_M2C_SUB_GAME_END_ALL_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T =  {
+        messageID = 0, 
+        end_all = {}
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -758,7 +931,10 @@ function Message_Def:M2C_PLAYER_VOTE_BEGIN_ACK(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_VOTE_BEGIN_ACK()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        errorcode = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -767,7 +943,11 @@ function Message_Def:M2C_PLAYER_VOTE_NOTIFY(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_VOTE_NOTIFY()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        playerpos = 0, 
+        playervoteval = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -776,7 +956,10 @@ function Message_Def:M2C_PLAYER_VOTE_END_NOTIFY(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_VOTE_END_NOTIFY()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        voteresult = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -785,7 +968,10 @@ function Message_Def:M2C_PLAYER_LEAVE_FROM_ROOM(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_LEAVE_FROM_ROOM()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        player_id = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -794,7 +980,11 @@ function Message_Def:M2C_PLAYER_VOTE_BEGIN_NOTIFY(msgData)
     local msg = Message_pb.MSG_M2C_PLAYER_VOTE_BEGIN_NOTIFY()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+        sponsorpos = 0, 
+        voteinfo = {}
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end
@@ -803,7 +993,9 @@ function Message_Def:M2C_DISMISS_ROOM_NOTIFY(msgData)
     local msg = Message_pb.MSG_M2C_DISMISS_ROOM_NOTIFY()
     msg:ParseFromString(msgData)
 
-    local T = {}
+    local T = {
+        messageID = 0, 
+    }
     ComFunc.parseMsg(msg, T)
     return T
 end

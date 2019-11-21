@@ -133,4 +133,23 @@ function GameLayer:foregroundEvent()
     
 end
 
+function GameLayer:displayDialogOne(text, callback)
+    local dialog = comui.showDialog({
+        parent = self,
+        tag = GameConstants.TAG.Dialog,
+        text = text,
+        callback1 = callback
+    })
+end
+
+function GameLayer:displayDialogTwo(text, callback1, callback2)
+    local dialog = comui.showDialog({
+        parent = self,
+        tag = GameConstants.TAG.Dialog,
+        text = text,
+        callback1 = callback1,
+        callback2 = callback2
+    })
+end
+
 return GameLayer

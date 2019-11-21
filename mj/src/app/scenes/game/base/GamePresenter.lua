@@ -128,7 +128,19 @@ end
 --      "messageID" = 22003
 --      "state"     = 4
 --  }
-
+-- "baseinfo" = {
+--     [LUA-print] -         "accountId"    = "1"
+--     [LUA-print] -         "diamond"      = 100
+--     [LUA-print] -         "exp"          = 0
+--     [LUA-print] -         "goldCoin"     = 1000
+--     [LUA-print] -         "level"        = 1
+--     [LUA-print] -         "name"         = "test1"
+--     [LUA-print] -         "password"     = "1"
+--     [LUA-print] -         "player_id"    = 10001
+--     [LUA-print] -         "registerDate" = 1565272816
+--     [LUA-print] -         "sex"          = 0
+--     [LUA-print] -         "vip"          = 0
+--     [LUA-print] -     }
 function GamePresenter:M2C_PLAYER_BASEINFO_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_BASEINFO_ACK(msgData)
     dump(data, "--->>> 玩家的基本信息")
@@ -136,16 +148,23 @@ function GamePresenter:M2C_PLAYER_BASEINFO_ACK(msgData)
     local playerInfo = {}
     playerInfo.userId = data.baseinfo.player_id
     playerInfo.name = data.baseinfo.name
-    -- playerInfo.sex = data.sex
-    playerInfo.registerDate = data.baseinfo.registerDate
+    playerInfo.gender = data.sex
+    -- playerInfo.registerDate = data.baseinfo.registerDate
     -- playerInfo.userstate = data.userstate
-    playerInfo.chairId = 0--data.tableposid
-    playerInfo.score = 0
+    -- playerInfo.chairId = 0--data.tableposid
+    -- playerInfo.score = 0
     playerInfo.card = data.baseinfo.diamond
     playerInfo.gold = data.baseinfo.goldCoin
 
-    self.m_roomData:setMyBaseInfo(playerInfo)
+    -- self.m_myBaseInfo.userId = data.userId
+    -- self.m_myBaseInfo.nickname = data.name
+    -- self.m_myBaseInfo.gender = data.gender
+    -- self.m_myBaseInfo.card = data.Card
+    -- self.m_myBaseInfo.gold = data.Gold
+    -- self.m_myBaseInfo.chairId = -1
+    -- self.m_myBaseInfo.viewId = 1
 
+    self.m_roomData:setMyBaseInfo(playerInfo)
     -- self.m_roomData:addRoomPlayer(playerInfo)
 
     --ui
@@ -191,6 +210,16 @@ function GamePresenter:M2C_PLAYER_ROOM_BASEINFO_ACK(msgData)
     self.m_view:getUIRoomPart(GameConstants.ROOM_UI.RoomId):display(data.roomid)
 end
 
+-- - "--->>> 桌子上玩家信息" = {
+-- [LUA-print] -     "isonline"     = 1
+-- [LUA-print] -     "messageID"    = 22005
+-- [LUA-print] -     "name"         = "test1"
+-- [LUA-print] -     "player_id"    = 10001
+-- [LUA-print] -     "registerdate" = 1565272816
+-- [LUA-print] -     "tableposid"   = 1
+-- [LUA-print] -     "userstate"    = 5
+-- [LUA-print] - }
+
 -- 桌子上玩家信息
 -- message MSG_M2C_TABLE_PLAYER_INFO_NOTIFY
 -- {
@@ -203,7 +232,23 @@ end
 -- 	optional int32 tableposid = 7;
 -- 	optional int32 isonline = 8;
 -- }
-
+-- "--->>> 桌子上玩家信息" = {
+-- [LUA-print] -     "isonline"     = 1
+-- [LUA-print] -     "messageID"    = 22005
+-- [LUA-print] -     "name"         = "test1"
+-- [LUA-print] -     "player_id"    = 10001
+-- [LUA-print] -     "registerdate" = 1565272816
+-- [LUA-print] -     "sex"          = 0
+-- [LUA-print] -     "tableposid"   = 0
+-- [LUA-print] -     "userstate"    = 5
+-- [LUA-print] - }
+-- self:setUserId(playerInfo.userId)
+-- self:setChairId(playerInfo.chairId)
+-- self:setUserName(playerInfo.name)
+-- self:setUserScore(playerInfo.score)
+-- self:setViewId(playerInfo.viewId)
+-- self.m_gender = playerInfo.gender
+-- self.m_deskStatus = playerInfo.status
 function GamePresenter:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
     local data = Message_Def:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
     dump(data, "--->>> 桌子上玩家信息")
@@ -211,11 +256,16 @@ function GamePresenter:M2C_TABLE_PLAYER_INFO_NOTIFY(msgData)
     local playerInfo = {}
     playerInfo.userId = data.player_id
     playerInfo.name = data.name
-    playerInfo.sex = data.sex
-    playerInfo.registerdate = data.registerdate
-    playerInfo.userstate = data.userstate
+    playerInfo.gender = data.sex
+    -- playerInfo.registerdate = data.registerdate
+    playerInfo.status = data.userstate
     playerInfo.chairId = data.tableposid
     playerInfo.score = 0
+
+    if data.player_id == Game:getUserData():getUserId() then
+        --设置自己的椅子Id
+        self.m_roomData:setMyChairId(data.tableposid)
+    end
 
     self.m_roomData:addRoomPlayer(playerInfo)
 
@@ -330,6 +380,11 @@ end
 function GamePresenter:M2C_PLAYER_SIT_DOWN_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_SIT_DOWN_ACK(msgData) 
     dump(data, "--->>> 玩家坐下成功")
+    -- if data.errorcode == 0 then
+    --     if data.playerid == Game:getUserData():getUserId() then
+    --         self.m_roomData:setMyChairId(data.tableposid)
+    --     end
+    -- end
 end
 
 --玩家准备成功
@@ -519,5 +574,11 @@ function GamePresenter:M2C_SUB_GAME_END_ALL_ACK(msgData)
 end
 
 -------------------------------------------------------
+function GamePresenter:MSG_C2M_PLAYER_OP_SYN()
+
+    local msg, msgId = Message_Def:MSG_C2M_PLAYER_OP_SYN(data)
+    Game:getSocketMgr():cardGameSocketSend(msg, msgId)
+end
+
 
 return GamePresenter

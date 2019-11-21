@@ -20,30 +20,48 @@ end
 
 function UIWaitMenu:initMenu()
     --解散房间
-    comui.Button({
+    self.v_dissolveRoomBtn = comui.Button({
         normal = "com_red_btn.png",
         text = "解散房间",
         fontSize = 35,
         pos = cc.p(display.width - 34 - UIAdapter.paddingR, UIAdapter.adRatioY(109)),
-        callfunc = function ()
-            
-        end,
+        callfunc = handler(self, self.dissolveRoom),
         anchor = display.TOP_RIGHT,
         parent = self
     })
 
     --返回大厅
-    comui.Button({
+    self.v_backToLobbyBtn = comui.Button({
         normal = "com_green_btn.png",
         text = "返回大厅",
         fontSize = 35,
         pos = cc.p(34 + UIAdapter.paddingL, UIAdapter.adRatioY(109)),
-        callfunc = function ()
-            
-        end,
+        callfunc = handler(self, self.backToLobby),
         anchor = display.TOP_LEFT,
         parent = self
     })
+end
+
+--返回大厅
+function UIWaitMenu:backToLobby()
+    self.m_container:displayDialogTwo("", 
+    function()
+        print("backToLobby.1")
+    end, 
+    function()
+        print("backToLobby.1")
+    end)
+end
+
+--解散
+function UIWaitMenu:dissolveRoom()
+    self.m_container:displayDialogTwo("", 
+    function()
+        print("dissolveRoom.1")
+    end, 
+    function()
+        print("dissolveRoom.2")
+    end)
 end
 
 return UIWaitMenu

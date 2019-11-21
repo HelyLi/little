@@ -140,4 +140,23 @@ function CardLayer:displaySetting()
     local settingLayer = SettingLayer.new(AppGlobal.SettingType.CARD):addTo(self, GameConstants.Z_ORDER.Setting)
 end
 
+function CardLayer:displayDialogOne(text, callback)
+    local dialog = comui.showDialog({
+        parent = self,
+        tag = GameConstants.TAG.Dialog,
+        text = text,
+        callback1 = callback
+    })
+end
+
+function CardLayer:displayDialogTwo(text, callback1, callback2)
+    local dialog = comui.showDialog({
+        parent = self,
+        tag = GameConstants.TAG.Dialog,
+        text = text,
+        callback1 = callback1,
+        callback2 = callback2
+    })
+end
+
 return CardLayer

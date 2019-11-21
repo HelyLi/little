@@ -29,8 +29,9 @@ enum USER_STATE
 	USER_STATE_WAIT_IN_GAME = 3;
 	USER_STATE_IN_GAME = 4;
 	USER_STATE_SIT_DOWN = 5;
-	USER_STATE_PLAYING = 6;
-	USER_STATE_WAIT_LEAVE_GAME = 7;
+	USER_STATE_READY = 6;
+	USER_STATE_PLAYING = 7;
+	USER_STATE_WAIT_LEAVE_GAME = 8;
 };
 
 //桌子状态
@@ -39,14 +40,10 @@ enum ROOM_STATE
 	ROOM_STATE_INIT = 0;
 	ROOM_STATE_WAIT_CREATE = 1;
 	ROOM_STATE_CREATED = 2;
-	ROOM_STATE_ROUND_GAME_START = 3;
-
-	ROOM_STATE_CALL_BANKER = 4;
-	ROOM_STATE_ADD_SCORE = 5;
-	ROOM_STATE_PLAYING = 6;
-
-	ROOM_STATE_ROUND_GAME_END = 7;
-	ROOM_STATE_GAME_ALL_END = 8;
+	ROOM_STATE_GAME_START = 3;
+	ROOM_STATE_PLAYING = 4;
+	ROOM_STATE_GAME_END = 5;
+	ROOM_STATE_GAME_ALL_END = 6;
 };
 
 //操作码
@@ -75,9 +72,10 @@ enum ERRORCODE
 	ERROR_GAME_PLAYER_EXIT								 = -608;							//玩家在该房间	
 	ERROR_ROOM_NOT_EXIT									 = -609;							//房间不存在
 	ERROR_SIT_DOWN_FAIL									 = -610;							//玩家坐下失败
-	ERROR_LEAVE_FAILL									 = -6011;							//玩家离开失败
-	ERROR_DISMISS_ROOM_FAILL							 = -6012;							//玩家解散房间失败
-	ERROR_NEED_VOTE_DISMISS_ROOM						 = -6013;							//需要投票解散
+	ERROR_LEAVE_FAILL									 = -611;							//玩家离开失败
+	ERROR_DISMISS_ROOM_FAILL							 = -612;							//玩家解散房间失败
+	ERROR_NEED_VOTE_DISMISS_ROOM						 = -613;							//需要投票解散
+	ERROR_TOKEN_FAILL									 = -614;							//token错误
 }
 
 enum LOBBYMESSAGEID 
@@ -97,6 +95,7 @@ enum LOBBYMESSAGEID
 	C2L_PLAYER_CREATE_ROOM_SYN 							= 10002;						//创建房间
 	C2L_PLAYER_ENTER_ROOM_SYN							= 10003;						//加入房间
 	C2L_PLAYER_MONEY_UPDATA_SYN							= 10004;						//玩家货币更新
+	C2L_PLAYER_RECONNECT_LOBBY_SYN						= 10005;						//大厅断线重连	
 //-----------------------------------------------------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -107,6 +106,9 @@ enum LOBBYMESSAGEID
 	L2C_PLAYER_CREATE_ROOM_ACK 							= 11004;						//房间创建成功
 	L2C_PLAYER_ENTER_ROOM_ACK							= 11005;						//加入房间成功
 	L2C_PLAYER_MONEY_UPDATA_ACK							= 11006;						//货币更新成功
+	L2C_PLAYER_RECONNECT_LOBBY_ACK						= 11007;						//大厅断线重连成功
+	L2C_GAME_SERVER_INFO_NOTIFY							= 11008;						//通知连接游戏服务器
+						
 //-----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -169,6 +171,9 @@ enum LOBBYMESSAGEID
 	M2L_PLAYER_OP_SYN									= 12008;						//玩家离开或解散房间操作
 	L2M_PLAYER_TOKEN_EXPIRE_NOTIFY						= 12009;						//玩家token失效
 	L2M_PLAYER_OP_ACK									= 12010;						//玩家离开或解散房间成功
+	M2L_UPDATE_PLAYER_STATE_NOTIFY						= 12011;						//玩家状态更新
+	M2L_GAME_START_NOTIFY								= 12012;						//游戏开始
+	L2M_GAME_START_ACK									= 12013;						//游戏开始成功
 //-----------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -185,7 +190,8 @@ enum LOBBYMESSAGEID
 	D2L_PLAYER_CREATE_ROOM_ACK							= 13007;						//房间创建成功
 	L2D_PLAYER_MONEY_UPDATA_SYN							= 13008;						//货币更新
 	D2L_PLAYER_MONEY_UPDATA_ACK							= 13009;						//货币更新成功
-
+	L2D_GAME_START_NOTIFY								= 13010;						//游戏开始
+	D2L_GAME_START_ACK									= 13011;						//游戏开始成功
 
 //-----------------------------------------------------------------------------------------------------------------------------------	
 
@@ -328,8 +334,7 @@ message MSG_C2L_PLAYER_CREATE_ROOM_SYN
 {
 	optional int32 messageID = 1;
 
-	optional 	ROOM_RUlES room_rules = 2;  //游戏房间规则
-
+	optional ROOM_RUlES room_rules = 2;  //游戏房间规则
 }
 
 message MSG_L2C_PLAYER_CREATE_ROOM_ACK
@@ -358,11 +363,19 @@ message MSG_D2L_PLAYER_CREATE_ROOM_ACK
 	optional int32 roomid = 2;
 	optional int32 roomtype = 3; //1:自建房 2:金币房s
 	optional ROOM_RUlES room_rules  = 4;
+	optional uint32 dbrecordid = 5;		//数据库记录id
 }
 
 message MSG_C2L_PLAYER_MONEY_UPDATA_SYN
 {
 	optional int32 messageID = 1;
+}
+
+message MSG_C2L_PLAYER_RECONNECT_LOBBY_SYN
+{
+	optional int32 messageID = 1;
+	optional uint64 playerid = 2;
+	optional uint64 clienttoken = 3;
 }
 
 message MONEY_INFO
@@ -377,6 +390,21 @@ message MSG_L2C_PLAYER_MONEY_UPDATA_ACK
 	optional int64 diamond_amunt = 3;
 }
 
+message MSG_L2C_PLAYER_RECONNECT_LOBBY_ACK
+{
+	optional int32 messageID = 1;
+	optional int32 errorcode = 2;
+}
+
+message MSG_L2C_GAME_SERVER_INFO_NOTIFY
+{
+	optional int32 messageID = 1;
+	optional string gameip = 2;
+	optional int32 gameport = 3;
+	optional uint32 roomid = 4;
+	optional uint64 ownerid = 5;
+}
+
 message MSG_L2D_PLAYER_MONEY_UPDATA_SYN
 {
 	optional int32 messageID = 1;
@@ -389,6 +417,21 @@ message MSG_D2L_PLAYER_MONEY_UPDATA_ACK
 	optional int64 gold_amuont = 2;
 	optional int64 diamond_amunt = 3;
 }
+
+message MSG_L2D_GAME_START_NOTIFY
+{
+	optional int32 messageID = 1;
+	optional int32 roomid = 2;
+	optional uint32 dbrecordid = 3;
+}
+
+message MSG_D2L_GAME_START_ACK
+{
+	optional int32 messageID = 1;
+	optional int32 roomid = 2;
+	optional uint32 playcode = 3;
+}
+
 
 message MSG_C2L_PLAYER_ENTER_ROOM_SYN
 {
@@ -411,10 +454,11 @@ message MSG_L2C_PLAYER_ENTER_ROOM_ACK
 message MSG_L2M_PLAYER_CREATE_ROOM_SYN
 {
 	optional int32 messageID = 1;
-	optional int32 ownerid = 2;
-	optional int32 needdiamond = 3;
+	optional 	int32 ownerid = 2;
+	optional 	int32 needdiamond = 3;
 	optional int32 roomid = 4;
 	optional ROOM_RUlES room_rules = 5;
+	optional 	uint32 dbrecordid = 6;
 }
 
 message MSG_M2L_PLAYER_CREATE_ROOM_ACK
@@ -490,6 +534,28 @@ message MSG_L2M_PLAYER_OP_ACK
 	optional int32 opcode = 2;
 	optional int32 player_id = 3;
 	optional int32 roomid = 4;
+}
+
+message MSG_M2L_UPDATE_PLAYER_STATE_NOTIFY
+{
+	optional int32 messageID = 1;
+	optional int32 userstate = 2;
+	optional int32 playerid = 3;
+	optional int32 clienttoken = 4;
+}
+
+message MSG_M2L_GAME_START_NOTIFY
+{
+	optional int32 messageID = 1;
+	optional int32 roomid = 2;
+	optional uint32 dbrecordid = 3;
+}
+
+message MSG_L2M_GAME_START_ACK
+{
+	optional int32 messageID = 1;
+	optional int32 roomid = 2;
+	optional uint32 playcode = 3;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -601,23 +667,14 @@ message CPGNotify
 
 message MSG_M2C_PLAYER_ENTER_GAME_ROOM_ACK
 {
-	optional 	int32	messageID = 1;
-	optional 	int32	errorcode = 2;
-	optional 	int32 	roomid = 3;
-	optional 	uint64  tokenid = 4;
-	optional 	int32   userstate = 5;
-	optional 	int32 	playerid = 6;
+	optional int32	messageID = 1;
+	optional int32	errorcode = 2;
+	optional int32 	roomid = 3;
+	optional uint64  tokenid = 4;
+	optional int32 	playerid = 5;
 }
 
-message MSG_M2C_PLAYER_ROOM_BASEINFO_ACK
-{
-	optional 	int32	messageID = 1;
-	optional 	int32	errorcode = 2;
-	optional 	int32 	roomid = 3;
-	optional 	uint64  tokenid = 4;
-	optional 	int32   userstate = 5;
-	optional 	int32 	playerid = 6;
-}
+
 
 message MSG_M2C_PLAYER_RECONNECT_GAME_ACK
 {
@@ -628,10 +685,17 @@ message MSG_M2C_PLAYER_RECONNECT_GAME_ACK
 message MSG_M2C_PLAYER_BASEINFO_ACK
 {
 	optional int32 messageID = 1;
-	optional int32 infotype = 2; //1:自己的信息   2：其他玩家
-	optional bool online = 3;	//玩家是否在线
-	optional int32 state = 4;	//玩家状态
-	optional PlayerBaseInfo baseinfo =5;
+	optional int32 state = 2;	//玩家状态
+	optional PlayerBaseInfo baseinfo =3;
+}
+
+message MSG_M2C_PLAYER_ROOM_BASEINFO_ACK
+{
+	optional int32	messageID = 1;
+	optional int32 	roomid = 2;
+	optional int32 	gamecurcount = 3;
+	optional 	int32	roomstate = 4;
+	optional 	ROOM_RUlES 	room_baseinfo = 5;
 }
 
 message MSG_M2C_TABLE_PLAYER_INFO_NOTIFY
