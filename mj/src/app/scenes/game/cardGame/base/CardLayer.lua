@@ -140,23 +140,19 @@ function CardLayer:displaySetting()
     local settingLayer = SettingLayer.new(AppGlobal.SettingType.CARD):addTo(self, GameConstants.Z_ORDER.Setting)
 end
 
-function CardLayer:displayDialogOne(text, callback)
-    local dialog = comui.showDialog({
-        parent = self,
-        tag = GameConstants.TAG.Dialog,
-        text = text,
-        callback1 = callback
-    })
+function CardLayer:backToLobby(data)
+    self:delayToExit(data.opcode)
 end
 
-function CardLayer:displayDialogTwo(text, callback1, callback2)
-    local dialog = comui.showDialog({
-        parent = self,
-        tag = GameConstants.TAG.Dialog,
-        text = text,
-        callback1 = callback1,
-        callback2 = callback2
-    })
+function CardLayer:delayToExit(exitType)
+    if self.m_exitAction then
+        self:stopAction(self.m_exitAction)
+    end
+    self.m_exitAction = self:performWithDelay(function () 
+        if exitType == 1 then
+            Game:getSceneMgr():goLobbyScene()
+        end
+    end, 0.5)
 end
 
 return CardLayer

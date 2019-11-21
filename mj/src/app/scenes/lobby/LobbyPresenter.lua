@@ -67,7 +67,7 @@ end
 -- L2D_PLAYERINFO_UPDATE_SYN = 10012
 
 function LobbyPresenter:initHandlerMsg()
-    self.m_handlerTable = {}
+    -- self.m_handlerTable = {}
 
     -- self.m_handlerTable[L2C_PLAYER_LOGIN_ACK] = handler(self, self.l2c_player_login_ack)
     -- self.m_handlerTable[L2C_PLAYER_BASEINFO_ACK] = handler(self, self.l2c_player_baseinfo_ack)

@@ -50,6 +50,7 @@ function UIWaitMenu:backToLobby()
     end, 
     function()
         print("backToLobby.1")
+        self.m_container:getPresenter():C2M_PLAYER_OP_SYN(1)
     end)
 end
 

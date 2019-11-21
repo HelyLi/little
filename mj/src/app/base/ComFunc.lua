@@ -76,8 +76,23 @@ end
 
 
 --统一处理错误码
-function ComFunc.HandlingErrorCode(code)
-    
+function ComFunc.HandlingErrorCode(data, handler)
+    local error = false
+    if type(data) == "table" then
+        for code,des in pairs(ERRORCODE_DESCRIBE) do
+            if code == data.errorcode then
+                comui.showDialog({
+                    text = des,
+                    callback1 = function() end
+                })
+                error = true
+                break
+            end
+        end
+    end
+    if not error then
+        handler(data)
+    end
 end
 
 --解析proto-buf

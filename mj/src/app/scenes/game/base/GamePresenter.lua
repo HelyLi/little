@@ -409,6 +409,11 @@ end
 function GamePresenter:M2C_PLAYER_OP_ACK(msgData)
     local data = Message_Def:M2C_PLAYER_OP_ACK(msgData) 
     dump(data, "--->>> 玩家离开成功")
+    ComFunc.HandlingErrorCode(data, handler(self.m_view, self.m_view.backToLobby))
+end
+
+function GamePresenter:backToLobby(data)
+    
 end
 
 --玩家解散房间成功
@@ -574,9 +579,12 @@ function GamePresenter:M2C_SUB_GAME_END_ALL_ACK(msgData)
 end
 
 -------------------------------------------------------
-function GamePresenter:MSG_C2M_PLAYER_OP_SYN()
+--21005;		玩家请求离开和解散（不需要投票）
+function GamePresenter:C2M_PLAYER_OP_SYN(opcode)
+    local data = {}
+    data.opcode = opcode
 
-    local msg, msgId = Message_Def:MSG_C2M_PLAYER_OP_SYN(data)
+    local msg, msgId = Message_Def:C2M_PLAYER_OP_SYN(data)
     Game:getSocketMgr():cardGameSocketSend(msg, msgId)
 end
 

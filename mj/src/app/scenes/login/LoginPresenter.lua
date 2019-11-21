@@ -144,7 +144,7 @@ function LoginPresenter:l2c_player_login_ack(msgData)
     local data = Message_Def:L2C_PLAYER_LOGIN_ACK(msgData)
     dump(data, "L2C_PLAYER_LOGIN_ACK")
     
-    self:handlingLogin(data)
+    ComFunc.HandlingErrorCode(data, handler(self, self.handlingLogin))
 end
 
 function LoginPresenter:l2c_player_baseinfo_ack(msgData)
@@ -169,11 +169,11 @@ function LoginPresenter:startLoadResTimeout()
 end
 
 function LoginPresenter:handlingLogin(data)
-    if data.errorcode == 0 then
+    -- if data.errorcode == 0 then
         print(string.format("token:%u", data.clienttoken))
         Game:getUserData():setToken(data.clienttoken)
         self:preloadResAsync()
-    end
+    -- end
 end
 
 return LoginPresenter

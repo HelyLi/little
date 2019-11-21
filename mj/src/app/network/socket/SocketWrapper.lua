@@ -56,7 +56,7 @@ function SocketWrapper:send(data, msgId)
     print(string.format("token:%d", token))
 
     local byteArray = ByteArray.new(ByteArray.ENDIAN_BIG):writeUInt(string.len(data) + 12):writeUInt(msgId):writeULong(token):writeString(data):getPack()
-    print(self:hex(byteArray))
+    -- print(self:hex(byteArray))
     -- print(self.m_name .. "---------")
     if self.m_socket then
         self.m_socket:send(byteArray)
