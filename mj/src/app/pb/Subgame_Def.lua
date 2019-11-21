@@ -1,7 +1,7 @@
 require("app.pb.Subgame_ID")
 require("app.pb.Subgame_pb")
 
-Subgame_Def = Subgame_Def or {}
+Subgame_Def = {}
 
 AREA_TYPE ={
     xian_tao = 0,--仙桃

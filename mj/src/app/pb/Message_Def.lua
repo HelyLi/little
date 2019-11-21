@@ -4,7 +4,7 @@ require("app.pb.Subgame_pb")
 
 
 --消息在此处解析和组合
-Message_Def = Message_Def or {}
+Message_Def = {}
 
 --SubGame
 -- xian_tao = 0
