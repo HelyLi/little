@@ -31,6 +31,7 @@ end
 
 function LoginPresenter:onConnected()
     -- self:toLogin()
+    self:toLogin1()
 end
 
 function LoginPresenter:onClosed()

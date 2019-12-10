@@ -96,6 +96,7 @@ function SimpleTCP:send(data)
 		print("Error: SimpleTCP is not connected.")
 		return
 	end
+	print("send:", data)
 	self.tcp:send(data)
 end
 

@@ -59,6 +59,7 @@ function SocketWrapper:send(data, msgId)
     -- print(self:hex(byteArray))
     -- print(self.m_name .. "---------")
     if self.m_socket then
+        print("m_socket")
         self.m_socket:send(byteArray)
     end
 end

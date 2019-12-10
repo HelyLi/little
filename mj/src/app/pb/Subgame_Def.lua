@@ -74,7 +74,9 @@ function Message_Def:M2C_GAME_START_NOTIFY(msgData)
             sicecount = 0,
             replay_code = 0, 
             playerinfo = {},
-            laiziinfo = {} 
+            -- laiziinfo = {} 
+            laizipi = 0,
+            laizi = 0
         }
     }
     ComFunc.parseMsg(msg, T)
@@ -231,7 +233,9 @@ function Message_Def:M2C_ROOM_STATE_PLAYING_NOTIFY(msgData)
             sicecount = 0,
             replay_code = 0, 
             playerinfo = {},
-            laiziinfo = {} 
+            -- laiziinfo = {},
+            laizipi = 0,
+            laizi = 0
         },
         havediscardsinfo = {},
         havecpgmaininfo = {},
