@@ -1,17 +1,17 @@
 -- src/app/network/socket/SocketMgr.lua
-import("app.config.App")
-local SocketMgr = import("app.network.socket.SocketMgr")
-require("app.pb.LobbyMessage_pb")
-require("app.pb.AddressBook_pb")
+-- import("app.config.App")
+-- local SocketMgr = import("app.network.socket.SocketMgr")
+-- require("app.pb.LobbyMessage_pb")
+-- -- require("app.pb.AddressBook_pb")
 require("app.pb.ResultInfo_pb")
 require("app.pb.RoomInfo_pb")
 require("app.pb.GetRoom_pb")
-local core = require "sproto.core"
-local Rx = require 'app.utils.rx'
+-- local core = require "sproto.core"
+-- local Rx = require 'app.utils.rx'
 -- require("pack")
-local pack = require"pack"
-local bpack = string.pack
-local bunpack = string.unpack
+-- local pack = require"pack"
+-- local bpack = string.pack
+-- local bunpack = string.unpack
 
 local UpdateScene = class("UpdateScene", function()
     return display.newScene("UpdateScene")
@@ -21,32 +21,32 @@ function UpdateScene:ctor()
     display.newTTFLabel({text = "Hello, Socket--", size = 64})
         :align(display.CENTER, display.cx, display.cy)
         :addTo(self)
-    self.m_socketMgr = SocketMgr.new()
-    print("=====================1")
-    self.m_socketMgr:setLoginListener(handler(self, self.loginSocketOnReceive))
-    print("=====================2")
-    self.m_socketMgr:loginSocketConnect()
-    print("=====================4")
+    -- self.m_socketMgr = SocketMgr.new()
+    -- print("=====================1")
+    -- self.m_socketMgr:setLoginListener(handler(self, self.loginSocketOnReceive))
+    -- print("=====================2")
+    -- self.m_socketMgr:loginSocketConnect()
+    -- print("=====================4")
     -- local socket = SimpleTCP.new("127.0.0.1", "7981", handler(self, self.socketCallback))
     -- socket:connect()
 
 	-- ccui.PageView.create()
-    -- self:testPb()
+    self:testPb()
 	-- ccui.ImageView:create()
 	-- ccui.Button:create()
 	-- ccui.ImageView:create()
 	-- display.newSprite(filename, x, y, params)	
 	-- ccui.menuItem
 	-- local menuBase = cc.Menu:create():align(display.BOTTOM_LEFT,0,0):addTo(self)
-	local botton = ccui.Button:create("com_red_btn_1_skin.png", "com_sure_btn_skin.png", "com_red_btn_1_skin.png")
-	botton:align(display.CENTER, display.cx, display.cy):addTo(self)
-	botton:addTouchEventListener(function(sender, eventType)
-		if 2 == eventType then
-			-- self:onConnected()
-			-- self:pack()
-			self:Rx()
-		end
-	end)
+	-- local botton = ccui.Button:create("com_red_btn_1_skin.png", "com_sure_btn_skin.png", "com_red_btn_1_skin.png")
+	-- botton:align(display.CENTER, display.cx, display.cy):addTo(self)
+	-- botton:addTouchEventListener(function(sender, eventType)
+	-- 	if 2 == eventType then
+	-- 		-- self:onConnected()
+	-- 		-- self:pack()
+	-- 		self:Rx()
+	-- 	end
+	-- end)
 	-- ccui
     --right btn
     -- local normalImg = display.newSprite("com_red_btn_1_skin.png")--cc.ui.UIImage.new("#three_next_left_btn.png")
@@ -300,13 +300,17 @@ end
 
 function UpdateScene:testPb()
     self:testRoom()
-    self:testPerson()
+    -- self:testPerson()
 end
 
 function UpdateScene:testRoom()
 	-- 序列化 GetRoomRequest
 	local roomIdList = {10,20,30}
 	local getRoomRequestWriter = GetRoom_pb.GetRoomRequest() --#pbTips
+
+	for _, v in ipairs(roomIdList) do
+		getRoomRequestWriter.enum_uint32:append(v) -- 向数组添加元素，不能直接赋值
+	end
 
 	for _, v in ipairs(roomIdList) do
 		getRoomRequestWriter.roomId:append(v) -- 向数组添加元素，不能直接赋值
@@ -323,31 +327,35 @@ function UpdateScene:testRoom()
 		print(v)
 	end
 
+	for _, v in ipairs(getRoomRequestReader.enum_uint32) do
+		print("enum_uint32:", v)
+	end
+
 	-- 序列化 GetRoomResponse
-	local getRoomResponseWriter = GetRoom_pb.GetRoomResponse()
-	getRoomResponseWriter.result = ResultInfo_pb.SUCCESS
+	-- local getRoomResponseWriter = GetRoom_pb.GetRoomResponse()
+	-- getRoomResponseWriter.result = ResultInfo_pb.SUCCESS
 
-	for i=1,2 do
-		local room = getRoomResponseWriter.room:add() -- 数组中的元素是对象，用add来添加
-		room.id = "1000" .. i
-		room.name = "小黑屋-" .. i
-		room.taskType = RoomInfo_pb.MAINLINE
-	end
-	print("== Serialize to GetRoomResponse")
-	local data = getRoomResponseWriter:SerializeToString()
+	-- for i=1,2 do
+	-- 	local room = getRoomResponseWriter.room:add() -- 数组中的元素是对象，用add来添加
+	-- 	room.id = "1000" .. i
+	-- 	room.name = "小黑屋-" .. i
+	-- 	room.taskType = RoomInfo_pb.MAINLINE
+	-- end
+	-- print("== Serialize to GetRoomResponse")
+	-- local data = getRoomResponseWriter:SerializeToString()
 
-	-- 反序列化 GetRoomResponse
-	local getRoomResponseReader = GetRoom_pb.GetRoomResponse()
-	print("== Parse From GetRoomResponse")
-	getRoomResponseReader:ParseFromString(data)
-	print("result:" .. getRoomResponseReader.result)
-	print("message:" .. getRoomResponseReader.message) -- default value test
-	for _, v in ipairs(getRoomResponseReader.room) do
-		print(v.id)
-		print(v.name)
-		print(v.taskType)
-		print(v.needHp) -- default value test
-	end
+	-- -- 反序列化 GetRoomResponse
+	-- local getRoomResponseReader = GetRoom_pb.GetRoomResponse()
+	-- print("== Parse From GetRoomResponse")
+	-- getRoomResponseReader:ParseFromString(data)
+	-- print("result:" .. getRoomResponseReader.result)
+	-- print("message:" .. getRoomResponseReader.message) -- default value test
+	-- for _, v in ipairs(getRoomResponseReader.room) do
+	-- 	print(v.id)
+	-- 	print(v.name)
+	-- 	print(v.taskType)
+	-- 	print(v.needHp) -- default value test
+	-- end
 end
 
 -- data.len:	37

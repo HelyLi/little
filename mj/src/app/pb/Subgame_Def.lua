@@ -54,7 +54,7 @@ end
 -- M2C_GAME_SUMMARIZATION_INFO_NOTIFY = 100008
 -- M2C_ROOM_STATE_FREE_NOTIFY = 100020
 -- M2C_ROOM_STATE_PLAYING_NOTIFY = 100021
-function Message_Def:M2C_GAME_START_NOTIFY(msgData)
+function Subgame_Def:M2C_GAME_START_NOTIFY(msgData)
     local msg = Subgame_pb.MSG_M2C_GAME_START_NOTIFY()
     msg:ParseFromString(msgData)
 
@@ -83,7 +83,7 @@ function Message_Def:M2C_GAME_START_NOTIFY(msgData)
     return T
 end
 
-function Message_Def:M2C_PLAYER_CATCH_CARD_NOTIFY(msgData)
+function Subgame_Def:M2C_PLAYER_CATCH_CARD_NOTIFY(msgData)
     local msg = Subgame_pb.MSG_M2C_PLAYER_CATCH_CARD_NOTIFY()
     msg:ParseFromString(msgData)
 
@@ -102,7 +102,7 @@ function Message_Def:M2C_PLAYER_CATCH_CARD_NOTIFY(msgData)
     return T
 end
 
-function Message_Def:M2C_PLAYER_DISCARD_ACK(msgData)
+function Subgame_Def:M2C_PLAYER_DISCARD_ACK(msgData)
     local msg = Subgame_pb.MSG_M2C_PLAYER_DISCARD_ACK()
     msg:ParseFromString(msgData)
 
@@ -120,7 +120,7 @@ function Message_Def:M2C_PLAYER_DISCARD_ACK(msgData)
     return T
 end
 
-function Message_Def:M2C_MAHJONG_INTERCEPTED_EVENTS_NOTIFY(msgData)
+function Subgame_Def:M2C_MAHJONG_INTERCEPTED_EVENTS_NOTIFY(msgData)
     local msg = Subgame_pb.MSG_M2C_MAHJONG_INTERCEPTED_EVENTS_NOTIFY()
     msg:ParseFromString(msgData)
 
@@ -135,7 +135,7 @@ function Message_Def:M2C_MAHJONG_INTERCEPTED_EVENTS_NOTIFY(msgData)
     return T
 end
 
-function Message_Def:M2C_MAHJONG_INTERCEPTED_DELETE_ACK(msgData)
+function Subgame_Def:M2C_MAHJONG_INTERCEPTED_DELETE_ACK(msgData)
     local msg = Subgame_pb.MSG_M2C_MAHJONG_INTERCEPTED_DELETE_ACK()
     msg:ParseFromString(msgData)
 
@@ -149,7 +149,7 @@ function Message_Def:M2C_MAHJONG_INTERCEPTED_DELETE_ACK(msgData)
     return T
 end
 
-function Message_Def:M2C_MAHJONG_INTERCEPTED_EVENTS_ACK(msgData)
+function Subgame_Def:M2C_MAHJONG_INTERCEPTED_EVENTS_ACK(msgData)
     local msg = Subgame_pb.MSG_M2C_MAHJONG_INTERCEPTED_EVENTS_ACK()
     msg:ParseFromString(msgData)
 
@@ -174,7 +174,7 @@ function Message_Def:M2C_MAHJONG_INTERCEPTED_EVENTS_ACK(msgData)
     return T
 end
 
-function Message_Def:M2C_PLAYER_SCORE_CHANGE(msgData)
+function Subgame_Def:M2C_PLAYER_SCORE_CHANGE(msgData)
     local msg = Subgame_pb.MSG_M2C_PLAYER_SCORE_CHANGE()
     msg:ParseFromString(msgData)
 
@@ -186,7 +186,7 @@ function Message_Def:M2C_PLAYER_SCORE_CHANGE(msgData)
     return T
 end
 
-function Message_Def:M2C_GAME_SUMMARIZATION_INFO_NOTIFY(msgData)
+function Subgame_Def:M2C_GAME_SUMMARIZATION_INFO_NOTIFY(msgData)
     local msg = Subgame_pb.MSG_M2C_GAME_SUMMARIZATION_INFO_NOTIFY()
     msg:ParseFromString(msgData)
 
@@ -199,7 +199,7 @@ function Message_Def:M2C_GAME_SUMMARIZATION_INFO_NOTIFY(msgData)
     return T
 end
 
-function Message_Def:M2C_ROOM_STATE_FREE_NOTIFY(msgData)
+function Subgame_Def:M2C_ROOM_STATE_FREE_NOTIFY(msgData)
     local msg = Subgame_pb.MSG_M2C_ROOM_STATE_FREE_NOTIFY()
     msg:ParseFromString(msgData)
 
@@ -213,7 +213,7 @@ function Message_Def:M2C_ROOM_STATE_FREE_NOTIFY(msgData)
     return T
 end
 
-function Message_Def:M2C_ROOM_STATE_PLAYING_NOTIFY(msgData)
+function Subgame_Def:M2C_ROOM_STATE_PLAYING_NOTIFY(msgData)
     local msg = Subgame_pb.MSG_M2C_ROOM_STATE_PLAYING_NOTIFY()
     msg:ParseFromString(msgData)
 

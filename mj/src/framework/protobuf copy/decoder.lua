@@ -309,7 +309,6 @@ function _SkipFixed32(buffer, pos, pend)
 end
 
 function _RaiseInvalidWireType(buffer, pos, pend)
-    print("_RaiseInvalidWireType:", buffer, ",pos:", pos, ",pend:", pend)
     error('Tag had invalid wire type.')
 end
 
