@@ -70,22 +70,22 @@ message GAME_START_INFO
     repeated int32 gangcardvalue = 9;
         
     /* 玩家手牌数据 */
-    optional PLAYER_HAND_CARDS_INFO handcardsinfo = 10;
+    // optional PLAYER_HAND_CARDS_INFO handcardsinfo = 10;
     
-    /* 骰子点数 0-第一个 1-第二个 */
-    repeated int32 sicecount = 11;
+    // /* 骰子点数 0-第一个 1-第二个 */
+    // repeated int32 sicecount = 11;
 
-    /* 回放码*/
-    optional int32 replay_code = 12;
+    // /* 回放码*/
+    // optional int32 replay_code = 12;
     
-    /* 玩家当前身上的金币*/
-    repeated    PLAYER_INFO playerinfo = 13;
+    // /* 玩家当前身上的金币*/
+    // repeated    PLAYER_INFO playerinfo = 13;
 
-    //癞子皮
-    optional uint32 laizipi                   = 14;
+    // //癞子皮
+    // optional uint32 laizipi                   = 14;
 
-    //癞子
-    optional uint32 laizi                     = 15;
+    // //癞子
+    // optional uint32 laizi                     = 15;
 
 }
 

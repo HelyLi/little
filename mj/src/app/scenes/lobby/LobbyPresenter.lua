@@ -76,8 +76,13 @@ function LobbyPresenter:initHandlerMsg()
     self.m_handlerTable[L2C_PLAYER_CREATE_ROOM_ACK] = handler(self, self.l2c_player_create_room_ack)
     self.m_handlerTable[L2C_PLAYER_ENTER_ROOM_ACK] = handler(self, self.L2C_PLAYER_ENTER_ROOM_ACK)
     
+    self.m_handlerTable[M2C_GAME_START_NOTIFY] = handler(self, self.M2C_GAME_START_NOTIFY)
 end
 
+function LobbyPresenter:M2C_GAME_START_NOTIFY(msgData)
+    local data = Message_Def:MSG_M2C_GAME_START_NOTIFY(msgData)
+    dump(data, "--->>> M2C_GAME_START_NOTIFY")
+end
 
 function LobbyPresenter:serviceTest()
     local data = {

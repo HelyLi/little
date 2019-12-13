@@ -1057,4 +1057,31 @@ function Message_Def:M2C_DISMISS_ROOM_NOTIFY(msgData)
     return T
 end
 
+function Message_Def:MSG_M2C_GAME_START_NOTIFY(msgData)
+    local msg = Message_pb.MSG_M2C_GAME_START_NOTIFY()
+    msg:ParseFromString(msgData)
+
+    local T = {
+        messageID = 0, 
+        gamestartinfo = {
+            curgameround = 0,
+            bankerstation = 0;
+            curdiscardstation = 0;
+            lastdiscardstation = 0;
+            restcardnums = 0;
+            deletedcardnum = {};
+            actiontypevalue = {};
+            pengcardvalue = 8;
+            gangcardvalue = {};
+            handcardsinfo = {};
+            sicecount = {};
+            replay_code = 0;
+            laizipi                   = 0;
+            laizi                     = 0;
+        }
+    }
+    ComFunc.parseMsg(msg, T)
+    return T
+end
+
 return Message_Def

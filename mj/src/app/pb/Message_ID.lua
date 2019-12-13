@@ -79,6 +79,7 @@ L2D_GAME_START_NOTIFY = 13010
 D2L_GAME_START_ACK = 13011
 MAX_FRAME_MSG_ID = 99999
 
+M2C_GAME_START_NOTIFY                 = 80000;  --//游戏开始
 -- xian_tao = 0
 -- tian_men = 1
 -- qian_jiang = 2

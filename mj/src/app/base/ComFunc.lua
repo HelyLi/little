@@ -106,9 +106,15 @@ function ComFunc.parseMsg(msg, data)
             data[k1.name] = data[k1.name] or {}
             if #msg[k1.name] > 0 then
                 for i2,v2 in ipairs(msg[k1.name]) do
-                    local t = {}
-                    ComFunc.parseMsg(msg[k1.name][i2], t)
-                    data[k1.name][i2] = t
+                    if msg[k1.name][i2] then
+                        if type(msg[k1.name][i2]) == "table" then
+                            local t = {}
+                            ComFunc.parseMsg(msg[k1.name][i2], t)
+                            data[k1.name][i2] = t
+                        else
+                            data[k1.name][i2] = msg[k1.name][i2]
+                        end
+                    end
                 end
             else
                 ComFunc.parseMsg(msg[k1.name], data[k1.name])

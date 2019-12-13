@@ -331,6 +331,7 @@ function _FieldSkipper()
 
     return function (buffer, pos, pend, tag_bytes)
         local wire_type = ord(sub(tag_bytes, 1, 1)) % 8 + 1
+        print("wire_type:", wire_type)
         return WIRETYPE_TO_SKIPPER[wire_type](buffer, pos, pend)
     end
 end

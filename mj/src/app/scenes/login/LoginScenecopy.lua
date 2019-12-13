@@ -6,6 +6,9 @@
 require("app.pb.ResultInfo_pb")
 require("app.pb.RoomInfo_pb")
 require("app.pb.GetRoom_pb")
+require("app.pb.Subgame_pb")
+require("app.base.ComFunc")
+local Subgame_Def = import("app.pb.Subgame_Def")
 -- local core = require "sproto.core"
 -- local Rx = require 'app.utils.rx'
 -- require("pack")
@@ -299,8 +302,162 @@ function UpdateScene:socketCallback(event)
 end
 
 function UpdateScene:testPb()
-    self:testRoom()
+	self:testRoom()
+	self:startGame()
     -- self:testPerson()
+end
+
+-- message GAME_START_INFO
+-- {
+--     /* 当前局数 */
+--     optional uint32 curgameround = 1;
+
+--     /* 当前庄家 */
+--     optional int32 bankerstation = 2;
+    
+--     /* 当前操作玩家 */
+--     optional int32 curdiscardstation = 3;
+    
+--     /* 上一次操作玩家 */
+--     optional int32 lastdiscardstation = 4;
+    
+--     /* 牌堆剩余牌数 */
+--     optional int32 restcardnums = 5;
+    
+--     /* 牌前牌尾已抓牌数 0-牌前 1-牌尾 */
+--     repeated int32 deletedcardnum = 6;
+    
+--     /* 可是否可吃碰杠听胡过 */
+--     repeated uint32 actiontypevalue = 7;
+    
+--     /* 能碰的牌数据-只出现在断线重连*/
+--     optional int32 pengcardvalue = 8;
+        
+--     /* 能杠的牌数据 */
+--     repeated int32 gangcardvalue = 9;
+        
+--     /* 玩家手牌数据 */
+--     optional PLAYER_HAND_CARDS_INFO handcardsinfo = 10;
+    
+--     /* 骰子点数 0-第一个 1-第二个 */
+--     repeated int32 sicecount = 11;
+
+--     /* 回放码*/
+--     optional int32 replay_code = 12;
+    
+--     /* 玩家当前身上的金币*/
+--     repeated    PLAYER_INFO playerinfo = 13;
+
+--     //癞子皮
+--     optional uint32 laizipi                   = 14;
+
+--     //癞子
+--     optional uint32 laizi                     = 15;
+
+-- }
+
+function UpdateScene:startGame()
+	local start = Subgame_pb.GAME_START_INFO()
+
+	-- {
+		-- /* 当前局数 */
+		start.curgameround = 1
+	
+		start.bankerstation = 2
+		
+		start.curdiscardstation = 3;
+		
+		start.lastdiscardstation = 4;
+		
+		start.restcardnums = 5;
+		
+		local deletedcardnum = {12,13,14}
+
+		for i,v in ipairs(deletedcardnum) do
+			start.deletedcardnum:append(v)
+		end
+		
+		local actiontypevalue = {12,13,14}
+
+		for i,v in ipairs(actiontypevalue) do
+			start.actiontypevalue:append(v)
+		end
+
+		-- /* 可是否可吃碰杠听胡过 */
+		-- repeated uint32 actiontypevalue = 7;
+		
+		start.pengcardvalue = 8;
+		
+		local gangcardvalue = {12,13,14}
+
+		for i,v in ipairs(gangcardvalue) do
+			start.gangcardvalue:append(v)
+		end
+		-- /* 能杠的牌数据 */
+		-- repeated int32 gangcardvalue = 9;
+			
+		-- /* 玩家手牌数据 */
+		-- optional PLAYER_HAND_CARDS_INFO handcardsinfo = 10;
+		-- message PLAYER_HAND_CARDS_INFO
+		-- {
+		-- 	/* 玩家位置 */
+		-- 	optional int32 playerstation = 1;
+			
+		-- 	/* 手牌数据 */
+		-- 	repeated int32 playerhandcards = 2;
+			
+		-- 	/* 手牌张数 */
+		-- 	repeated int32 handcardnums = 3;
+		-- }
+		-- start.handcardsinfo = 
+		start.handcardsinfo = Subgame_pb.PLAYER_HAND_CARDS_INFO()--Subgame_pb.PLAYER_HAND_CARDS_INFO()
+		-- -- local handcardsinfo = start.handcardsinfo--:add()
+		start.handcardsinfo.playerstation = 1
+		start.handcardsinfo.playerhandcards = 2
+		start.handcardsinfo.handcardnums = 3
+
+		local sicecount = {12,13,14}
+
+		for i,v in ipairs(sicecount) do
+			start.sicecount:append(v)
+		end
+		-- /* 骰子点数 0-第一个 1-第二个 */
+		-- repeated int32 sicecount = 11;
+	
+		start.replay_code = 12;
+		
+		-- /* 玩家当前身上的金币*/
+		-- repeated    PLAYER_INFO playerinfo = 13;
+		-- message PLAYER_INFO
+		-- {
+		-- 	optional int32 playerpos = 1;
+		-- 	optional int64   playergold = 2;
+		-- }	
+		for i=1,4 do
+			local playerinfo = start.playerinfo:add()
+			playerinfo.playerpos = i
+			playerinfo.playergold = i*2
+		end
+		
+		start.laizipi                   = 14
+	
+		start.laizi                     = 15
+	
+	-- }
+
+	print("== Serialize to Start")
+	local data = start:SerializeToString()
+    dump( data, "room.data", 8)
+	-- 反序列化 GetRoomRequest
+	local startR = Subgame_pb.GAME_START_INFO() --#pbTips
+	print("== Parse From StartW")
+	startR:ParseFromString(data)
+
+	T = {}
+	ComFunc.parseMsg(startR, T)
+	dump(T, "GAME_START_INFO", 8)
+	-- local data = Subgame_Def:M2C_GAME_START_NOTIFY(data)
+	-- dump(data, "M2C_GAME_START_NOTIFY", 8)
 end
 
 function UpdateScene:testRoom()
