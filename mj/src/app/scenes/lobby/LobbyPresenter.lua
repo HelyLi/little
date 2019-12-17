@@ -81,7 +81,7 @@ end
 
 function LobbyPresenter:M2C_GAME_START_NOTIFY(msgData)
     local data = Message_Def:MSG_M2C_GAME_START_NOTIFY(msgData)
-    dump(data, "--->>> M2C_GAME_START_NOTIFY")
+    dump(data, "--->>> M2C_GAME_START_NOTIFY", 8)
 end
 
 function LobbyPresenter:serviceTest()

@@ -1080,6 +1080,7 @@ function Message_Def:MSG_M2C_GAME_START_NOTIFY(msgData)
             laizi                     = 0;
         }
     }
+    T = {}
     ComFunc.parseMsg(msg, T)
     return T
 end

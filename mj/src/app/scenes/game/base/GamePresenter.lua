@@ -65,7 +65,7 @@ end
 
 function GamePresenter:M2C_GAME_START_NOTIFY(msgData)
     local data = Message_Def:MSG_M2C_GAME_START_NOTIFY(msgData)
-    dump(data, "--->>> M2C_GAME_START_NOTIFY")
+    dump(data, "--->>> M2C_GAME_START_NOTIFY", 8)
 end
 
 --请求进入游戏房间成功
