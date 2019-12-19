@@ -279,6 +279,7 @@ end
 function _SkipVarint(buffer, pos, pend)
     local value
     value, pos = _DecodeVarint(buffer, pos)
+    print("_SkipVarint:", value, pos)
     return pos
 end
 
@@ -287,6 +288,7 @@ function _SkipFixed64(buffer, pos, pend)
     if pos > pend then 
         error('Truncated message.')
     end
+    print("_SkipFixed64:", pos)
     return pos
 end
 
@@ -297,6 +299,7 @@ function _SkipLengthDelimited(buffer, pos, pend)
     if pos > pend then
         error('Truncated message.')
     end
+    print("_SkipLengthDelimited:", pos)
     return pos
 end
 
@@ -305,11 +308,22 @@ function _SkipFixed32(buffer, pos, pend)
     if pos > pend then
         error('Truncated message.')
     end
+    print("_SkipFixed32:", pos)
     return pos
 end
 
 function _RaiseInvalidWireType(buffer, pos, pend)
     print("_RaiseInvalidWireType:", buffer, ",pos:", pos, ",pend:", pend)
+    error('Tag had invalid wire type.')
+end
+
+function _SkipGroup(buffer, pos, pend)
+    print("_SkipGroup:", buffer, ",pos:", pos, ",pend:", pend)
+    error('Tag had invalid wire type.')
+end
+
+function _EndGroup(buffer, pos, pend)
+    print("_EndGroup:", buffer, ",pos:", pos, ",pend:", pend)
     error('Tag had invalid wire type.')
 end
 

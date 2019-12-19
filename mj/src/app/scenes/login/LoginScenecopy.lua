@@ -469,9 +469,9 @@ function UpdateScene:testRoom()
 		getRoomRequestWriter.enum_uint32:append(v) -- 向数组添加元素，不能直接赋值
 	end
 
-	for _, v in ipairs(roomIdList) do
-		getRoomRequestWriter.roomId:append(v) -- 向数组添加元素，不能直接赋值
-	end
+	-- for _, v in ipairs(roomIdList) do
+	-- 	getRoomRequestWriter.roomId:append(v) -- 向数组添加元素，不能直接赋值
+	-- end
 	print("== Serialize to GetRoomRequest")
 	local data = getRoomRequestWriter:SerializeToString()
     dump( data, "room.data", 8)
@@ -480,9 +480,9 @@ function UpdateScene:testRoom()
 	print("== Parse From GetRoomRequest")
 	getRoomRequestReader:ParseFromString(data)
 	-- 使用 ipairs 可正确获取到数据，paris 会有多余数据打印出来
-	for _, v in ipairs(getRoomRequestReader.roomId) do
-		print(v)
-	end
+	-- for _, v in ipairs(getRoomRequestReader.roomId) do
+	-- 	print(v)
+	-- end
 
 	for _, v in ipairs(getRoomRequestReader.enum_uint32) do
 		print("enum_uint32:", v)
